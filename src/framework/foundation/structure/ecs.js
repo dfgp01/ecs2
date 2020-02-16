@@ -46,7 +46,6 @@ class Component {
 
 /**
  * 基础元件
- * TODO 暂时没什么用
  */
 class Tuple {
 	constructor(entityId = 0, priority = 0){

@@ -1,5 +1,5 @@
 import { System } from "../../foundation/structure/ecs";
-import { GetRunnigActionList } from "../../action/utils";
+import { GetRunnigActionList } from "./utils";
 import { LinkIterator } from "../../foundation/structure/link";
 import { actionUpdate, actionEnd } from "../../action/base";
 

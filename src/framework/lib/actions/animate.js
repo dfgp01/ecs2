@@ -1,10 +1,10 @@
 import { Action } from "./base";
-import { GetSpriteFrameWidth, GetSpriteFrameHeight } from "../foundation/structure/frame";
-import { NewRect } from "../foundation/geometric/rect";
+import { GetSpriteFrameWidth, GetSpriteFrameHeight } from "../../foundation/structure/frame";
+import { NewRect } from "../../foundation/geometric/rect";
 import { CreateTimeoutAction } from "./ext/time";
 import { CreateSeqAction } from "./ext/list";
 import { CreateRepeatForeverAction } from "./ext/repeat";
-import { AddDisplay } from "../component/view/component";
+import { AddDisplay } from "../../component/view/component";
 
 export const ANIMATE_TYPE_NORMAL = 0;
 export const ANIMATE_TYPE_REPEAT = 1;
