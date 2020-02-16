@@ -26,7 +26,7 @@ function CreateSpriteFrame(name = "", bitmapData = null, x = 0, y = 0, width = 0
         console.err("frame: %s is exists.", name);
         return null;
     }
-    let f = new SpriteFrame(name, bitmapData, new TextureArea(x, y, width, height));
+    let f = new SpriteFrame(name, bitmapData, CreateSeg());
     _spriteFrameMap.set(name, f);
     return f;
 }

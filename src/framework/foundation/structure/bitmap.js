@@ -26,16 +26,8 @@ class Seg {
     }
 }
 
-class Texture {
-    constructor(bitmap = null, seg = null) {
-        this.bitmap = bitmap;
-        this.seg = seg;
-    }
+function CreateSeg(x = 0, y = 0, width = 0, height = 0){
+    return new Seg(x, y, width, height);
 }
 
-function CreateTexture(bitmap = null, x = 0, y = 0, width = 0, height = 0){
-    let seg = new Seg(x, y, width, height);
-    return new Texture(bitmap, seg);
-}
-
-export{CreateBitmap, CreateTexture}
+export{CreateBitmap, CreateSeg}
