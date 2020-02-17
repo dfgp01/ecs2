@@ -1,5 +1,3 @@
-import { NewPos, NewVecWithPos, GetDistance } from "./point";
-import { newFormulaC } from "./formula/abc";
 
 /**
  * 基础线段
@@ -7,46 +5,55 @@ import { newFormulaC } from "./formula/abc";
  * end = Pos(x, y)
  */
 class Line {
-    constructor(start = null, vec = null){
-        this.start = start;
+    constructor(offset, unitPos = null, vec = null, start, end){
+        this.offset = offset;
+        this.unitPos = unitPos;
         this.vec = vec;
-        this.end = NewPos(start.x + vec.x, start.y + vec.y);
-        this.formula = null;
+        this.start = start;
+        this.end = end;
     }
 }
 
-function NewLineWithVec(x = 0, y = 0, vx = 0, vy = 0){
-    let vec = NewVec(vx, vy);
-    return newLine(x, y, vec);
-}
-
-function NewLineWithPos(x1 = 0, y1 = 0, x2 = 0, y2 = 0){
-    let vec = NewVecWithPos(x1, y1, x2, y2);
-    return newLine(x1, y1, vec);
-}
-
-function newLine(x = 0, y = 0, vec = null){
-    if(GetDistance(vec) == 0){
+function NewLine(xOffset = 0, yOffset = 0, unitPos = null, vec = null){
+    if(!unitPos || !vec){
         return null;
     }
-    let line = new Line(NewPos(x, y), vec);
-    let formula = newFormulaC(line);
-    line.formula = formula;
-    return line;
+    let offset = NewVec(xOffset, yOffset);
+    let start = NewPos(unitPos.x + xOffset, unitPos.y + yOffset);
+    let end = NewPos(start.x + vec.x, start.y + vec.y);
+    return new Line(offset, unitPos, vec, start, end);
 }
 
 /**
  * 基础属性 
  */
+function GetOffset(line = null){
+    return line.offset;
+}
+function GetUnitPos(line = null){
+    return line.unitPos;
+}
+function GetVec(line = null){
+    return line.vec;
+}
 function GetStartPos(line = null){
     return line.start;
 }
 function GetEndPos(line = null){
     return line.end;
 }
-function GetVec(line = null){
-    return line.vec;
+
+/**
+ * 是否平行于x,y轴的线
+ */
+function IsHorizontalLine(line = null){
+    return line.vec.y == 0;
+}
+function IsVerticalLine(line = null){
+    return line.vec.x == 0;
 }
 
-export{ NewLineWithVec, NewLineWithPos, 
-    GetStartPos, GetEndPos, GetVec}
+export{
+    NewLine, GetOffset, GetUnitPos, GetVec, GetStartPos, GetEndPos,
+    IsHorizontalLine, IsVerticalLine
+}
