@@ -1,4 +1,4 @@
-import { GetDisplayList } from "../../component/view/component";
+import { GetDisplayList } from "./component";
 import { LinkIterator } from "../../foundation/structure/link";
 import { GetPos } from "../../component/pos/utils";
 import { GetRectWidth, GetRectHeight } from "../../foundation/geometric/rect";

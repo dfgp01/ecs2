@@ -1,5 +1,11 @@
 import { getEngine } from "./model";
 
+
+/**
+ * 2020-02-20
+ * 此文件已无用
+ */
+
 var _engine = getEngine();
 
 function clear() {
