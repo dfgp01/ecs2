@@ -17,12 +17,23 @@ class AbstractEngine {
         this.fps = fps;
         this.tick = 1000 / fps;
     }
-    clear(){}
-    drawFrame(spriteFrame = null, cameraPos = null){}
-    drawRect(rect = null, cameraPos = null){}
-    drawLine(line = null, cameraPos = null){}
-    drawCircle(radius = 0, cameraPos = null){}
 
+    //清除画布
+    clear(){}
+
+    //画帧
+    drawFrame(spriteFrame = null, cameraPos = null){}
+
+    //画矩形, rect是基础矩形
+    drawRect(rect = null, cameraPos = null){}
+
+    //画线段，line.vec是基础向量
+    drawLine(line = null, cameraPos = null){}
+
+    //画圆，circle.radius是基础半径
+    drawCircle(circle = null, cameraPos = null){}
+
+    //imgSrc是图像地址
     loadResource(imgSrc = "", onLoadCallback = null){}
 
     onKeyCallback(keyDownCallback = null, keyUpCallback = null){}

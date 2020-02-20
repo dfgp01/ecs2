@@ -51,7 +51,6 @@ class SetFrameAction extends Action {
 }
 
 
-
 /**
  * TODO
  * 0.播放完后结束，移出view-tuple-list

@@ -40,31 +40,16 @@ class SpriteFrame {
 }
 
 function CreateSpriteFrame(name = "", bitmap = null, x = 0, y = 0, width = 0, height = 0){
-    if(_spriteFrameMap.get(name)){
-        console.err("frame: %s is exists.", name);
-        return null;
-    }
-    let f = new SpriteFrame(name, bitmap, 
+    let f = new SpriteFrame(name, bitmap,
         new Seg(x, y, width, height));
-    _spriteFrameMap.set(name, f);
     return f;
 }
 
-/**
- * 找不到帧时的默认空帧，可以是一张红叉图片，
- * TODO 引入默认资源机制
- */
-var _spriteFrameMap = new Map();
-function getSpriteFrameByName(name = ""){
-    let f = _spriteFrameMap.get(name);
-    return f ? f : _spriteFrameMap.get("defalut");
-}
-
 function GetSpriteFrameWidth(spriteFrame = null){
-    return spriteFrame.textureArea.width;
+    return spriteFrame.seg.width;
 }
 function GetSpriteFrameHeight(spriteFrame = null){
-    return spriteFrame.textureArea.height;
+    return spriteFrame.seg.height;
 }
 
-export{CreateBitmap, CreateSpriteFrame, getSpriteFrameByName, GetSpriteFrameWidth, GetSpriteFrameHeight}
+export{CreateBitmap, CreateSpriteFrame, GetSpriteFrameWidth, GetSpriteFrameHeight}

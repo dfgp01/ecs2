@@ -34,6 +34,14 @@ function GetRectUnitPos(rectPosTuple = null){
     return rectPosTuple.unitPos;
 }
 
+function GetRectUnitVec(rectPosTuple = null){
+    return rectPosTuple.unitVec;
+}
+
+function GetRect(rectPosTuple = null){
+    return rectPosTuple.rect;
+}
+
 function GetRectPosCenter(rectPosTuple = null){
     return NewPos(
         rectPosTuple.unitPos.x + rectPosTuple.offset.x,
@@ -212,7 +220,7 @@ function IsPosInRect(x = 0, y = 0, rectPosTuple = null){
 }
 
 export{
-    NewRectPosTuple, UpdateRectPosOffset, GetRectPosOffset, GetRectUnitPos, GetRectPosCenter, GetRectPosStart, GetRectPosEnd,
+    NewRectPosTuple, UpdateRectPosOffset, GetRectPosOffset, GetRectUnitPos, GetRectUnitVec, GetRect, GetRectPosCenter, GetRectPosStart, GetRectPosEnd,
     NewInnerRect, IsRectsCross, IsRectsCrossWithVec, FixUnitPos, FixUnitVec, FixRectPos, FixInRect, IsPosInRect
 }
 

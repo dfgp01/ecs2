@@ -17,4 +17,6 @@ class AbstractCamera {
         this.width = width;
         this.height = height;
     }
+
+    toCameraPos(pos = null){}
 }
