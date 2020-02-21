@@ -51,6 +51,7 @@ function loadResource(texturesData = null, OnloadCallback = null, OnCompleteCall
 var _spriteFrameMap = new Map();
 function createSpriteFrameWithData(name = "", bitmap = null, textureAreaData = null){
     if(name == "" || !bitmap || !textureAreaData){
+        console.err("error param.");
         return null;
     }
     let f = _spriteFrameMap.get(name);
@@ -89,10 +90,17 @@ function getSpriteFrameByName(name = ""){
  *      },
  *      fps : 60,
  *      debug : false,
- *      camera : {
- *          x : 0,
- *          y : 0
- *      },
+ *      cameras : [
+ *          {
+ *              x : 0,
+ *              y : 0,
+ *              offset-x : 0,
+ *              offset-y : 0,
+ *              width : 0,
+ *              height : 0
+ *          }
+ *      ],
+ *      camera-style : 1
  *      tilemap : 格式参考tilemap一节
  *      keyHandler : function(type, keyCode)   type=1 = down, type=2 = up
  *      collide : {
@@ -148,6 +156,112 @@ function initGameEngine(options = null) {
         //     });
         // }
     }
+}
+
+
+const SingleCamera = 0;
+const TwinCameraHorizontal = 1;
+const TwinCameraVerticle = 2;
+const FourCamera = 3;
+const TypeNormal = 0;
+const TypeISOmetric = 1;
+/**
+ * 
+ * @param {*} options 
+ * {
+ *      style : 0,
+ *      cfgs : [
+ *          {type: 0, x : 0, y : 0, offset-x : 0, offset-y : 0, width : 0, height : 0}
+ *      ]
+ * }
+ */
+function CreateCameraWithData(options = null, screen = null){
+    let width = GetScreenWidth(screen);
+    let height = GetScreenHeight(screen);
+    defaultCameraData(options);
+    switch(options.style){
+        case SingleCamera:
+            createSingleCamera(options.cfgs[0], width, height);
+            break;
+            case TwinCameraHorizontal:
+                case TwinCameraVerticle:
+                    case FourCamera:
+    }
+}
+
+//默认值兼容模式
+function defaultCameraData(options = null){
+    if(!options){
+        options = {};
+    }
+    if(!options['style']){
+        options.style = SingleCamera;
+    }
+    let cfgs = options['cfgs'];
+    if(!cfgs || cfgs.length == 0){
+        cfgs = [];
+    }
+}
+
+function createSingleCamera(options = null, screenWidth = 0, screenHeight = 0){
+    options = options ? options : {};
+    options.width = screenWidth;
+    options.height = screenHeight;
+    AddCamera(
+        newCamera(options)
+    );
+}
+
+function createTwinCameraHorizontal(optionsArr = null, screenWidth = 0, screenHeight = 0){
+    let width = screenWidth * 0.5;
+    let left = optionsArr[0];
+    left = left ? left : {};
+    left.width = width;
+    left.height = screenHeight;
+    AddCamera(
+        newCamera(left)
+    );
+    let right = optionsArr[1];
+    right = right ? right : {};
+    right.width = width;
+    right.height = screenHeight;
+    right['offset-x'] = width;
+    AddCamera(
+        newCamera(right)
+    );
+}
+
+function createTwinCameraVertical(optionsArr = null, screenWidth = 0, screenHeight = 0){
+    let height = screenHeight * 0.5;
+    let up = optionsArr[0];
+    up = up ? up : {};
+    up.width = screenWidth;
+    up.height = height;
+    AddCamera(
+        newCamera(up)
+    );
+    let down = optionsArr[1];
+    down = down ? down : {};
+    down.width = screenWidth;
+    down.height = height;
+    down['offset-y'] = height;
+    AddCamera(
+        newCamera(down)
+    );
+}
+
+function newCamera(options = null){
+    let pos = NewPos(options['x'], options['y']);
+    let screenOffset = NewPos(options['offset-x'], options['offset-y']);
+    let type = options.type ? options.type : TypeNormal;
+    switch(type){
+        case TypeNormal:
+            return CreateNormalCamera(pos, screenOffset, options['width'], options['height']);
+        case TypeISOmetric:
+            return CreateISOmetricCamera(pos, screenOffset, options['width'], options['height']);
+    }
+    console.error("error camera type: %d", type);
+    return null;
 }
 
 /**

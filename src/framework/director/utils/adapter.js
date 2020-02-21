@@ -77,11 +77,11 @@ function CreateTileMapWithData(options = null, initHandler = null){
     if(!options || options.columns <= 0 || !options.data || options.data.length == 0 || options.gridWidth <= 0 || options.gridHeight <= 0){
         return null;
     }
-    //丢弃小数部分,保留整数部分，验证tilemap数据完整性
+    //验证tilemap数据完整性
     let columns = options.columns;
     let rows = parseInt(options.data.length / columns);
     if(rows * columns != options.data.length){
-        console.log("error param: len(grids):", options.data.length, " columns:", columns);
+        console.error("error param: len(grids): %d, columns: %d", options.data.length, columns);
         return null;
     }
 

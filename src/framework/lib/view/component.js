@@ -37,7 +37,7 @@ function GetRenderComponent(entityId = 0, viewData = null) {
  * 如果需要限制一个unit仅有一个spriteFrame，就使用component
  */
 class DisplayTuple extends Tuple {
-    constructor(entityId = 0, spriteFrame = null, displayArea = null){
+    constructor(entityId = 0, spriteFrame = null, offset = null){
         super(entityId);
         this.spriteFrame = spriteFrame;
         this.displayArea = displayArea;
