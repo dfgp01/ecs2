@@ -15,6 +15,10 @@ function Min(val1 = 0, val2 = 0){
     return val1 < val2 ? val1 : val2;
 }
 
+function ParseToInt(num = 0){
+    return parseInt(num);
+}
+
 export{
-    GetMaxInt, Abs, Max, Min
+    GetMaxInt, Abs, Max, Min, ParseToInt
 }

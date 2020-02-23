@@ -16,7 +16,7 @@ function GetScreen(options = null){
  */
 function createScreen(options = null){
     if(!options){
-        console.error("createScreen error. options is null");
+        console.error("ptions is null");
     }
     return NewRect(
         options['width'], options['height']
@@ -38,25 +38,11 @@ class AbstractCamera {
     toCameraPos(pos = null){}
 }
 
-var cameras = null;
-function AddCamera(cameraObj = null){
-    cameras.push(cameraObj);
+var camera = null;
+function SetCamera(cameraObj = null){
+    camera = cameraObj;
 }
 
-function GetCameras(){
+function GetCamera(){
     return cameras;
-}
-
-const SingleCamera = 0;
-const TwinCameraHorizontal = 1;
-const TwinCameraVerticle = 2;
-const FourCamera = 3;
-function CreateCameraWithData(style = 0, screenWidth = 0, screenHeight = 0){
-
-}
-
-function CreateCamera(pos = null, screenOffset = null, width = 0, height = 0){
-    pos = pos ? pos : NewPos();
-    screenOffset = screenOffset ? screenOffset : NewPos();
-    return new ISOmetricCamera(pos, screenOffset, width, height);
 }

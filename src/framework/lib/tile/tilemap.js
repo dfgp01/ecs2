@@ -1,5 +1,3 @@
-import { NewPos } from "../../foundation/geometric/point";
-import { GetGridMapWidth, GetGridMapHeight, NewGridMap, GetGridWidth, GetGridHeight } from "../../foundation/structure/gridmap";
 
 /**
  * 2d瓷砖地图，由GridMap扩展
@@ -25,17 +23,25 @@ function NewTileMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, x = 0,
     return new TileMap(gridmap, x, y);
 }
 
+function GetGridMap(tilemap = null){
+    return tilemap.gridmap;
+}
+
+function GetTileMapPos(tilemap = null){
+    return tilemap.pos;
+}
+
 function GetTilemapStart(tilemap = null){
     return NewPos(
-        tilemap.pos.x - GetGridMapWidth(tilemap.gridmap) * 0.5,
-        tilemap.pos.y - GetGridMapHeight(tilemap.gridmap) * 0.5
+        tilemap.pos.x - GetHalfGridMapWidth(tilemap.gridmap),
+        tilemap.pos.y - GetHalfGridMapHeight(tilemap.gridmap)
     );
 }
 
 function GetTilemapEnd(tilemap = null){
     return NewPos(
-        tilemap.pos.x + GetGridMapWidth(tilemap.gridmap) * 0.5,
-        tilemap.pos.y + GetGridMapHeight(tilemap.gridmap) * 0.5
+        tilemap.pos.x + GetHalfGridMapWidth(tilemap.gridmap),
+        tilemap.pos.y + GetHalfGridMapHeight(tilemap.gridmap)
     );
 }
 

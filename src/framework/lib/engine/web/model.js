@@ -16,43 +16,6 @@ export const KEY_A = 65;
 export const KEY_S = 83;
 export const KEY_D = 68;
 
-/**
- *  engine = web-browser, canvas
- *  options {
- *      screen : {
- *          width : 800,
- *          height : 800
- *      },
- *      fps : 60
- *  }
- */
-var _engine;
-function GetH5Engine(options = null){
-    if(!_engine){
-        _engine = createH5Engine(options);
-    }
-    return _engine;
-}
-
-function createH5Engine(options = null){
-    options = options ? options : {};
-    options.screen = options.screen ? options.screen : {};
-    
-    let width = options['screen']['width'];
-    width = width ? width : 400;
-    let height = options['screen']['height'];
-    height = height ? height : 400;
-    let fps = options['fps'];
-
-    let canvas = document.getElementById("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    let ctx = canvas.getContext("2d");
-    ctx.strokeStyle="#0000ff";          //画矩形框用的
-
-    return new H5Engine(fps, canvas, ctx);
-}
-
 
 class H5Engine extends AbstractEngine {
     constructor(fps = 60, canvas = null, ctx = null){
@@ -113,6 +76,16 @@ class H5Engine extends AbstractEngine {
     }
 }
 
+
+function NewH5Engine(width = 0, height = 0, fps = 0){
+    let canvas = document.getElementById("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    let ctx = canvas.getContext("2d");
+    ctx.strokeStyle="#0000ff";          //画矩形框用的
+    return new H5Engine(fps, canvas, ctx);
+}
+
 export{
-    GetH5Engine
+    NewH5Engine
 }

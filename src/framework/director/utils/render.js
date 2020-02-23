@@ -19,12 +19,10 @@ function GetSpriteFrame(name = ""){
  * TODO 可能会改成spriteFrameId参数
  */
 function DrawFrame(spriteFrame = null, pos = null){
-    let ng = GetEngine();
-    getCameras().forEach(camera => {
-        ng.drawFrame(
-            spriteFrame,
-            camera.toCameraPos(pos));
-    });
+    GetEngine().drawFrame(
+        spriteFrame,
+        GetCamera().toCameraPos(pos)
+    );
 }
 
 function DrawRect(rectPosTuple = null){

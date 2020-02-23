@@ -41,14 +41,27 @@ function NewGridMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0){
 function GetGridWidth(gridmap = null){
     return gridmap.gridWidth;
 }
+function GetHalfGridWidth(gridmap = null){
+    return GetGridWidth(gridmap) * 0.5;
+}
+function GetGridMapWidth(gridmap = null){
+    return gridmap.columns * GetGridWidth(gridmap);
+}
+function GetHalfGridMapWidth(gridmap = null){
+    return GetGridMapWidth(gridmap) * 0.5;
+}
+
 function GetGridHeight(gridmap = null){
     return gridmap.gridHeight;
 }
-function GetGridMapWidth(gridmap = null){
-    return gridmap.columns * gridmap.gridWidth;
+function GetHalfGridHeight(gridmap = null){
+    return GetGridHeight(gridmap) * 0.5;
 }
 function GetGridMapHeight(gridmap = null){
-    return gridmap.rows * gridmap.gridHeight;
+    return gridmap.rows * GetGridHeight(gridmap);
+}
+function GetHalfGridMapHeight(gridmap = null){
+    return GetGridMapHeight(gridmap) * 0.5;
 }
 
 /**
@@ -80,5 +93,8 @@ function GetGridData(gridmap = null, x = 0, y = 0){
 }
 
 export {
-    NewGridMap, GetGridWidth, GetGridHeight, GetGridMapWidth, GetGridMapHeight, GetGrid, GridmapIterator, GetGridData
+    NewGridMap, 
+    GetGridWidth, GetHalfGridWidth, GetGridMapWidth, GetHalfGridMapWidth,
+    GetGridHeight, GetHalfGridHeight, GetGridMapHeight, GetHalfGridMapHeight,
+    GetGrid, GridmapIterator, GetGridData
 }

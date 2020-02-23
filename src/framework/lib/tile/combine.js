@@ -3,6 +3,7 @@ import { CreateRectNormal } from "../base/rect";
 
 /**
  * 寻找最大矩形算法，合并矩形
+ * TODO，旧文件
  */
 
 class GirdNode {
