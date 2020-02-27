@@ -1,6 +1,12 @@
 import { AddDisplay, RemoveDisplay } from "./component";
 
 /**
+ * TODO
+ * view模块可能会作为内部库模块
+ *  foundation/lib/view ?
+ */
+
+/**
  * 切换显示帧
  * TODO 需要判断重复性
  */

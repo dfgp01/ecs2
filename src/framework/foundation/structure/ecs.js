@@ -45,17 +45,6 @@ class Component {
 }
 
 /**
- * 基础元件
- */
-class Tuple {
-	constructor(entityId = 0, priority = 0){
-		this.id = NewEntityId();
-		this.entityId = entityId;
-		this.priority = priority;	//给link使用
-	}
-}
-
-/**
 *	The base System
 */
 class System {
@@ -67,4 +56,4 @@ class System {
     onEnd(){}
 }
 
-export {Entity, Component, Tuple, System}
+export {GameObject, Component, System}

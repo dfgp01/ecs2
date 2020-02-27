@@ -26,6 +26,24 @@ function GetRenderUpdateSystem(){
     return renderSys;
 }
 
+class LayerRenderUpdateSystem extends System {
+    onUpdate(dt = 0){
+        Clear();
+        LinkIterator(GetDisplayList(), layer => {
+            switch(layer.type){
+                case TypeNormal:
+                    break;
+                case TypeISOmetric:
+                    break;
+            }
+            LinkIterator(layer.list, displayTuple => {
+
+            });
+        });
+    }
+}
+
+
 
 /**
  * 将所有矩形画出来

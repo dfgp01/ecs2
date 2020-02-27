@@ -1,4 +1,9 @@
 /**
+ * TODO
+ * TilemapLayer, IsoMetricTilemapLayer
+ */
+
+/**
  * tilemap = gridmap + pos
  * gridmap的相对坐标是(0, 0)，即左上角
  * tilemap.pos和其他对象一样，从中间开始

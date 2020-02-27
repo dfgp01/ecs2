@@ -30,27 +30,6 @@ function CreateAnimateWithData(animateData = null){
     return CreateAnimateAction(animateData['type'], entityId, animateFrames);
 }
 
-/**
- * options = {
- *      type : 0,
- *      x : 0, y : 0, width : 0, height : 0
- * }
- */
-function CreateCameraWithData(options = null){
-    if(!options){
-        return null;
-    }
-    let width = options['width'];
-    let height = options['height'];
-    if(!width || !height){
-        return null;
-    }
-    return NewCamera(
-        options['x'], options['y'],
-        width, height
-    );
-}
-
 export {
     CreateAnimateWithData, CreateCameraWithData, CreateTileMapWithData
 }

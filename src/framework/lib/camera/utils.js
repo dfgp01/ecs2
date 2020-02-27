@@ -1,15 +1,24 @@
-
 /**
  * options = {
- *      type : 0,
- *      x : 0,
- *      y : 0,
- *      offset-x : 0,
- *      offset-y : 0,
- *      width : 0,
- *      height : 0
+ *      style : 0,
+ *      datas : [{x : 0, y : 0,  //扩展：offset-x : 0, offset-y : 0, width : 0, height : 0}]
  * }
  */
+function CreateCameraWithData(options = null, width = 0, height = 0){
+    //默认值
+    options = options ? options : {
+        style : 0,
+        datas : [{x : 0, y : 0}]
+    };
+    //TODO
+    return NewCamera(
+        options['x'], options['y'],
+        width, height
+    );
+}
+
+//-------------------- 下面是旧的，步子不要扯太大
+
 function CreateCameraWithData(options = null, screen = null){
     options = options || {};
     let pos = NewPos(options['x'], options['y']);

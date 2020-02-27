@@ -2,9 +2,27 @@ import { GetEngine } from "../component/engine";
 import { GetCamera } from "../service/res";
 import { GetRect } from "../../foundation/geometric/rect";
 
-
+/**
+ * 清除画布
+ */
 function Clear(){
     GetEngine().clear();
+}
+
+/**
+ * 先不考虑是否在摄像机内了
+ * @param {*} displayObject 
+ * @param {*} worldPos 
+ */
+function Draw(displayObject = null, worldPos = null){
+    //TODO use ToLocatePos
+    DrawInCamera(GetEngine(), displayObject, worldPos);
+
+    //todo 这个很java
+    GetCamera().onDraw(GetEngine(), displayObject, worldPos)
+        getCameraPos(worldPos)
+        displayObject.onDraw(engine, cameraPos)
+            engine.onDrawXXX(graph, cameraPos)
 }
 
  /**
@@ -14,6 +32,7 @@ function Clear(){
 function GetSpriteFrame(name = ""){
     return getSpriteFrameByName(name);
 }
+
 
 /**
  * TODO 可能会改成spriteFrameId参数
@@ -46,4 +65,4 @@ function DrawCircle(circle = null){
             GetCirclePosStart(circle)));
 }
 
-export{Clear, GetSpriteFrame, DrawFrame, DrawRect, DrawLine, DrawCircle}
+export{Clear, Draw, GetSpriteFrame, DrawFrame, DrawRect, DrawLine, DrawCircle}

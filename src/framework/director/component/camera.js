@@ -1,30 +1,5 @@
 
 /**
- * 屏幕对象，暂时放这
- */
-var screen = null;
-function GetScreen(options = null){
-    if(!screen){
-        screen = createScreen(options);
-    }
-    return screen;
-}
-
-/**
- * 
- * @param {*} options {width: 0, height: 0}
- */
-function createScreen(options = null){
-    if(!options){
-        console.error("ptions is null");
-    }
-    return NewRect(
-        options['width'], options['height']
-    );
-}
-
-
-/**
  * 摄像机抽象类
  */
 class AbstractCamera {
@@ -36,8 +11,12 @@ class AbstractCamera {
     }
 
     toCameraPos(pos = null){}
+    toWorldPos(cameraPos = null){}
 }
 
+/**
+ * 全局摄像机对象
+ */
 var camera = null;
 function SetCamera(cameraObj = null){
     camera = cameraObj;

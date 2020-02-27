@@ -212,11 +212,11 @@ function FixInRect(outter = null, inner = null){
  * 当前位置是否在矩形中（同样需要先更新rect位置）
  * 包含踩线情况
  */
-function IsPosInRect(x = 0, y = 0, rectPosTuple = null){
+function IsPosInRect(pos = null, rectPosTuple = null){
     let startPos = GetRectPosCenter(rectPosTuple);
     let endPos = GetRectPosEnd(rectPosTuple);
-    return x >= startPos.x && x <= endPos.x
-        && y >= startPos.y && y <= endPos.y;
+    return pos.x >= startPos.x && pos.x <= endPos.x
+        && pos.y >= startPos.y && pos.y <= endPos.y;
 }
 
 export{

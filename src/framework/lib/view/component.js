@@ -1,4 +1,4 @@
-import { Component } from "../../foundation/structure/ecs";
+import { Component, GameObject } from "../../foundation/structure/ecs";
 import { PushToLink, GetLinkData, RemoveByKeyId, NewLink } from "../../foundation/structure/link";
 import { NewRectPosTuple } from "../pos/rect/component";
 import { NewRect } from "../../foundation/geometric/rect";
@@ -7,7 +7,7 @@ import { GetPos } from "../pos/utils";
 
 
 /**
- * 显示组件，包含一些矩阵数据
+ * 显示组件，包含一些显示参数
  */
 class RenderComponent extends Component {
 	constructor(entityId = 0, angle = 0, scale = 1) {
@@ -17,58 +17,28 @@ class RenderComponent extends Component {
 	}
 }
 
+
 var renderComs = NewLink();
-function createRenderComponent(entityId = 0, viewData = null) {
-    viewData = viewData ? viewData : {};
-    let com = new RenderComponent(entityId, viewData.angle, viewData.scale);
+
+/**
+ * options : {
+ *      angle : 180,
+ *      scale : 0.5
+ * }
+ */
+function createRenderComponent(entityId = 0, options = null) {
+    //默认值
+    options = options ? options : {};
+    let com = new RenderComponent(entityId, options.angle, options.scale);
     PushToLink(renderComs, com);
     return com;
 }
 
-function GetRenderComponent(entityId = 0, viewData = null) {
+function GetRenderComponent(entityId = 0, options = null) {
     let com = GetLinkData(renderComs, entityId);
-    return com ? com : createRenderComponent(entityId, viewData);
+    return com ? com : createRenderComponent(entityId, options);
 }
 
-
-/**
- * 显示元件
- * 目前使用tuple，可以兼容一个unit同时挂多个spriteFrame的需求
- * 如果需要限制一个unit仅有一个spriteFrame，就使用component
- */
-class DisplayTuple extends Tuple {
-    constructor(entityId = 0, spriteFrame = null, offset = null){
-        super(entityId);
-        this.spriteFrame = spriteFrame;
-        this.displayArea = displayArea;
-    }
+export {
+    GetRenderComponent
 }
-
-/**
- * 画布上的显示队列
- */
-var displayList = NewLink();
-function GetDisplayList(){
-    return displayList;
-}
-
-/**
- * 加入渲染队列
- * @param {*} displayArea Rect类型
- */
-function AddDisplay(entityId = 0, spriteFrame = null, xOffset = 0, yOffset = 0) {
-    let pos = GetPos(entityId);
-    let rectPos = NewRectPosTuple(pos, xOffset, yOffset,
-        NewRect(
-            GetSpriteFrameWidth(spriteFrame),
-            GetSpriteFrameHeight(spriteFrame)));
-    let t = new DisplayTuple(entityId, spriteFrame, rectPos);
-    PushToLink(displayList, t);
-    return t;
-}
-
-function RemoveDisplay(displayId = 0) {
-    RemoveByKeyId(displayList, displayId);
-}
-
-export {GetRenderComponent, GetDisplayList, AddDisplay, RemoveDisplay}

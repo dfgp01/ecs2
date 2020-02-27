@@ -1,19 +1,32 @@
-var currWorld = null;
 
-function SetWorld(worldObj = null){
-    currWorld = worldObj;
-}
-
-function GetWorld(){
-    return currWorld;
+/**
+ * world，只是一个舞台范围概念
+ */
+var world = null;
+function GetWorld(options = null){
+    if(!world){
+        world = createWithDefaultRect(options);
+    }
+    return world;
 }
 
 /**
- * 世界/舞台抽象类
+ * 全局屏幕对象
  */
-class AbstractWorld {
-    constructor(width = 0, height = 0){
-        this.width = width;
-        this.height = height;
+var screen = null;
+function GetScreen(options = null){
+    if(!screen){
+        screen = createWithDefaultRect(options);
     }
+    return screen;
+}
+
+function createWithDefaultRect(options = null){
+    //默认值
+    options = options ? options : {};
+    let width = options['width'];
+    width = width && width > 0 ? width : 800;
+    let height = options['height'];
+    height = height && height > 0 ? height : 800;
+    return NewRect(width, height);
 }

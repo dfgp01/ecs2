@@ -28,20 +28,19 @@ import { runWithScene } from "../system/run";
  *          handler : function(dt, collider1, collider2)
  *      }
  * }
+ * TODO scene可以是一个action?
  */
 function Start(options = null, scene = null){
-    loadResource(options.textures, null, () => {
-        startGame(options, scene);
-    });
-}
-
-function StartTest(options = null, scene = null){
-    startGame(options, scene);
-}
-
-function startGame(options, scene = null){
-    initGame(options);
-    runWithScene(scene);
+    options = options ? options : {};
+    if(options['textures']){
+        loadResource(options['textures'], null, () => {
+            initGame(options);
+            runWithScene(scene);
+        });
+    }else{
+        initGame(options);
+        runWithScene(scene);
+    }
 }
 
 function Stop(){
@@ -54,4 +53,4 @@ function Stop(){
 
 
 
-export {Start, StartTest, Stop}
+export {Start, Stop}
