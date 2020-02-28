@@ -9,41 +9,45 @@
  *      screen-height : 800,
  *      camera : {},
  *      engine : {},
- *      
  *      layers : [
  *          {
- *              tilemap : 格式参考tilemap一节
+ *              type : 1 格式参考tilemap一节
  *          }
  *      ]
  *      collide : {}
  * }
  */
 function initGame(options = null) {
-    //屏幕和摄像机
-    let screen = GetScreen(options['screen']);
-    SetCamera(
-        CreateCameraWithData(options['camera'], screen)
-    )
+    //默认值
+    let screenWidth = options['screen-width'];
+    screenWidth = screenWidth && screenWidth > 0 ? screenWidth : 800;
+    let screenHeight = options['screen-height'];
+    screenHeight = screenHeight && screenHeight > 0 ? screenHeight : 800;
 
-    let ng = options['engine'];
-    ng = ng ? ng : {
-        width : GetRectWidth(screen),
-        height : GetRectHeight(screen),
-    };
+    //摄像机
+    SetCamera(
+        CreateCameraWithData(options['camera'], screenWidth, screenHeight)
+    )
 
     //引擎
     SetEngine(
-        CreateEngineWithData(ng));
+        CreateEngineWithData(options['engine'], screenWidth, screenHeight));
     
     
+    //系统
     initSystems(options['debug']);
 
-    //瓷砖地图，舞台
-    if(options.tilemap){
-        SetWorld(
-            CreateTileMap(options.tilemap)
-        );
-    }
+    //瓷砖地图，舞台图层
+    let layers = options['layers'];
+    layers = layers && layers.length >= 0 ? layers : [];
+    layers.forEach(layerOptions => {
+        if(layerOptions['tilemap']){
+            CreateTileMapWithData(options.tilemap);
+        }
+        else{
+
+        }
+    });
 
     //开启碰撞系统
     if(options.collide){

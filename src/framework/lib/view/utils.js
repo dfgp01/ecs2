@@ -1,10 +1,3 @@
-import { AddDisplay, RemoveDisplay } from "./component";
-
-/**
- * TODO
- * view模块可能会作为内部库模块
- *  foundation/lib/view ?
- */
 
 /**
  * 切换显示帧
@@ -21,4 +14,40 @@ function Hide(entityId = 0){
     RemoveDisplay(entityId);
 }
 
-export {SetFrame, Hide}
+
+/**
+ * 查找渲染显示组件
+ * options : {
+ *      angle : 180,
+ *      scale : 0.5
+ * }
+ */
+function GetRenderComponent(entityId = 0, options = null) {
+    let com = getRenderComponent(entityId);
+    return com ? com : createRenderComponent(entityId, options);
+}
+
+/**
+ * 加入渲染队列
+ * layerOrder = 图层顺序，数值从低到高顺序渲染
+ * order = 自己所在图层内的顺序
+ */
+function AddDisplay(displayObject = null, unitPos = null, layerOrder = 0, order = 0, offset = null) {
+    let ds = createDisplayTuple(displayObject, unitPos, order, layerOrder, offset);
+    addToLayer(ds)
+    return ds;
+}
+
+function RemoveDisplay(displayTuple = null) {
+    removeFromLayer(displayTuple);
+}
+
+function AddLayer(order = 0, type = 0){
+    createLayer(order, type);
+}
+
+export {
+    GetRenderComponent,
+    AddDisplay, RemoveDisplay,
+    AddLayer
+}

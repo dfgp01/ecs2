@@ -1,5 +1,5 @@
-import { NewPos, NewVec } from "../../foundation/geometric/point";
-import { GetRectHalfWidth, GetRectHalfHeight } from "../../foundation/geometric/rect";
+import { NewPos, NewVec } from "./point";
+import { GetRectHalfWidth, GetRectHalfHeight } from "./rect";
 import { GetPos, GetVec } from "../utils";
 
 /**

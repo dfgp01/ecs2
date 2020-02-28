@@ -43,29 +43,4 @@ class LayerRenderUpdateSystem extends System {
     }
 }
 
-
-
-/**
- * 将所有矩形画出来
- */
-class DrawRectSystem extends System {
-    onUpdate(dt = 0){
-        //DrawRect(GetCamera(), this._camera.rect);
-        LinkIterator(GetBlockColliderList(), collider => {
-            drawRectInCamera(collider.rect);
-        });
-        LinkIterator(GetBodyColliderList(), collider => {
-            drawRectInCamera(collider.rect);
-        });
-    }
-}
-
-var debugSys = null;
-function GetDrawRectSystem(){
-    if(!debugSys){
-        debugSys = new DrawRectSystem();
-    }
-    return debugSys;
-}
-
-export {GetRenderUpdateSystem, GetDrawRectSystem}
+export {GetRenderUpdateSystem}

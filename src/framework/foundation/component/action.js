@@ -1,4 +1,3 @@
-import { Tuple } from "../foundation/structure/ecs"
 
 const ACTION_STATE_RUNNING = 1;
 const ACTION_STATE_END = 2;
@@ -15,14 +14,16 @@ const ACTION_STATE_END = 2;
         onEnd: 在system请求isEnd=true后调用，用于收尾，如资源回收
         onStop: 由utils.StopAction触发，强制中断，不走isEnd流程，默认调用onEnd，因此根据情况可能需要额外处理
 */
-class Action extends Tuple {
-    constructor(entityId = 0, priority = 0){
-        super(entityId, priority);
+class Action extends GameObject {
+    constructor(entityId = 0, order = 0){
+        super();
+        this.entityId = entityId;
+        this.order = order;
         this.state = 0;
     }
-    // onStart(){}
-    // onUpdate(dt = 0){}
-    // onEnd(){}
+    onStart(){}
+    onUpdate(dt = 0){}
+    onEnd(){}
     isEnd(){    return false;    }
     onStop(){   this.onEnd();   }
 }

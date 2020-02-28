@@ -11,6 +11,7 @@ function GetEngine(){
 
 /**
  * 外部引擎抽象类
+ * x, y 都是屏幕坐标，注意
  */
 class AbstractEngine {
     constructor(fps = 60){
@@ -22,16 +23,16 @@ class AbstractEngine {
     clear(){}
 
     //画帧
-    drawFrame(spriteFrame = null, cameraPos = null){}
+    drawFrame(x = 0, y = 0, spriteFrame = null){}
 
-    //画矩形, rect是基础矩形
-    drawRect(rect = null, cameraPos = null){}
+    //画矩形
+    drawRect(x = 0, y = 0, width = 0, height = 0){}
 
-    //画线段，line.vec是基础向量
-    drawLine(line = null, cameraPos = null){}
+    //画线段
+    drawLine(x1 = 0, y1 = 0, x2 = 0, y2 = 0){}
 
-    //画圆，circle.radius是基础半径
-    drawCircle(circle = null, cameraPos = null){}
+    //画圆
+    drawCircle(x = 0, y = 0, radius = 0){}
 
     //imgSrc是图像地址
     loadResource(imgSrc = "", onLoadCallback = null){}

@@ -18,16 +18,17 @@ class Grid {
  * 
  */
 class GridMap {
-    constructor(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, grids = null){
+    constructor(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, grids = null, pos = null){
         this.rows = rows;
         this.columns = columns;
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
         this.grids = grids;
+        this.pos = pos;
     }
 }
 
-function NewGridMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0){
+function NewGridMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, pos = null){
     let grids = [];
     for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
         for (let colIndex = 0; colIndex < columns; colIndex++) {
@@ -35,9 +36,13 @@ function NewGridMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0){
             grids.push(grid);
         }
     }
-    return new GridMap(rows, columns, gridWidth, gridHeight, grids);
+    pos = pos ? pos : NewPos();
+    return new GridMap(rows, columns, gridWidth, gridHeight, grids, pos);
 }
 
+/**
+ * 基础属性：宽度
+ */
 function GetGridWidth(gridmap = null){
     return gridmap.gridWidth;
 }
@@ -51,6 +56,9 @@ function GetHalfGridMapWidth(gridmap = null){
     return GetGridMapWidth(gridmap) * 0.5;
 }
 
+/**
+ * 基础属性：高度
+ */
 function GetGridHeight(gridmap = null){
     return gridmap.gridHeight;
 }
@@ -65,20 +73,36 @@ function GetHalfGridMapHeight(gridmap = null){
 }
 
 /**
- * 根据位置定位grid
- * x, y是gridmap左上角开始算
+ * 坐标
  */
-function GetGrid(gridmap = null, x = 0, y = 0){
-    if(!checkIn(gridmap, x, y)){
-        return null;
-    }
-    let column = parseInt(x / gridmap.gridWidth);
-    let row = parseInt(y / gridmap.gridHeight);
-    return gridmap.grids[row * gridmap.columns + column];
+function GetGridMapPosStart(gridmap = null){
+    return NewPos(
+        gridmap.pos.x - GetHalfGridMapWidth(gridmap),
+        gridmap.pos.y - GetHalfGridMapHeight(gridmap)
+    );
 }
 
-function checkIn(gridmap = null, x = 0, y = 0){
-    return x > 0 && x < GetGridMapWidth(gridmap) && y > 0 && y < GetGridMapHeight(gridmap);
+function GetGridMapPosEnd(gridmap = null){
+    return NewPos(
+        gridmap.pos.x + GetHalfGridMapWidth(gridmap),
+        gridmap.pos.y + GetHalfGridMapHeight(gridmap)
+    );
+}
+
+/**
+ * 根据位置定位grid，相对坐标法
+ */
+function GetGrid(gridmap = null, pos = null){
+    let gPos = ToLocatePos(pos, gridmap.pos);
+    if(!checkIn(gPos, gridmap)){
+        return null;
+    }
+    let column = parseInt(gPos.x / gridmap.gridWidth);
+    let row = parseInt(gPos.y / gridmap.gridHeight);
+    return gridmap.grids[row * gridmap.columns + column];
+}
+function checkIn(inGridPos = null, gridmap = null){
+    return inGridPos.x > 0 && inGridPos.x < GetGridMapWidth(gridmap) && inGridPos.y > 0 && inGridPos.y < GetGridMapHeight(gridmap);
 }
 
 function GridmapIterator(gridmap = null, callback = null){
@@ -87,14 +111,22 @@ function GridmapIterator(gridmap = null, callback = null){
     });
 }
 
-function GetGridData(gridmap = null, x = 0, y = 0){
-    let grid = GetGrid(gridmap, x, y);
+function GetGridData(gridmap = null, pos = null){
+    let grid = GetGrid(gridmap, pos);
     return grid ? grid.data : null;
+}
+
+function SetGridData(gridmap = null, pos = null, data = null){
+    let grid = GetGrid(gridmap, pos);
+    if(grid){
+        grid.data = data;
+    }
 }
 
 export {
     NewGridMap, 
     GetGridWidth, GetHalfGridWidth, GetGridMapWidth, GetHalfGridMapWidth,
     GetGridHeight, GetHalfGridHeight, GetGridMapHeight, GetHalfGridMapHeight,
-    GetGrid, GridmapIterator, GetGridData
+    GetGridMapPosStart, GetGridMapPosEnd,
+    GetGrid, GridmapIterator, GetGridData, SetGridData
 }
