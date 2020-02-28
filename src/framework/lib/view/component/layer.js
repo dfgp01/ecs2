@@ -21,8 +21,10 @@ const TypeNormal = 0;
 const TypeISOmetric = 1;
 
 var layerList = NewLink();
-function createLayer(order = 0, type = 0){
-    InsertData(layerList, new Layer(order, type));
+function addLayer(order = 0, type = 0){
+    let layer = new Layer(order, type);
+    InsertData(layerList, layer);
+    return layer;
 }
 
 function getLayer(order = 0){
@@ -48,4 +50,15 @@ function removeFromLayer(displayTuple = null){
         return;
     }
     ShiftData(layer.list, displayTuple.id);
+}
+
+/**
+ * options : 参考tilemap格式
+ * getDisplayTupleCallback 不能为空
+ */
+function createWithTilemapData(layer = null, options = null, getDisplayTupleCallback = null){
+    CreateGridmapWithData(options, (gridProperties, gridTag) => {
+        let displayTuple = getDisplayTupleCallback(gridProperties, gridTag);
+        InsertData(layer.list, displayTuple, displayTuple.order);
+    });
 }

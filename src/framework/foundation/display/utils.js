@@ -8,3 +8,7 @@ function DrawDisplayObject(x = 0, y = 0, displayObject = null, engine = null){
     displayObject.updatePos(x, y);
     displayObject.draw(engine);
 }
+
+function ToISOmetricsPos(displayObject = null, pos = null){
+    return displayObject.toISOmetricsPos(pos);
+}

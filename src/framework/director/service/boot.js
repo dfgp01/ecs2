@@ -1,3 +1,67 @@
+/**
+ * 加载资源，创建精灵帧
+ * textures : [
+ *          {
+ *              img : "res/a.png",
+ *              frames : [
+ *                  {
+ *                      name : "walk1"
+ *                      textureArea : {
+ *                          x : 0,
+ *                          y : 0,
+ *                          width : 0,
+ *                          height : 0
+ *                      }
+ *                  }
+ *              ]
+ *          }
+ *      ],
+ */
+function loadResource(texturesData = null, OnloadCallback = null, OnCompleteCallback = null){
+    //加载图像并创建显示帧
+    if(!texturesData || texturesData.length == 0){
+        return;
+    }
+    let _count = 0;
+    texturesData.forEach(t =>{
+        GetEngine().loadImg(t.img, bitmapData => {
+            let bitmap = CreateBitmap(bitmapData, bitmapData.width, bitmapData.height);
+            t.frames.forEach(frameData => {
+                createSpriteFrameWithData(frameData.name, bitmap, frameData.textureArea);
+            });
+            _count++;
+            if(OnloadCallback){
+                OnloadCallback(_count);
+            }
+            if(texturesData.length == _count && OnCompleteCallback){
+                OnCompleteCallback();
+            }
+        });
+    });
+}
+
+function createSpriteFrameWithData(name = "", bitmap = null, textureAreaData = null){
+    if(name == "" || !bitmap || !textureAreaData){
+        console.err("error param.");
+        return null;
+    }
+    let f = getSpriteFrameByName(name);
+    if(f){
+        console.err("frame: %s is exists.", name);
+        return null;
+    }
+
+    let x = textureAreaData['x'];
+    let y = textureAreaData['y'];
+    let width = textureAreaData['width'];
+    let height = textureAreaData['height'];
+    if(!width || !height){
+        return null;
+    }
+    let f = CreateSpriteFrame(name, bitmap, x, y, width, height);
+    setSpriteFrameByName(name, f);
+}
+
 
 /**
  * 通过参数配置初始化系统资源
@@ -32,22 +96,12 @@ function initGame(options = null) {
     //引擎
     SetEngine(
         CreateEngineWithData(options['engine'], screenWidth, screenHeight));
-    
-    
+
+    //舞台图层，瓷砖地图等
+    CreateLayersWithData(options['layers']);
+
     //系统
     initSystems(options['debug']);
-
-    //瓷砖地图，舞台图层
-    let layers = options['layers'];
-    layers = layers && layers.length >= 0 ? layers : [];
-    layers.forEach(layerOptions => {
-        if(layerOptions['tilemap']){
-            CreateTileMapWithData(options.tilemap);
-        }
-        else{
-
-        }
-    });
 
     //开启碰撞系统
     if(options.collide){

@@ -43,11 +43,33 @@ function RemoveDisplay(displayTuple = null) {
 }
 
 function AddLayer(order = 0, type = 0){
-    createLayer(order, type);
+    addLayer(order, type);
+}
+
+/**
+ * 
+ * options : [
+ *  {
+ *      order : 0,
+ *      type : 1 格式参考tilemap一节
+ *  }
+ * ]
+ */
+function CreateLayersWithData(options = null, onCreatedCallback = null){
+    options = options && options >= 0 ? options : [{}];
+    options.forEach(layerOptions => {
+        let layer = addLayer(
+            layerOptions['order'],
+            layerOptions['type']
+        );
+        if(onCreatedCallback){
+            let displayTupleList = onCreatedCallback();
+        }
+    });
 }
 
 export {
     GetRenderComponent,
     AddDisplay, RemoveDisplay,
-    AddLayer
+    AddLayer, CreateLayersWithData
 }

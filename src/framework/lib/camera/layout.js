@@ -1,10 +1,16 @@
+class NormalCamera extends AbstractCamera {
+    constructor(pos = null, screenOffset = null, width = 0, height = 0){
+        super(pos, screenOffset, width, height);
+    }
+    toCameraPos(pos = null){
+        return ToLocatePos(pos, this.pos);
+    }
+}
 
 const LayoutSingleCamera = 0;
 const LayoutTwinCameraHorizontal = 1;
 const LayoutTwinCameraVertical = 2;
 const LayoutFourCamera = 3;
-
-type = 0, pos = null, screenOffset = null, width = 0, height = 0
 
 /**
  * 单屏
@@ -12,9 +18,8 @@ type = 0, pos = null, screenOffset = null, width = 0, height = 0
  * @param {*} type 
  * @param {*} pos 
  */
-function createSingleCamera(sceen = null, type = 0, pos = null){
-    return newCamera(type, pos, null,
-        GetRectWidth(sceen), GetRectHeight(sceen));
+function createSingleCamera(pos = null, width = 0, height = 0, screenOffset = null){
+    return new NormalCamera(pos, screenOffset, width, height);
 }
 
 /**
@@ -23,7 +28,7 @@ function createSingleCamera(sceen = null, type = 0, pos = null){
  */
 class LeftRightCamera extends AbstractCamera {
     constructor(left = null, right = null){
-        super(pos, screenOffset, width, height);
+        super();
         this.left = left;
         this.right = right;
     }

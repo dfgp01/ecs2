@@ -11,7 +11,7 @@ class DisplayObject {
         this.x = x;
         this.y = y;
     }
-    draw(engine = null){}
+    draw(engine = null, x = 0, y = 0){}
 }
 
 export {

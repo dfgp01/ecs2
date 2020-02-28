@@ -27,10 +27,13 @@ function Draw(displayObject = null, worldPos = null){
 
  /**
   * 获取精灵帧
-  * TODO 可能会改成id形式
+  * TODO 
+  *     可能会改成id形式
+  *     引入默认资源机制，找不到帧时的默认空帧，可以是一张红叉图片，
   */
 function GetSpriteFrame(name = ""){
-    return getSpriteFrameByName(name);
+    let f = getSpriteFrameByName(name);
+    return f ? f : getSpriteFrameByName("defalut");
 }
 
 

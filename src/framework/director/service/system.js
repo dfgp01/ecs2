@@ -8,28 +8,22 @@ import { PushToLink, NewLink, LinkIterator, InsertToLink } from "../../foundatio
  * 主系统列表
  */
 var logicSystems = NewLink();
-var renderSystems = NewLink();
+var renderSystem = null;
 function initSystems(debug = false){
     InsertToLink(logicSystems, GetActionSystem());
     InsertToLink(logicSystems, GetPosUpdateSystem());
-
-    PushToLink(renderSystems, GetRenderUpdateSystem());
-    if(debug){
-        PushToLink(renderSystems, GetDrawRectSystem());
-    }
+    renderSystem = GetRenderUpdateSystem();
 }
 
 var logicTick = 16;     //60fps
 var renderTick = 41;    //24fps
 var _t1 = 0;
 var _t2 = 0;
-function runWithScene(scene){
+function runWithScene(scene = null){
     LinkIterator(logicSystems, system => {
         system.onStart();
     });
-    LinkIterator(renderSystems, system => {
-        system.onStart();
-    });
+    renderSystem.onStart();
     scene.onStart();
 
     //main loop
@@ -46,9 +40,7 @@ function runWithScene(scene){
         _t2 += dt;
         if(_t2 >= renderTick){
             _t2 -= renderTick;
-            LinkIterator(renderSystems, system => {
-                system.onUpdate(dt);
-            });
+            renderSystem.onUpdate(dt);
         }
     });
 }
