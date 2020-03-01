@@ -1,0 +1,22 @@
+################    draft here
+
+2020.03.01
+
+    #用ECS的机制来实现isometric
+    1.新增IsometricPosComponent{x, y}，类似于posCom
+    2.提供相应的IsometricPosSystem，推导出IsometricPosTuple{posCom, isoPosCom}
+    3.每tick只需根据posCom计算isoPosCom
+
+    #单位何时拥有isoPosCom?
+    在配置数据中：
+        layer : { 
+            tilemap : {
+                datas : [1, 1, 3, 2]
+            }
+    在自定义的callback(tag)中，假设"3"对应数据:
+        {render-type: 'isometric-enum'}
+
+    #另一种方案：ViewCom中加入isometrics相关属性：
+        viewCom : { isometricFlag : true }
+        renderTuple : { viewCom, displayObject, pos, offset }
+        renderUpdateSystem中处理，得到isometricPos
