@@ -53,31 +53,72 @@ function CreateTileMapWithData(options = null){
     return tilemap;
 }
 
+/**
+ * 获得grid
+ * @param {*} pos 世界坐标
+ * @param {*} gridmap 
+ */
+function GetGrid(pos = null, gridmap = null){
+    return gridmap.getGrid(pos.x, pos.y);
+}
 
-function IteratorTileMap(tilemap = null, callback = null){
-    IteratorGridmap(tilemap.gridmap, callback);
+
+/**
+ * 基础属性：宽度
+ */
+function GetGridWidth(grid = null){
+    return grid.width;
+}
+function GetHalfGridWidth(grid = null){
+    return GetGridWidth(grid) * 0.5;
+}
+function GetGridMapWidth(gridmap = null){
+    return gridmap.getGridMapWidth();
+}
+function GetHalfGridMapWidth(gridmap = null){
+    return GetGridMapWidth(gridmap) * 0.5;
 }
 
 /**
- * 移动tilemap
+ * 基础属性：高度
  */
-function MoveTilemap(tilemap = null, x = 0, y = 0){
-    let pos = GetTileMapPos(tilemap);
-    pos.x = x;
-    pos.y = y;
+function GetGridHeight(grid = null){
+    return grid.height;
+}
+function GetHalfGridHeight(grid = null){
+    return GetGridHeight(grid) * 0.5;
+}
+function GetGridMapHeight(gridmap = null){
+    return gridmap.getGridMapHeight();
+}
+function GetHalfGridMapHeight(gridmap = null){
+    return GetGridMapHeight(gridmap) * 0.5;
 }
 
 /**
- * 根据目标现在位置，求当前所在的grid的相关坐标点
+ * 获得data
+ * @param {*} pos 世界坐标
+ * @param {*} gridmap 
  */
-function GetTilemapGrid(tilemap = null, targetPos = null){
-    let locatePos = ToLocatePos(targetPos, GetTilemapStart(tilemap));
-    return GetGrid(tilemap.gridmap, locatePos.x, locatePos.y);
+function GetData(pos = null, gridmap = null){
+    let d = GetGrid(pos, gridmap);
+    return d ? d.data : null;
 }
 
-function GetTilemapGridData(tilemap = null, x = 0, y = 0){
-    let locatePos = ToLocatePos(targetPos, GetTilemapStart(tilemap));
-    return GetGridData(tilemap.gridmap, locatePos.x, locatePos.y);
+/**
+ * 遍历
+ * @param {*} gridmap 
+ * @param {*} callback 
+ */
+function GridMapIterator(gridmap = null, callback = null){
+    gridmap.iterator(callback);
 }
 
-export{CreateTileMapWithData, IteratorTileMap, MoveTilemap, GetTilemapGrid, GetTilemapGridData}
+function NewTileMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, x = 0, y = 0){
+    let gridmap = NewGridMap(rows, columns, gridWidth, gridHeight);
+    return new TileMap(gridmap, x, y);
+}
+
+export{
+    CreateTileMapWithData, IteratorTileMap, MoveTilemap, GetTilemapGrid, GetTilemapGridData
+}

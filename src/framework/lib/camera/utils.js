@@ -22,10 +22,17 @@ function CreateCameraWithData(options = null, width = 0, height = 0){
     );
 }
 
-function DrawInCamera(camera = null, engine = null, displayObject = null, unitPos = null){
+/**
+ * 
+ * @param {*} camera 
+ * @param {*} engine 
+ * @param {*} displayObject 
+ * @param {*} pos 世界坐标
+ */
+function DrawInCamera(camera = null, engine = null, displayObject = null, pos = null){
     //TODO in each camera
     //camera.draw(); ==> 包含以下代码
-    let cPos = toLocatePos(unitPos, camera.pos);
+    let cPos = toLocatePos(pos, camera.pos);
     DrawDisplayObject(displayObject, engine, cPos.x, cPos.y);
 }
 
@@ -48,4 +55,8 @@ function CreateCamera(screen = null, type = 0, width = 0, height = 0, pos = null
     pos = pos ? pos : NewPos();
     screenOffset = screenOffset ? screenOffset : NewPos();
     return newCamara(type, pos, screenOffset, width, height);
+}
+
+function GetCameraPosStart(camera = null){
+    return GetRectPosStart(camera.rectPosTuple);
 }

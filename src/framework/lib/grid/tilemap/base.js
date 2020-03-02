@@ -1,3 +1,13 @@
+/**
+  * gridmap的网格单元
+  */
+ class TileGrid extends AbstractGrid {
+    constructor(width = 0, height = 0, data = null, rowIndex = 0, colIndex = 0){
+        super(width, height, data);
+        this.rowIndex = rowIndex;
+        this.colIndex = colIndex;
+    }
+}
 
 /**
  * 2d瓷砖地图，由GridMap扩展
@@ -11,11 +21,26 @@
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 ]
  */
-class TileMap {
-    constructor(gridmap = null, x = 0, y = 0){
-        this.gridmap = gridmap;
-        this.pos = NewPos(x, y);
+class TileMap extends AbstractGridMap {
+    constructor(pos = null, rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, grids = null){
+        super();
+        this.pos = pos;
+        this.rows = rows;
+        this.columns = columns;
+        this.gridWidth = gridWidth;
+        this.gridHeight = gridHeight;
+        this.grids = grids;
     }
+    getData(x = 0, y = 0){}
+    setData(x = 0, y = 0){}
+    getGrid(x = 0, y = 0){}
+    getGridMapWidth(){}
+    getGridMapHeight(){}
+    iterator(callback = null){}
+}
+
+function checkIn(x = 0, y = 0, tilemap = null){
+    return x > 0 && x < tilemap.getGridMapWidth() && y > 0 && y < tilemap.getGridMapHeight();
 }
 
 function NewTileMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, x = 0, y = 0){

@@ -11,18 +11,12 @@ function Clear(){
 
 /**
  * 先不考虑是否在摄像机内了
- * @param {*} displayObject 
- * @param {*} worldPos 
+ * x, y 是世界坐标
+ * @param {*} displayObject
  */
-function Draw(displayObject = null, worldPos = null){
-    //TODO use ToLocatePos
-    DrawInCamera(GetEngine(), displayObject, worldPos);
-
-    //todo 这个很java
-    GetCamera().onDraw(GetEngine(), displayObject, worldPos)
-        getCameraPos(worldPos)
-        displayObject.onDraw(engine, cameraPos)
-            engine.onDrawXXX(graph, cameraPos)
+function Draw(displayObject = null, x = 0, y = 0){
+    //TODO 这个很java
+    DrawInCamera(GetCamera(), GetEngine(), displayObject, x, y);
 }
 
  /**

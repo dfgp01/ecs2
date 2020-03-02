@@ -18,6 +18,7 @@ function Hide(entityId = 0){
 /**
  * 查找渲染显示组件
  * options : {
+ *      isometric : false,
  *      angle : 180,
  *      scale : 0.5
  * }
@@ -32,9 +33,11 @@ function GetRenderComponent(entityId = 0, options = null) {
  * layerOrder = 图层顺序，数值从低到高顺序渲染
  * order = 自己所在图层内的顺序
  */
-function AddDisplay(displayObject = null, unitPos = null, layerOrder = 0, order = 0, offset = null) {
-    let ds = createDisplayTuple(displayObject, unitPos, order, layerOrder, offset);
-    addToLayer(ds)
+function AddDisplay(displayObject = null, entityId = 0, layerOrder = 0, order = 0, offset = null) {
+    let renderCom = GetRenderComponent(entityId);
+    let unitPos = GetPosComponent(entityId).pos;
+    let ds = createDisplayTuple(displayObject, renderCom, unitPos, order, layerOrder, offset);
+    addToLayer(ds);
     return ds;
 }
 
