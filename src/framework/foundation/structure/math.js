@@ -15,10 +15,15 @@ function Min(val1 = 0, val2 = 0){
     return val1 < val2 ? val1 : val2;
 }
 
-function ParseToInt(num = 0){
-    return parseInt(num);
+/**
+ * 之前：x < 0 ? Math.ceil(x) : Math.floor(x)
+ * 现在：Math.trunc(x)
+ * @param {*} num 
+ */
+function GetInt(num = 0){
+    return Math.trunc(num);
 }
 
 export{
-    GetMaxInt, Abs, Max, Min, ParseToInt
+    GetMaxInt, Abs, Max, Min, GetInt
 }

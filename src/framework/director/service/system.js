@@ -1,8 +1,3 @@
-import { GetActionSystem } from "./action";
-import { GetRenderUpdateSystem, GetDrawRectSystem } from "./render";
-import { GetPosUpdateSystem } from "./move";
-import { runTick } from "../../foundation/engine/h5/processor";
-import { PushToLink, NewLink, LinkIterator, InsertToLink } from "../../foundation/structure/link";
 
 /**
  * 主系统列表
@@ -45,11 +40,11 @@ function runWithScene(scene = null){
     });
 }
 
-function AddSystem(system = null){
+function addSystem(system = null){
     if(!system){
         return;
     }
     InsertToLink(logicSystems, system);
 }
 
-export{initSystems, runWithScene, AddSystem}
+export{initSystems, runWithScene, addSystem}

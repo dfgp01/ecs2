@@ -15,41 +15,36 @@ function CreateBitmap(bitmapData = null, width = 0, height = 0){
 }
 
 /**
- * 暂定名
- */
-class Seg {
-    constructor(x = 0, y = 0, width = 0, height = 0){
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-    }
-}
-
-
-/**
  * 一张图中的一个区域，纹理帧或精灵帧，单例，和引擎有关
  * 精灵帧用于标出一张纹理图的指定取材区域，以及相对的显示位置
  */
-class SpriteFrame {
-    constructor(name = "", bitmap = null, seg = null) {
+class SpriteFrame extends Rectangle {
+    constructor(width = 0, height = 0, name = "", bitmap = null, x = 0, y = 0) {
+        super(width, height);
         this.name = name;
         this.bitmap = bitmap;
-        this.seg = seg;
+        this.x = x;
+        this.y = y;
     }
 }
 
 function CreateSpriteFrame(name = "", bitmap = null, x = 0, y = 0, width = 0, height = 0){
-    let f = new SpriteFrame(name, bitmap,
-        new Seg(x, y, width, height));
+    let f = new SpriteFrame(width, height, name, bitmap, x, y);
     return f;
 }
 
-function GetSpriteFrameWidth(spriteFrame = null){
-    return spriteFrame.seg.width;
+/**
+ * spriteFrame开始绘制的坐标，左上角开始，与pos无关
+ * @param {*} spriteFrame 
+ */
+function GetSpriteFrameX(spriteFrame = null){
+    return spriteFrame.x;
 }
-function GetSpriteFrameHeight(spriteFrame = null){
-    return spriteFrame.seg.height;
+function GetSpriteFrameY(spriteFrame = null){
+    return spriteFrame.y;
 }
 
-export{CreateBitmap, CreateSpriteFrame, GetSpriteFrameWidth, GetSpriteFrameHeight}
+export{
+    CreateBitmap, CreateSpriteFrame, 
+    GetSpriteFrameX, GetSpriteFrameY
+}

@@ -1,7 +1,7 @@
-/**
- * TODO
- * TilemapLayer, IsoMetricTilemapLayer
- */
+
+function IteratorGridmap(gridmap = null, callback = null){
+    gridmap.iterator(callback);
+}
 
 /**
  * tilemap = gridmap + pos
@@ -26,97 +26,39 @@
  *      onCreate : func
  * }
  */
-function CreateTileMapWithData(options = null){
+function CreateTileMapWithData(options = null, onCreate = null){
     //默认值
-    options = options ? options : {};
-    options.data = options.data || options.data.length > 0 ? options.data : [0];
-    options.columns = options.columns ? options.columns : 1;
-    options.gridWidth = options.gridWidth && options.gridWidth > 0 ? options.gridWidth : 32;
-    options.gridHeight = options.gridHeight && options.gridHeight > 0 ? options.gridHeight : 32;
+    defaultTileMapData(options);
     
     //验证tilemap数据完整性
     let columns = options.columns;
-    let rows = parseInt(options.data.length / columns);
+    let rows = GetInt(options.data.length / columns);
     if(rows * columns != options.data.length){
         console.error("error param: len(grids): %d, columns: %d", options.data.length, columns);
         return null;
     }
-
     let tilemap = NewTileMap(
-        rows, columns, options.gridWidth, options.gridHeight, options.x, options.y);
-    if(options.onCreate){
-        IteratorGridmap(tilemap.gridmap, grid => {
+        rows, columns, options.gridWidth, options.gridHeight, NewPos(options.x, options.y));
+    if(onCreate){
+        IteratorGridmap(tilemap, grid => {
             let val = options.data[grid.rowIndex * columns + grid.colIndex];
-            options.onCreate(val, tilemap, grid);
+            onCreate(val, tilemap, grid);
         });
     }
     return tilemap;
 }
 
-/**
- * 获得grid
- * @param {*} pos 世界坐标
- * @param {*} gridmap 
- */
-function GetGrid(pos = null, gridmap = null){
-    return gridmap.getGrid(pos.x, pos.y);
-}
-
-
-/**
- * 基础属性：宽度
- */
-function GetGridWidth(grid = null){
-    return grid.width;
-}
-function GetHalfGridWidth(grid = null){
-    return GetGridWidth(grid) * 0.5;
-}
-function GetGridMapWidth(gridmap = null){
-    return gridmap.getGridMapWidth();
-}
-function GetHalfGridMapWidth(gridmap = null){
-    return GetGridMapWidth(gridmap) * 0.5;
-}
-
-/**
- * 基础属性：高度
- */
-function GetGridHeight(grid = null){
-    return grid.height;
-}
-function GetHalfGridHeight(grid = null){
-    return GetGridHeight(grid) * 0.5;
-}
-function GetGridMapHeight(gridmap = null){
-    return gridmap.getGridMapHeight();
-}
-function GetHalfGridMapHeight(gridmap = null){
-    return GetGridMapHeight(gridmap) * 0.5;
-}
-
-/**
- * 获得data
- * @param {*} pos 世界坐标
- * @param {*} gridmap 
- */
-function GetData(pos = null, gridmap = null){
-    let d = GetGrid(pos, gridmap);
-    return d ? d.data : null;
-}
-
-/**
- * 遍历
- * @param {*} gridmap 
- * @param {*} callback 
- */
-function GridMapIterator(gridmap = null, callback = null){
-    gridmap.iterator(callback);
-}
-
-function NewTileMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, x = 0, y = 0){
-    let gridmap = NewGridMap(rows, columns, gridWidth, gridHeight);
-    return new TileMap(gridmap, x, y);
+function defaultTileMapData(options = null){
+    options = Object.assign({
+        columns : 1,
+        gridWidth : 32,
+        gridHeight : 32,
+        x : 0,
+        y : 0,
+        data : [0]
+    }, options);
+    options.gridWidth = options.gridWidth > 0 ? options.gridWidth : 32;
+    options.gridHeight = options.gridHeight > 0 ? options.gridHeight : 32;
 }
 
 export{

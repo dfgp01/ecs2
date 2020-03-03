@@ -17,10 +17,21 @@
 
 class MyScene {
     onStart(){
-
+        drawTile();
     }
     onUpdate(dt = 0){
+        //drawTile();
     }
+}
+
+function drawTile(){
+    let tilemap = GetData("tile1");
+    IteratorGridMap(tilemap, grid => {
+        let pos = GetTileGridCenter(grid);
+        let halfWidth = GetGridHalfWidth(grid);
+        let width = GetGridWidth(grid);
+        DrawRect(pos, width, width);
+    });
 }
 
 (function (){

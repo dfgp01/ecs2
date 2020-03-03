@@ -29,9 +29,9 @@ function getRenderComponent(entityId = 0){
  *  需要设计机制避免滥用问题
  */
 class DisplayTuple extends GameObject {
-    constructor(displayObject = null, renderCom = null, unitPos = null, order = 0, layerOrder = 0, offset = null){
+    constructor(spriteFrame = null, renderCom = null, unitPos = null, order = 0, layerOrder = 0, offset = null){
         super();
-        this.displayObject = displayObject;
+        this.spriteFrame = spriteFrame;
         this.renderCom = renderCom;
         this.unitPos = unitPos;
         this.order = order;

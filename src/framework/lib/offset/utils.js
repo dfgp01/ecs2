@@ -1,51 +1,15 @@
 
-/**
- * 矩形与位置的关系元件
- */
-class RectPosTuple extends PosOffsetTuple {
-    constructor(posCom = null, offset = null, rect = null){
-        super(posCom, offset);
-        this.rect = rect;
-    }
-    constructor(posCom = null, offset = null){
-        super();
-        this.posCom = posCom;
-        this.offset = offset;
-    }
-}
-
 function NewRectPosTuple(entityId = 0, xOffset = 0, yOffset = 0, rect = null) {
     let posCom = GetPosComponent(entityId);
     return new RectPosTuple(posCom, NewVec(xOffset, yOffset), rect);
 }
 
-function GetRect(rectPosTuple = null){
-    return rectPosTuple.rect;
-}
 
-function GetRectPosCenter(rectPosTuple = null){
-    return NewPos(
-        rectPosTuple.unitPos.x + rectPosTuple.offset.x,
-        rectPosTuple.unitPos.y + rectPosTuple.offset.y,
-    );
+function NewDisplayTuple(entityId = 0, xOffset = 0, yOffset = 0, spriteFrame = null, order = 0, layerOrder = 0){
+    let posCom = GetPosComponent(entityId);
+    let renderCom = GetRenderComponent(entityId);
+    return new DisplayTuple(posCom, NewVec(xOffset, yOffset), spriteFrame, renderCom, order, layerOrder);
 }
-
-function GetRectPosStart(rectPosTuple = null){
-    let pos = GetRectPosCenter(rectPosTuple);
-    return NewPos(
-        pos.x - GetRectHalfWidth(rectPosTuple.rect),
-        pos.y - GetRectHalfHeight(rectPosTuple.rect)
-    );
-}
-
-function GetRectPosEnd(rectPosTuple = null){
-    let pos = GetRectPosCenter(rectPosTuple);
-    return NewPos(
-        pos.x + GetRectHalfWidth(rectPosTuple.rect),
-        pos.y + GetRectHalfHeight(rectPosTuple.rect)
-    );
-}
-
 
 /**
  * 目前的机制，可以使用矩形中心点之间的距离判断是否相交
@@ -203,80 +167,4 @@ function IsPosInRect(pos = null, rectPosTuple = null){
 export{
     NewRectPosTuple, UpdateRectPosOffset, GetRectPosOffset, GetRectUnitPos, GetRectUnitVec, GetRect, GetRectPosCenter, GetRectPosStart, GetRectPosEnd,
     NewInnerRect, IsRectsCross, IsRectsCrossWithVec, FixUnitPos, FixUnitVec, FixRectPos, FixInRect, IsPosInRect
-}
-
-
-//----------------- 以下待定
-
-/**
- * 根据线段作矩形
- */
-function NewOutterRect(x1 = 0, y1 = 0, x2 = 0, y2 = 0){
-    let width = x2 - x1;
-    let height = y2 - y1;
-    if(width <= 0 || height <= 0){
-        return null;
-    }
-    let centerX = x1 + (x2 - x1) * 0.5;
-    let centerY = y1 + (y2 - y1) * 0.5;
-    let rect = NewRectDefault(width, height);
-    UpdateRectPos(rect, centerX, centerY);
-    return rect;
-}
-
-/**
- * 两个矩形间的外接矩形
- */
-function NewOutterRectByRects(rect1 = null, rect2 = null){
-    let r1x1 = GetRectX1(rect1);
-    let r2x1 = GetRectX1(rect2);
-    let x1 = r1x1 < r2x1 ? r1x1 : r2x1;
-    let r1x2 = GetRectX2(rect1);
-    let r2x2 = GetRectX2(rect2);
-    let x2 = r1x2 > r2x2 ? r1x2 : r2x2;
-
-    let r1y1 = GetRectY1(rect1);
-    let r2y1 = GetRectY1(rect2);
-    let y1 = r1y1 < r2y1 ? r1y1 : r2y1;
-    let r1y2 = GetRectY2(rect1);
-    let r2y2 = GetRectY2(rect2);
-    let y2 = r1y2 > r2y2 ? r1y2 : r2y2;
-
-    return NewOutterRect(x1, y1, x2, y2);
-}
-
-
-/**
- * 矩形排斥，targetRect会被blockRect弹出去
- * TODO，以后完善注释
- */
-function FixExcludeRect(blockRect = null, targetRect = null){
-    let pos1 = blockRect.pos;
-    let pos2 = targetRect.pos;
-    //计算关系，上下左右
-    let vx = pos1.x - pos2.x;
-    let vy = pos1.y - pos2.y;
-    let x = vx < 0 ? vx*-1 : vx;
-    let y = vy < 0 ? vy*-1 : vy;
-    if(x > y){
-        //左右
-        if(vx > 0){
-            //rect2在左
-            pos2.x = blockRect.posStart.x - targetRect.width - targetRect.xOffset;
-        }else{
-            //rect2在右
-            pos2.x = blockRect.posEnd.x - targetRect.xOffset;
-        }
-    }else{
-        //上下
-        if(vy > 0){
-            //rect2在上
-            pos2.y = blockRect.posStart.y - targetRect.height - targetRect.yOffset;
-        }
-        else{
-            //rect2在下
-            pos2.y = blockRect.posEnd.y - targetRect.yOffset;
-        }
-    }
-    UpdateRect(targetRect);
 }

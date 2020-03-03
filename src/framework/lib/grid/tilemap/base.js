@@ -2,7 +2,7 @@
   * gridmap的网格单元
   */
  class TileGrid extends AbstractGrid {
-    constructor(width = 0, height = 0, data = null, rowIndex = 0, colIndex = 0){
+    constructor(width = 0, height = 0, rowIndex = 0, colIndex = 0, data = null){
         super(width, height, data);
         this.rowIndex = rowIndex;
         this.colIndex = colIndex;
@@ -31,45 +31,75 @@ class TileMap extends AbstractGridMap {
         this.gridHeight = gridHeight;
         this.grids = grids;
     }
-    getData(x = 0, y = 0){}
-    setData(x = 0, y = 0){}
-    getGrid(x = 0, y = 0){}
-    getGridMapWidth(){}
-    getGridMapHeight(){}
-    iterator(callback = null){}
+
+    getData(pos = null){
+        let grid = getGridWithPos(pos, this);
+        return grid ? grid.data : null;
+    }
+    setData(pos = null, data = null){
+        let grid = getGridWithPos(pos, this);
+        if(grid){
+            grid.data = data;
+        }
+    }
+    getGrid(pos = null){
+        return getGridWithPos(pos, this);
+    }
+    getGridMapWidth(){
+        return this.columns * this.gridWidth;
+    }
+    getGridMapHeight(){
+        return this.rows * this.gridHeight;
+    }
+    iterator(callback = null){
+        this.grids.forEach(grid => {
+            callback(grid);
+        });
+    }
 }
 
 function checkIn(x = 0, y = 0, tilemap = null){
     return x > 0 && x < tilemap.getGridMapWidth() && y > 0 && y < tilemap.getGridMapHeight();
 }
 
-function NewTileMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, x = 0, y = 0){
-    let gridmap = NewGridMap(rows, columns, gridWidth, gridHeight);
-    return new TileMap(gridmap, x, y);
+function getGridWithPos(pos = null, tilemap = null){
+    let tPos = ToLocatePos(pos, tilemap.pos);
+    if(!checkIn(tPos.x, tPos.y, tilemap)){
+        return null;
+    }
+    let column = GetInt(gPos.x / gridmap.gridWidth);
+    let row = GetInt(gPos.y / gridmap.gridHeight);
+    return gridmap.grids[row * gridmap.columns + column];
 }
 
-function GetGridMap(tilemap = null){
-    return tilemap.gridmap;
+function NewTileMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, pos = null){
+    let grids = [];
+    for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
+        for (let colIndex = 0; colIndex < columns; colIndex++) {
+            grids.push(new TileGrid(gridWidth, gridHeight, rowIndex, colIndex));
+        }
+    }
+    pos = pos ? pos : NewPos();
+    return new TileMap(pos, rows, columns, gridWidth, gridHeight, grids);
 }
 
-function GetTileMapPos(tilemap = null){
-    return tilemap.pos;
-}
 
+/**
+ * 基础坐标
+ * @param {*} tilemap 
+ */
 function GetTilemapStart(tilemap = null){
     return NewPos(
-        tilemap.pos.x - GetHalfGridMapWidth(tilemap.gridmap),
-        tilemap.pos.y - GetHalfGridMapHeight(tilemap.gridmap)
+        tilemap.pos.x - GetHalfGridMapWidth(tilemap),
+        tilemap.pos.y - GetHalfGridMapHeight(tilemap)
     );
 }
-
 function GetTilemapEnd(tilemap = null){
     return NewPos(
-        tilemap.pos.x + GetHalfGridMapWidth(tilemap.gridmap),
-        tilemap.pos.y + GetHalfGridMapHeight(tilemap.gridmap)
+        tilemap.pos.x + GetHalfGridMapWidth(tilemap),
+        tilemap.pos.y + GetHalfGridMapHeight(tilemap)
     );
 }
-
 function GetTilemapCenter(tilemap = null){
     return NewPos(tilemap.pos.x, tilemap.pos.y);
 }
@@ -81,26 +111,25 @@ function GetGridStart(tilemap = null, grid = null){
         start.y + GetGridHeight(tilemap.gridmap) * grid.rowIndex
     );
 }
-
 function GetGridEnd(tilemap = null, grid = null){
     let start = GetTilemapStart(tilemap);
     return NewPos(
-        start.x + GetGridWidth(tilemap.gridmap) * (grid.colIndex + 1),
-        start.y + GetGridHeight(tilemap.gridmap) * (grid.rowIndex + 1)
+        start.x + tilemap.gridWidth * (grid.colIndex + 1),
+        start.y + tilemap.gridHeight * (grid.rowIndex + 1)
     );
 }
-
 function GetGridCenter(tilemap = null, grid = null){
     let start = GetTilemapStart(tilemap);
     return NewPos(
-        start.x + GetGridWidth(tilemap.gridmap) * (grid.colIndex + 0.5),
-        start.y + GetGridHeight(tilemap.gridmap) * (grid.rowIndex + 0.5)
+        start.x + tilemap.gridWidth * (grid.colIndex + 0.5),
+        start.y + tilemap.gridHeight * (grid.rowIndex + 0.5)
     );
 }
 
 export {
-    NewTileMap, GetTilemapStart, GetTilemapEnd, GetTilemapCenter, 
-    GetGridWithPos, GetGridStart, GetGridEnd, GetGridCenter
+    NewTileMap, 
+    GetTilemapStart, GetTilemapEnd, GetTilemapCenter, 
+    GetGridStart, GetGridEnd, GetGridCenter
 }
 
 /**

@@ -89,17 +89,13 @@ function initGame(options = null) {
     screenHeight = screenHeight && screenHeight > 0 ? screenHeight : 800;
 
     //摄像机
-    SetCamera(
-        CreateCameraWithData(options['camera'], screenWidth, screenHeight)
-    )
+    setDefaultCamera(
+        CreateCameraWithData(options['camera'], screenWidth, screenHeight));
 
     //引擎
-    SetEngine(
+    setEngine(
         CreateEngineWithData(options['engine'], screenWidth, screenHeight));
-
-    //舞台图层，瓷砖地图等
-    CreateLayersWithData(options['layers']);
-
+    
     //系统
     initSystems(options['debug']);
 
@@ -114,4 +110,35 @@ function initGame(options = null) {
         //     });
         // }
     }
+
+    //自定义数据等
+    initDatas(options['datas']);
+}
+
+
+/**
+ * TODO 临时方法，以后优化
+ * @param {*} options 
+ */
+function initDatas(datas = null){
+    if(!datas || datas.length == 0){
+        return;
+    }
+    datas.forEach(data => {
+        initDataObj(data);
+    });
+}
+function initDataObj(options = null){
+    let dataObj = null;
+    if(options['tilemap']){
+        dataObj = CreateTileMapWithData(options['tilemap']);
+    }
+    let name = options['name'];
+    if(name){
+        setDataByName(name, dataObj);
+    }
+}
+
+export{
+    loadResource, initGame
 }

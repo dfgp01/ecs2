@@ -1,5 +1,3 @@
-import { initGame } from "../world/res";
-import { runWithScene } from "../system/run";
 
 /**
  * options {
@@ -44,13 +42,38 @@ function Start(options = null, scene = null){
 }
 
 function Stop(){
-    GetScene().onEnd();
+    getScene().onEnd();
+    //stopSystems();
     GetSystems().forEach(system => {
         system.onEnd();
     });
-    engine.Stop();
+    StopEngine(getEngine());
+}
+
+
+/**
+ * 获取精灵帧
+ * TODO 
+ * 可能会改成id形式
+ * 引入默认资源机制，找不到帧时的默认空帧，可以是一张红叉图片，
+ */
+function GetSpriteFrame(name = ""){
+    let f = getSpriteFrameByName(name);
+    return f ? f : getSpriteFrameByName("defalut");
+}
+
+/**
+ * 自定义数据
+ * @param {*} name 
+ */
+function GetData(name = ""){
+    return getDataByName(name);
+}
+function SetData(name = "", data = null){
+    setDataByName(name, data);
 }
 
 export {
-    Start, Stop
+    Start, Stop, GetSpriteFrame,
+    GetData, SetData
 }

@@ -1,14 +1,4 @@
 
-var currEngine = null;
-
-function SetEngine(engineObj = null){
-    currEngine = engineObj;
-}
-
-function GetEngine(){
-    return currEngine;
-}
-
 /**
  * 外部引擎抽象类
  * x, y 都是屏幕坐标，注意
@@ -43,5 +33,5 @@ class AbstractEngine {
 }
 
 export {
-    SetEngine, GetEngine, AbstractEngine
+    AbstractEngine
 }
