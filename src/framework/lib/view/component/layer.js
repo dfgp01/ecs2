@@ -13,27 +13,36 @@ class Layer {
 var layerList = NewLink();
 function addLayer(order = 0){
     let layer = new Layer(order);
-    InsertData(layerList, layer);
+    InsertToList(layerList, layer);
     return layer;
 }
 
-function getLayer(order = 0){
-    let layer = GetData(layerList, order);
+function GetLayer(order = 0){
+    let layer = GetListData(layerList, order);
     if(!layer){
         layer = addLayer(order);
     }
     return layer;
 }
 
-function addToLayer(displayTuple = null){
-    let layer = getLayer(displayTuple.layerOrder);
-    InsertData(layer.list, displayTuple, displayTuple.order);
+function GetLayerList(){
+    return layerList;
 }
 
-function removeFromLayer(displayTuple = null){
-    let layer = getLayer(displayTuple.order);
-    if(!layer){
-        return;
-    }
-    ShiftData(layer.list, displayTuple.id);
+function GetLayerDataList(layer = null){
+    return layer.list;
+}
+
+function AddToLayer(displayTuple = null){
+    let layer = GetLayer(displayTuple.layerOrder);
+    InsertToList(layer.list, displayTuple, displayTuple.order);
+}
+
+function RemoveFromLayer(displayTuple = null){
+    let layer = GetLayer(displayTuple.order);
+    RemoveFromList(layer.list, displayTuple.id);
+}
+
+export {
+    GetLayer, GetLayerList, GetLayerDataList, AddToLayer, RemoveFromLayer
 }

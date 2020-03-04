@@ -27,3 +27,11 @@
     #Gridmap改造
         gridMap的定位，是一个二元容器，扩展用法有tilemap, quadtree等
         因此抽象方法：setData, getData, getGrid等
+
+2020.03.04
+
+    #rect, pos, offset的关系架构问题
+        方案1：定义一个基类：PosOffsetTuple，子类为：RectPosTuple, DisplayTuple等
+            这样，在计算rect-cross时，直接使用本对象即可
+        方案2：PosOffsetTuple（子类RectPosTuple）, 只是作为VO类，被其他元件拥有，如Collider, DisplayTuple等
+        思考：方案1会回到OOP的怪圈中

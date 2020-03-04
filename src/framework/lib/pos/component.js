@@ -1,32 +1,49 @@
-import { NewPos, NewVec } from "../../foundation/geometric/point";
-import { PushToLink, GetLinkData, NewLink, RemoveByKeyId } from "../../foundation/structure/link";
-import { Component } from "../../foundation/structure/ecs";
+import { AddToList, GetListData, RemoveFromList } from "../../foundation/container/list";
 
 /**
  * 位置组件
  */
 class PosComponent extends Component {
-    constructor(entityId = 0, x = 0, y = 0){
+    constructor(entityId = 0, pos = null){
         super(entityId);
-        this.pos = NewPos(x, y);
+        this.pos = pos;
         this.vec = NewVec();
     }
 }
 
 var posComs = NewLink();
 function createPosComponent(entityId = 0) {
-    let com = new PosComponent(entityId);
-    PushToLink(posComs, com);
+    let com = new PosComponent(entityId, NewPos());
+    AddToList(posComs, com);
     return com;
 }
 
 function GetPosComponent(entityId = 0) {
-    let com = GetLinkData(posComs, entityId);
+    let com = GetListData(posComs, entityId);
     return com ? com : createPosComponent(entityId);
 }
 
 function RemovePosComponent(entityId = 0){
-    RemoveByKeyId(posComs, entityId);
+    RemoveFromList(posComs, entityId);
 }
 
-export{ GetPosComponent, RemovePosComponent}
+function GetUnitPos(entityId = 0){
+    return GetPosComponent(entityId).pos;
+}
+
+function SetUnitPos(entityId = 0, x = 0, y = 0){
+    UpdatePos(GetUnitPos(entityId), x, y);
+}
+
+function GetUnitVec(entityId = 0){
+    return GetPosComponent(entityId).vec;
+}
+
+function SetUnitVec(entityId = 0, x = 0, y = 0){
+    UpdateVec(GetUnitVec(entityId), x, y);
+}
+
+export{ 
+    GetPosComponent, RemovePosComponent,
+    GetUnitPos, SetUnitPos, GetUnitVec, SetUnitVec
+}

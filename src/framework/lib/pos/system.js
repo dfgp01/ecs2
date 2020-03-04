@@ -1,6 +1,3 @@
-import { System } from "../../foundation/structure/ecs";
-import { LinkIterator } from "../../foundation/structure/link";
-import { GetMoverList } from "../../component/pos/utils";
 
 /**
  * 2019.09.29

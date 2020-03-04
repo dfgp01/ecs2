@@ -56,4 +56,4 @@ class System {
     onEnd(){}
 }
 
-export {GameObject, Component, System}
+export {NewEntityId, GameObject, Component, System}

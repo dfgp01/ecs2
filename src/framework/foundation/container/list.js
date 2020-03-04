@@ -12,20 +12,13 @@ class AbstractList {
     insert(data = null, order = 0){}    //插入到指定顺序，相同order间的先后顺序看具体实现逻辑
     pop(){}               //移除头部元素
     pull(){}              //移除尾部元素
-    shift(id = 0){}      //根据id移除
+    remove(id = 0){}      //根据id移除
     iterator(callback = null){}
     iteratorReverse(callback = null){}
     iteratorCompare(callback = null){}
 }
 
-/**
- * ########### 工厂方法
- */
-function NewLink(){
-    return new LinkList();
-}
-
-function GetData(list = null, id = 0, required = false){
+function GetListData(list = null, id = 0, required = false){
     let data = list.get(id);
     if(!data && required){
         console.error("can't find keyId: ", id);
@@ -33,15 +26,15 @@ function GetData(list = null, id = 0, required = false){
     return data;
 }
 
-function GetFirst(list = null){
+function GetListFirst(list = null){
     return list.first();
 }
 
-function GetLast(list = null){
+function GetListLast(list = null){
     return list.last();
 }
 
-function GetSize(list = null){
+function GetListSize(list = null){
     return list.size();
 }
 
@@ -51,7 +44,7 @@ function checkAdd(list = null, data = null){
         return false;
     }
     //不能重复添加
-    let d = GetData(list, id);
+    let d = GetListData(list, id);
     if(d){
         console.error("error id:%d is exist", id);
         return false;
@@ -59,38 +52,67 @@ function checkAdd(list = null, data = null){
     return true;
 }
 
-function AddData(list = null, data = null){
+/**
+ * 尾部追加
+ * @param {*} list 
+ * @param {*} data 
+ */
+function AddToList(list = null, data = null){
     if(checkAdd(list, data)){
         list.add(data);
     }
 }
 
-function PushData(list = null, data = null){
+/**
+ * 头部追加
+ * @param {*} list 
+ * @param {*} data 
+ */
+function PushToList(list = null, data = null){
     if(checkAdd(list, data)){
         list.push(data);
     }
 }
 
-function InsertData(list = null, data = null, order = 0){
+/**
+ * 根据顺序号插入
+ * @param {*} list 
+ * @param {*} data 
+ * @param {*} order 
+ */
+function InsertToList(list = null, data = null, order = 0){
     if(checkAdd(list, data)){
         list.insert(data, order);
     }
 }
 
-function PopData(list = null){
+/**
+ * 头部移除
+ * @param {*} list 
+ */
+function PopFromList(list = null){
     list.pop();
 }
 
-function PullData(list = null){
+/**
+ * 尾部移除
+ * @param {*} list 
+ */
+function PullFromList(list = null){
     list.pull();
 }
 
-function ShiftData(list = null, id = 0){
-    list.shift(id);
+/**
+ * 根据id移除
+ * @param {*} list 
+ * @param {*} id 
+ */
+function RemoveFromList(list = null, id = 0){
+    list.remove(id);
 }
 
 /**
- * 
+ * 正向遍历
  * @param {*} list 
  * @param {*} callback func(data){ return bool} 若bool=true，则终止遍历
  */
@@ -102,6 +124,11 @@ function ListIterator(list = null, callback = null){
     list.iterator(callback);
 }
 
+/**
+ * 反向遍历
+ * @param {*} list 
+ * @param {*} callback 
+ */
 function ListIteratorReverse(list = null, callback = null){
     if(!list || !callback) {
         //log here
@@ -111,9 +138,9 @@ function ListIteratorReverse(list = null, callback = null){
 }
 
 /**
- * 
+ * 内部依次对比
  * @param {*} list 
- * @param {*} callback func(data1, data2) 若bool=true，则终止遍历
+ * @param {*} callback func(data1, data2) return bool 若bool=true，则终止遍历
  */
 function ListIteratorCompare(list = null, callback = null){
     if(!link || !callback) {
@@ -125,7 +152,7 @@ function ListIteratorCompare(list = null, callback = null){
 
 export {
     AbstractList, NewLink,
-    GetData, GetFirst, GetLast, GetSize, 
-    AddData, PushData, InsertData, PopData, PullData, ShiftData, 
+    GetListData, GetListFirst, GetListLast, GetListSize, 
+    AddToList, PushToList, InsertToList, PopFromList, PullFromList, RemoveFromList,
     ListIterator, ListIteratorReverse, ListIteratorCompare
 }

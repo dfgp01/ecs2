@@ -1,3 +1,5 @@
+import { GetRealPos } from "../../../foundation/offset/base";
+
 /**
  * 显示组件，包含一些显示参数
  */
@@ -24,26 +26,67 @@ function getRenderComponent(entityId = 0){
 }
 
 /**
+ * 查找渲染显示组件，暂时这样搞
+ * options : {
+ *      isometric : false,
+ *      angle : 180,
+ *      scale : 0.5
+ * }
+ */
+function GetRenderComponent(entityId = 0, options = null) {
+    let com = getRenderComponent(entityId);
+    return com ? com : createRenderComponent(entityId, options);
+}
+
+/**
  * 显示元件
  *  和entity关系不大，一个entity可以拥有大于一个DisplayTuple
  *  需要设计机制避免滥用问题
  */
 class DisplayTuple extends GameObject {
-    constructor(spriteFrame = null, renderCom = null, unitPos = null, order = 0, layerOrder = 0, offset = null){
+    constructor(spriteFrame = null, renderCom = null, rectPosRel = null, order = 0, layerOrder = 0){
         super();
         this.spriteFrame = spriteFrame;
         this.renderCom = renderCom;
-        this.unitPos = unitPos;
+        this.rectPosRel = rectPosRel;
         this.order = order;
         this.layerOrder = layerOrder;
-        this.offset = offset;           //显示时的偏移量，和worldPos无关
-        this.isoX = 0;
-        this.isoY = 0;
+        this.isoPos = NewPos();
     }
 }
 
-function createDisplayTuple(displayObject = null, renderCom = null, unitPos = null, order = 0, layerOrder = 0, offset = null){
-    //默认值
-    offset = offset ? offset : NewPos();
-    return new DisplayTuple(displayObject, renderCom, unitPos, order, layerOrder, offset);
+function NewDisplayer(entityId = 0, spriteFrame = null, offset = null, order = 0, layerOrder = 0){
+    let renderCom = GetRenderComponent(entityId);
+    let rp = NewRectPosRelation(entityId, offset, GetSpriteFrameRect(spriteFrame));
+    let ds = new DisplayTuple(spriteFrame, renderCom, rp, order, layerOrder);
+}
+
+function IsDisplayISOmetrics(displayer = null){
+    return displayer.renderCom.isometrics;
+}
+
+function GetDisplaySpriteFrame(displayer = null){
+    return displayer.spriteFrame;
+}
+
+function GetDisplayCenterPos(displayer = null){
+    return GetRealPos(displayer.rectPosRel);
+}
+
+function GetDisplayIsoPos(displayer = null){
+    return displayer.isoPos;
+}
+
+function UpdateIsoPos(displayer = null){
+    let pos = GetPos(displayTuple.rectPosRel);
+    let offset = GetOffset(displayTuple.rectPosRel);
+    UpdatePos(displayer.isoPos,
+        (pos.x - pos.y) * 0.5 + offset.x,
+        (pos.x + pos.y) * 0.5 + offset.y);
+}
+
+export {
+    GetRenderComponent, NewDisplayer, 
+    IsDisplayISOmetrics, GetDisplaySpriteFrame, GetDisplayCenterPos,
+    GetDisplayIsoPos, UpdateIsoPos
 }

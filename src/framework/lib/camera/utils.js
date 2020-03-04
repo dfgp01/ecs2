@@ -16,47 +16,16 @@ function CreateCameraWithData(options = null, width = 0, height = 0){
         datas : [{x : 0, y : 0}]
     };
     //TODO
-    return NewCamera(
-        options['x'], options['y'],
-        width, height
-    );
+    let c = options.datas[0];
+    return NewCamera(c['x'], c['y'], width, height);
 }
 
-/**
- * 
- * @param {*} camera 
- * @param {*} engine 
- * @param {*} displayObject 
- * @param {*} pos 世界坐标
- */
-function DrawInCamera(camera = null, engine = null, displayObject = null, pos = null){
-    //TODO in each camera
-    //camera.draw(); ==> 包含以下代码
-    let cPos = toLocatePos(pos, camera.pos);
-    DrawDisplayObject(displayObject, engine, cPos.x, cPos.y);
+function ToCameraStartPos(camera = null, pos = null){
+    return ToLocatePos(
+        pos, GetCameraStart(camera));
 }
 
-//-------------------- 下面是旧的，步子不要扯太大
-
-function CreateCameraWithData(options = null, screen = null){
-    options = options || {};
-    let pos = NewPos(options['x'], options['y']);
-    let screenOffset = NewPos(options['offset-x'], options['offset-y']);
-    return CreateCamera(screen, 
-        options['type'], options['width'], options['height'],
-        pos, screenOffset);
-}
-
-function CreateCamera(screen = null, type = 0, width = 0, height = 0, pos = null, screenOffset = null){
-    let sWidth = GetRectWidth(screen);
-    let sHeight = GetRectHeight(screen);
-    width = width <= 0 || width > sWidth ? sWidth : width;
-    height = height <= 0 || height > sHeight ? sHeight : height;
-    pos = pos ? pos : NewPos();
-    screenOffset = screenOffset ? screenOffset : NewPos();
-    return newCamara(type, pos, screenOffset, width, height);
-}
-
-function GetCameraPosStart(camera = null){
-    return GetRectPosStart(camera.rectPosTuple);
+export {
+    CreateCameraWithData,
+    ToCameraStartPos
 }

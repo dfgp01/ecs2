@@ -2,21 +2,16 @@
 /**
  * 矩形与位置的关系元件
  */
-class RectPosTuple extends PosOffsetTuple {
+class RectPosRelation extends PosOffsetRelation {
     constructor(posCom = null, offset = null, rect = null){
         super(posCom, offset);
         this.rect = rect;
     }
-    constructor(posCom = null, offset = null){
-        super();
-        this.posCom = posCom;
-        this.offset = offset;
-    }
 }
 
-function NewRectPosTuple(entityId = 0, xOffset = 0, yOffset = 0, rect = null) {
-    let posCom = GetPosComponent(entityId);
-    return new RectPosTuple(posCom, NewVec(xOffset, yOffset), rect);
+function NewRectPosRelation(pos = null, offset = null, rect = null){
+    offset = offset ? offset : NewVec();
+    return new RectPosRelation(pos, offset, rect);
 }
 
 function GetRect(rectPosTuple = null){
@@ -24,10 +19,7 @@ function GetRect(rectPosTuple = null){
 }
 
 function GetRectPosCenter(rectPosTuple = null){
-    return NewPos(
-        rectPosTuple.unitPos.x + rectPosTuple.offset.x,
-        rectPosTuple.unitPos.y + rectPosTuple.offset.y,
-    );
+    return GetRealPos(rectPosTuple);
 }
 
 function GetRectPosStart(rectPosTuple = null){
@@ -64,6 +56,11 @@ function IsRectsCross(rectPosTuple1 = null, rectPosTuple2 = null){
     return true;
 }
 
+/**
+ * TODO 需重新设计
+ * @param {*} rectPosTuple1 
+ * @param {*} rectPosTuple2 
+ */
 function IsRectsCrossWithVec(rectPosTuple1 = null, rectPosTuple2 = null) {
     let rp1 = GetRectPosCenter(rectPosTuple1);
     let pos1 = NewPos(
@@ -200,10 +197,11 @@ function IsPosInRect(pos = null, rectPosTuple = null){
         && pos.y >= startPos.y && pos.y <= endPos.y;
 }
 
-export{
-    NewRectPosTuple, UpdateRectPosOffset, GetRectPosOffset, GetRectUnitPos, GetRectUnitVec, GetRect, GetRectPosCenter, GetRectPosStart, GetRectPosEnd,
-    NewInnerRect, IsRectsCross, IsRectsCrossWithVec, FixUnitPos, FixUnitVec, FixRectPos, FixInRect, IsPosInRect
+export {
+    NewRectPosRelation, GetRect, GetRectPosCenter, GetRectPosStart, GetRectPosEnd,
+    IsRectsCross, IsPosInRect
 }
+
 
 
 //----------------- 以下待定

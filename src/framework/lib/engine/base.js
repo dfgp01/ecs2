@@ -16,7 +16,7 @@ class AbstractEngine {
     drawFrame(x = 0, y = 0, spriteFrame = null){}
 
     //画矩形
-    drawRect(x = 0, y = 0, width = 0, height = 0){}
+    drawRect(x = 0, y = 0, rect = null){}
 
     //画线段
     drawLine(x1 = 0, y1 = 0, x2 = 0, y2 = 0){}
@@ -28,7 +28,7 @@ class AbstractEngine {
     loadResource(imgSrc = "", onLoadCallback = null){}
 
     onKeyCallback(keyDownCallback = null, keyUpCallback = null){}
-    onMouseCallback(mousedownCallback = null, mouseupCallback = null){}
+    onTouchCallback(touchOnCallback = null, touchOverCallback = null){}
     start(onEnterFrameCallback = null){}
 }
 

@@ -12,6 +12,11 @@ function NewPos(x = 0, y = 0){
     return new Pos(x, y);
 }
 
+function UpdatePos(pos = null, x = 0, y = 0){
+    pos.x = x;
+    pos.y = y;
+}
+
 /**
  * 计算相对坐标
  * 以targetPos为准，计算referPos于targetPos的相对坐标
@@ -34,12 +39,13 @@ class Vec {
     constructor(x = 0, y = 0){
         this.x = x;
         this.y = y;
-        this.distance = x * x + y * y;
+        //this.distance = x * x + y * y;
     }
 }
 
 function NewVec(x = 0, y = 0){
     if(x==0 && y==0){
+        console.error("vec param error. x:%d, y:%d", x, y);
         return null;
     }
     return new Vec(x, y);
@@ -49,6 +55,7 @@ function NewVecWithPos(posStart = null, posEnd = null){
     return new NewVec(posEnd.x - posStart.x, posEnd.y - posStart.y);
 }
 
+//TODO delete
 function UpdateVec(vec = null, posStart = null, posEnd = null){
     vec.x = posEnd.x - posStart.x;
     vec.y = posEnd.y - posStart.y;
@@ -60,8 +67,9 @@ function UpdateVec(vec = null, posStart = null, posEnd = null){
  * 注意，并非实际距离值，因为开根号计算消耗大
  * 若只用于对比大小，此系数即可
  */
-function GetDistance(vec = null){
-    return vec.distance;
+function GetVecDistance(vec = null){
+    //return vec.distance;
+    return vec.x * vec.x + vec.y * vec.y;
 }
 
 
@@ -81,7 +89,8 @@ class Rectangle {
  * 此方法一般由collider调用
  */
 function NewRect(width = 0, height = 0){
-    if(width==0 || height==0){
+    if(width == 0 || height == 0){
+        console.error("rect param error. width:%d, height:%d", width, height);
         return null;
     }
     return new Rectangle(width, height);
@@ -107,7 +116,7 @@ function GetRectHalfHeight(rect = null){
 }
 
 //求面积
-function GetArea(rect = null){
+function GetRectArea(rect = null){
     return rect.width * rect.height;
 }
 
@@ -122,9 +131,14 @@ class Circle {
 
 function NewCircle(radius = 0){
     if(radius == 0){
+        console.error("circle param error. radius:%d", radius);
         return null;
     }
     return new Circle(radius);
+}
+
+function GetCircleRadius(circle = null){
+    return circle.radius;
 }
 
 function UpdateCircle(circle = null, radius = 0){
@@ -132,8 +146,8 @@ function UpdateCircle(circle = null, radius = 0){
 }
 
 export {
-    NewPos, ToLocatePos, 
-    NewVec, NewVecWithPos, UpdateVec, GetDistance,
-    NewRect, UpdateRectSize, GetRectWidth, GetRectHalfWidth, GetRectHeight, GetRectHalfHeight, GetArea,
-    NewCircle, UpdateCircle
+    NewPos, UpdatePos, ToLocatePos, 
+    NewVec, NewVecWithPos, UpdateVec, GetVecDistance,
+    NewRect, UpdateRectSize, GetRectWidth, GetRectHalfWidth, GetRectHeight, GetRectHalfHeight, GetRectArea,
+    NewCircle, GetCircleRadius, UpdateCircle
 }

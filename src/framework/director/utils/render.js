@@ -15,21 +15,24 @@ function DrawFrame(pos = null, spriteFrame = null){
 }
 
 function DrawFrameInCamera(camera = null, pos = null, spriteFrame = null){
-    let cPos = ToCameraPos(camera, pos);
+    let cPos = ToCameraPosStart(camera, pos);
     EngineDrawSpriteFrame(getEngine(),
         cPos.x, cPos.y, spriteFrame);
 }
 
-function DrawRect(pos = null, width = 0, height = 0){
+function DrawRect(pos = null, rect = null){
     DrawRectInCamera(
-        getDefaultCamera(), pos, width, height);
+        getDefaultCamera(), pos, rect);
 }
 
-function DrawRectInCamera(camera = null, pos = null, width = 0, height = 0){
-    let cPos = ToCameraPos(camera, pos);
-    EngineDrawRect(getEngine(),
-        cPos.x, cPos.y, width, height);
+function DrawRectInCamera(camera = null, pos = null, rect = null){
+    let cPos = ToCameraPosStart(camera, pos);
+    EngineDrawRect(getEngine(), cPos, rect);
 }
+
+/**
+ * ###################################### 下面的还没改，运行起来先
+*/
 
 function DrawLine(pos = null, vec = null){
     DrawLineInCamera(
@@ -52,5 +55,5 @@ function DrawCircle(circle = null){
 
 export{
     Clear, DrawFrame, DrawFrameInCamera,
-    DrawRect, DrawRectInCamera, DrawLine, DrawLineInCamera
+    DrawRect, DrawRectInCamera
 }

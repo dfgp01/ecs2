@@ -26,6 +26,16 @@ class AbstractGridMap {
     iterator(callback = null){}
 }
 
+function GetGridData(gridmap = null, pos = null){
+    return gridmap.getData(pos);
+}
+function SetGridData(gridmap = null, pos = null, data = null){
+    return gridmap.setData(pos, data);
+}
+function GetGrid(gridmap = null, pos = null){
+    return gridmap.getGrid(pos);
+}
+
 
 /**
  * 基础属性：宽度
@@ -57,4 +67,20 @@ function GetGridMapHeight(gridmap = null){
 }
 function GetHalfGridMapHeight(gridmap = null){
     return GetGridMapHeight(gridmap) * 0.5;
+}
+
+/**
+ * 遍历
+ * @param {*} gridmap 
+ * @param {*} callback 
+ */
+function GridMapIterator(gridmap = null, callback = null){
+    gridmap.iterator(callback);
+}
+
+export {
+    BaseGrid, AbstractGridMap, GetGridData, SetGridData, GetGrid,
+    GetGridWidth, GetHalfGridWidth, GetGridMapWidth, GetHalfGridMapWidth,
+    GetGridHeight, GetHalfGridHeight, GetGridMapHeight, GetHalfGridMapHeight,
+    GridMapIterator
 }

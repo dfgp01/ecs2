@@ -1,8 +1,4 @@
 
-function IteratorGridmap(gridmap = null, callback = null){
-    gridmap.iterator(callback);
-}
-
 /**
  * tilemap = gridmap + pos
  * gridmap的相对坐标是(0, 0)，即左上角
@@ -40,7 +36,7 @@ function CreateTileMapWithData(options = null, onCreate = null){
     let tilemap = NewTileMap(
         rows, columns, options.gridWidth, options.gridHeight, NewPos(options.x, options.y));
     if(onCreate){
-        IteratorGridmap(tilemap, grid => {
+        GridMapIterator(tilemap, grid => {
             let val = options.data[grid.rowIndex * columns + grid.colIndex];
             onCreate(val, tilemap, grid);
         });
@@ -62,5 +58,5 @@ function defaultTileMapData(options = null){
 }
 
 export{
-    CreateTileMapWithData, IteratorTileMap, MoveTilemap, GetTilemapGrid, GetTilemapGridData
+    CreateTileMapWithData
 }

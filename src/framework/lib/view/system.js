@@ -1,3 +1,4 @@
+import { DrawFrame } from "../../director/utils/render";
 
 /**
  * 渲染系统，逻辑步骤：
@@ -24,9 +25,9 @@ class LayerRenderUpdateSystem extends System {
         //也可以直接在这里搞多个摄像机
         GetCameras().forEach(camera => {
             UpdateCameraPosStart(camera);
-            LinkIterator(GetLayerList(), layer => {
-                LinkIterator(layer.list, displayTuple => {
-                    if(displayTuple.renderCom.isometric){
+            ListIterator(GetLayerList(), layer => {
+                ListIterator(GetLayerDataList(layer), displayTuple => {
+                    if(IsDisplayISOmetrics(displayTuple)){
                         drawIso(camera, displayTuple);
                     }else{
                         draw(camera, displayTuple);
@@ -37,30 +38,24 @@ class LayerRenderUpdateSystem extends System {
     }
 }
 
+function drawIso(displayTuple = null){
+    UpdateIsoPos(displayTuple);
+    DrawFrame(
+        GetDisplayIsoPos(displayTuple),
+        GetDisplaySpriteFrame(displayTuple));
+}
+
+function draw(displayTuple = null){
+    DrawFrame(
+        GetDisplayCenterPos(displayTuple),
+        GetDisplaySpriteFrame(displayTuple));
+}
+
 function GetRenderUpdateSystem(){
     if(!renderSys){
         renderSys = new LayerRenderUpdateSystem();
     }
     return renderSys;
-}
-
-function drawIso(camera = null, displayTuple = null){
-    let cPosStart = GetCameraPosStart(camera);
-    let pos = displayTuple.unitPos;
-    let offset = displayTuple.offset;
-    let isoX = (pos.x - pos.y) * 0.5 + offset.x;
-    let isoY = (pos.x + pos.y) * 0.5 + offset.y;
-    let cameraPos = toLocatePos(isoPos, cPosStart);
-    displayTuple.displayObject.draw(GetEngine(), cameraPos.x, cameraPos.y);
-}
-
-function draw(camera = null, displayTuple = null){
-    let pos = displayTuple.unitPos;
-    let offset = displayTuple.offset;
-    let x = pos.x + offset.x;
-    let y = pos.y + offset.y;
-    let cameraPos = toLocatePos(realPos, cPosStart);
-    displayTuple.displayObject.draw(GetEngine(), cameraPos.x, cameraPos.y);
 }
 
 export {GetRenderUpdateSystem}

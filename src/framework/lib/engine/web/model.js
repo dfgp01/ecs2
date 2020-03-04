@@ -1,5 +1,6 @@
 import { AbstractEngine } from "../../../director/component/engine";
 import { runTick2, canvasOnKeyCallback, canvasOnMouseCallback } from "./processor";
+import { GetSpriteFrameBitmapData, GetSpriteFrameStartX, GetSpriteFrameStartY, GetSpriteFrameWidth, GetSpriteFrameHeight, GetSpriteFrameHalfWidth, GetSpriteFrameHalfHeight } from "../../../foundation/structure/frame";
 
 /**
  * 浏览器的key-code
@@ -16,7 +17,6 @@ export const KEY_A = 65;
 export const KEY_S = 83;
 export const KEY_D = 68;
 
-
 class H5Engine extends AbstractEngine {
     constructor(fps = 60, canvas = null, ctx = null){
         super(fps);
@@ -28,30 +28,32 @@ class H5Engine extends AbstractEngine {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    drawFrame(spriteFrame = null, cameraPos = null){
+    drawFrame(x = 0, y = 0, spriteFrame = null){
         //参考：context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
         this.ctx.drawImage(
-            spriteFrame.bitmap.data,
-            spriteFrame.seg.x, spriteFrame.seg.y, spriteFrame.seg.width, spriteFrame.seg.height,
-            cameraPos.x, cameraPos.y, spriteFrame.seg.width, spriteFrame.seg.height);
+            GetSpriteFrameBitmapData(spriteFrame),
+            GetSpriteFrameStartX(spriteFrame), GetSpriteFrameStartY(spriteFrame), GetSpriteFrameWidth(spriteFrame), GetSpriteFrameHeight(spriteFrame),
+            x - GetSpriteFrameHalfWidth(spriteFrame), y - GetSpriteFrameHalfHeight(spriteFrame), GetSpriteFrameWidth(spriteFrame), GetSpriteFrameHeight(spriteFrame));
     }
 
-    drawRect(rect = null, cameraPos = null){
-        this.ctx.strokeRect(cameraPos.x, cameraPos.y, rect.width, rect.height);
+    drawRect(x = 0, y = 0, rect = null){
+        this.ctx.strokeRect(
+            x - GetRectHalfWidth(rect), y - GetRectHalfHeight(rect),
+            GetRectWidth(rect), GetRectHeight(rect));
     }
 
-    drawLine(vec = null, cameraPos = null){
+    drawLine(x1 = 0, y1 = 0, x2 = 0, y2 = 0){
         let ctx = this.ctx;
         ctx.beginPath();
-        ctx.moveTo(cameraPos.x, cameraPos.y);
-        ctx.lineTo(cameraPos.x + vec.x, cameraPos.y + vec.y);
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
         ctx.stroke();
     }
 
-    drawCircle(radius = 0, cameraPos = null){
+    drawCircle(x = 0, y = 0, radius = 0){
         let ctx = this.ctx;
         ctx.beginPath();
-        ctx.arc(cameraPos.x, cameraPos.y, radius, 0, 2 * Math.PI);
+        ctx.arc(x, y, radius, 0, 2 * Math.PI);
         ctx.stroke();
     }
 
@@ -67,8 +69,8 @@ class H5Engine extends AbstractEngine {
         canvasOnKeyCallback(keyDownCallback, keyUpCallback);
     }
 
-    onMouseCallback(mousedownCallback = null, mouseupCallback = null){
-        canvasOnMouseCallback(this, mousedownCallback, mouseupCallback);
+    onTouchCallback(touchOnCallback = null, touchOverCallback = null){
+        canvasOnMouseCallback(this, touchOnCallback, touchOverCallback);
     }
 
     start(onEnterFrameCallback = null){
@@ -88,4 +90,19 @@ function NewH5Engine(width = 0, height = 0, fps = 0){
 
 export{
     NewH5Engine
+}
+
+
+const Radius = Math.PI/180;
+function DrawImageWithAngle(angle = 0, imgData, sx = 0, sy = 0, swidth = 0, sheight = 0, x = 0, y = 0, width = 0, height = 0) {
+    let ctx = _engine.ctx;
+    ctx.save();
+    ctx.translate(x + width/2, y + height/2);
+    ctx.rotate(angle * Radius);
+    DrawImage(imgData, sx, sy, swidth, sheight, -width/2, -height/2, width, height);
+    ctx.restore();
+
+    // ctx.translate(100, 100);
+	// ctx.rotate(90 * Math.PI/180);	//以上面的偏移点为准，进行旋转
+	// ctx.drawImage(i, 187, 0, 186, 130, -0, -0, 100, 100);
 }

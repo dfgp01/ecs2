@@ -58,6 +58,17 @@ class TileMap extends AbstractGridMap {
     }
 }
 
+function NewTileMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, pos = null){
+    let grids = [];
+    for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
+        for (let colIndex = 0; colIndex < columns; colIndex++) {
+            grids.push(new TileGrid(gridWidth, gridHeight, rowIndex, colIndex));
+        }
+    }
+    pos = pos ? pos : NewPos();
+    return new TileMap(pos, rows, columns, gridWidth, gridHeight, grids);
+}
+
 function checkIn(x = 0, y = 0, tilemap = null){
     return x > 0 && x < tilemap.getGridMapWidth() && y > 0 && y < tilemap.getGridMapHeight();
 }
@@ -70,17 +81,6 @@ function getGridWithPos(pos = null, tilemap = null){
     let column = GetInt(gPos.x / gridmap.gridWidth);
     let row = GetInt(gPos.y / gridmap.gridHeight);
     return gridmap.grids[row * gridmap.columns + column];
-}
-
-function NewTileMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, pos = null){
-    let grids = [];
-    for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
-        for (let colIndex = 0; colIndex < columns; colIndex++) {
-            grids.push(new TileGrid(gridWidth, gridHeight, rowIndex, colIndex));
-        }
-    }
-    pos = pos ? pos : NewPos();
-    return new TileMap(pos, rows, columns, gridWidth, gridHeight, grids);
 }
 
 

@@ -59,15 +59,15 @@ class LinkList extends AbstractList {
     }
 
     pop(){
-        remove(this, this.head.next);
+        removeWithCheck(this, this.head.next);
     }
 
     pull(){
-        remove(this, this.tail.prep);
+        removeWithCheck(this, this.tail.prep);
     }
 
-    shift(id = 0){
-        remove(this, this._map.get(id));
+    remove(id = 0){
+        removeWithCheck(this, this._map.get(id));
     }
 
     iterator(callback = null){
@@ -131,7 +131,7 @@ function addToLink(link = null, data = null, next = null, order = 0){
     link._size++;
 }
 
-function remove(link = null, targetNode = null){
+function removeWithCheck(link = null, targetNode = null){
     if(!link || !targetNode || link._size <= 0){
         return;
     }
