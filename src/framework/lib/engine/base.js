@@ -13,16 +13,16 @@ class AbstractEngine {
     clear(){}
 
     //画帧
-    drawFrame(x = 0, y = 0, spriteFrame = null){}
+    drawFrame(centerPos = null, spriteFrame = null){}
 
     //画矩形
-    drawRect(x = 0, y = 0, rect = null){}
+    drawRect(centerPos = null, rect = null){}
 
     //画线段
-    drawLine(x1 = 0, y1 = 0, x2 = 0, y2 = 0){}
+    drawLine(centerPos = null, endPos = null){}
 
     //画圆
-    drawCircle(x = 0, y = 0, radius = 0){}
+    drawCircle(centerPos = null, radius = 0){}
 
     //imgSrc是图像地址
     loadResource(imgSrc = "", onLoadCallback = null){}
@@ -32,6 +32,44 @@ class AbstractEngine {
     start(onEnterFrameCallback = null){}
 }
 
+function EngineClear(engine = null){
+    engine.clear();
+}
+
+function EngineDrawFrame(engine = null, centerPos = null, spriteFrame = null){
+    engine.drawFrame(centerPos, spriteFrame);
+}
+
+function EngineDrawRect(engine = null, centerPos = null, rect = null){
+    engine.drawRect(centerPos, rect);
+}
+
+function EngineDrawLine(engine = null, centerPos = null, endPos = null){
+    engine.drawLine(centerPos, endPos);
+}
+
+function EngineDrawCircle(engine = null, centerPos = null, radius = null){
+    engine.drawCircle(centerPos, radius);
+}
+
+function EngineLoadResource(engine = null, imgSrc = "", onLoadCallback = null){
+    engine.loadResource(imgSrc, onLoadCallback);
+}
+
+function EngineOnKeyCallback(engine = null, keyDownCallback = null, keyUpCallback = null){
+    engine.onKeyCallback(keyDownCallback, keyUpCallback);
+}
+
+function EngineOnTouchCallback(engine = null, touchOnCallback = null, touchOverCallback = null){
+    engine.onTouchCallback(touchOnCallback, touchOverCallback);
+}
+
+function EngineStart(engine = null, onEnterFrameCallback = null){
+    engine.start(onEnterFrameCallback);
+}
+
 export {
-    AbstractEngine
+    AbstractEngine, EngineClear, 
+    EngineDrawFrame, EngineDrawRect, EngineDrawLine, EngineDrawCircle,
+    EngineLoadResource, EngineOnKeyCallback, EngineOnTouchCallback, EngineStart
 }

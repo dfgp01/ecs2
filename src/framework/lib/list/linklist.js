@@ -1,3 +1,5 @@
+import { AbstractList } from "@/framework/foundation/container/list";
+
 class LinkNode {
 	constructor(data = null, prep = null, next = null, order = 0) {
 		this.data = data;
@@ -151,6 +153,10 @@ function removeNode(link = null, node = null){
     link._size--;
 }
 
+function NewLink(){
+    return new LinkList();
+}
+
 export {
-    LinkList
+    NewLink
 }

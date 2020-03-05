@@ -18,27 +18,6 @@ function RemoveDisplayer(displayer = null) {
     RemoveFromLayer(displayer);
 }
 
-/**
- * 待定
- * options : [
- *  {
- *      order : 0,
- *      type : 1 格式参考tilemap一节
- *  }
- * ]
- */
-function CreateLayersWithData(options = null, onCreatedCallback = null){
-    options = options && options >= 0 ? options : [{}];
-    options.forEach(layerOptions => {
-        let layer = GetLayer(layerOptions['order']);
-        if(onCreatedCallback){
-            let displayTupleList = onCreatedCallback();
-        }
-    });
-}
-
 export {
-    GetRenderComponent,
-    AddDisplayer, RemoveDisplayer,
-    CreateLayersWithData
+    AddDisplayer, RemoveDisplayer
 }

@@ -55,11 +55,10 @@ function NewVecWithPos(posStart = null, posEnd = null){
     return new NewVec(posEnd.x - posStart.x, posEnd.y - posStart.y);
 }
 
-//TODO delete
-function UpdateVec(vec = null, posStart = null, posEnd = null){
-    vec.x = posEnd.x - posStart.x;
-    vec.y = posEnd.y - posStart.y;
-    vec.distance = vec.x * vec.x + vec.y * vec.y;
+function UpdateVec(vec = null, x = 0, y = 0){
+    vec.x = x;
+    vec.y = y;
+    //vec.distance = x * x + y * y;
 }
 
 /**

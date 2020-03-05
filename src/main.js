@@ -1,3 +1,8 @@
+import options from './data';
+import { GetData } from './framework/director/resource';
+import { DrawRect } from './framework/director/render';
+import { Start } from './framework/director/boot';
+import { GridMapIterator, GetGridWidth, GetHalfGridWidth } from './framework/foundation/container/gridmap';
 
 //谨记数据驱动，分清业务配置和框架逻辑配置
 // var options = Object.assign(data, {
@@ -26,9 +31,9 @@ class MyScene {
 
 function drawTile(){
     let tilemap = GetData("tile1");
-    IteratorGridMap(tilemap, grid => {
+    GridMapIterator(tilemap, grid => {
         let pos = GetTileGridCenter(grid);
-        let halfWidth = GetGridHalfWidth(grid);
+        let halfWidth = GetHalfGridWidth(grid);
         let width = GetGridWidth(grid);
         DrawRect(pos, width, width);
     });

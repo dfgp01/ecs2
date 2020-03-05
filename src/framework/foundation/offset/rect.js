@@ -1,3 +1,6 @@
+import { NewVec, NewPos, GetRectHalfWidth, GetRectHalfHeight } from "../structure/geometric";
+import { GetRealPos } from "./base";
+import { Abs } from "../structure/math";
 
 /**
  * 矩形与位置的关系元件

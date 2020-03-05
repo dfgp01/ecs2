@@ -1,3 +1,7 @@
+import { NewPos, ToLocatePos } from "@/framework/foundation/structure/geometric";
+import { GetInt } from "@/framework/foundation/structure/math";
+import { GetHalfGridMapWidth, GetHalfGridMapHeight, GetGridWidth, GetGridHeight } from "@/framework/foundation/container/gridmap";
+
 /**
   * gridmap的网格单元
   */
@@ -78,8 +82,8 @@ function getGridWithPos(pos = null, tilemap = null){
     if(!checkIn(tPos.x, tPos.y, tilemap)){
         return null;
     }
-    let column = GetInt(gPos.x / gridmap.gridWidth);
-    let row = GetInt(gPos.y / gridmap.gridHeight);
+    let column = GetInt(tPos.x / gridmap.gridWidth);
+    let row = GetInt(tPos.y / gridmap.gridHeight);
     return gridmap.grids[row * gridmap.columns + column];
 }
 
@@ -104,21 +108,21 @@ function GetTilemapCenter(tilemap = null){
     return NewPos(tilemap.pos.x, tilemap.pos.y);
 }
 
-function GetGridStart(tilemap = null, grid = null){
+function GetTileGridStart(tilemap = null, grid = null){
     let start = GetTilemapStart(tilemap);
     return NewPos(
         start.x + GetGridWidth(tilemap.gridmap) * grid.colIndex,
         start.y + GetGridHeight(tilemap.gridmap) * grid.rowIndex
     );
 }
-function GetGridEnd(tilemap = null, grid = null){
+function GetTileGridEnd(tilemap = null, grid = null){
     let start = GetTilemapStart(tilemap);
     return NewPos(
         start.x + tilemap.gridWidth * (grid.colIndex + 1),
         start.y + tilemap.gridHeight * (grid.rowIndex + 1)
     );
 }
-function GetGridCenter(tilemap = null, grid = null){
+function GetTileGridCenter(tilemap = null, grid = null){
     let start = GetTilemapStart(tilemap);
     return NewPos(
         start.x + tilemap.gridWidth * (grid.colIndex + 0.5),
@@ -129,7 +133,7 @@ function GetGridCenter(tilemap = null, grid = null){
 export {
     NewTileMap, 
     GetTilemapStart, GetTilemapEnd, GetTilemapCenter, 
-    GetGridStart, GetGridEnd, GetGridCenter
+    GetTileGridStart, GetTileGridEnd, GetTileGridCenter
 }
 
 /**

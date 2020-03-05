@@ -1,3 +1,6 @@
+import { NewLink } from "../../list/linklist";
+import { InsertToList, GetListData, RemoveFromList, ListIterator } from "@/framework/foundation/container/list";
+
 /**
  * 显示图层
  *  order越低，越先渲染，后渲染的会遮住前面渲染的
@@ -25,12 +28,12 @@ function GetLayer(order = 0){
     return layer;
 }
 
-function GetLayerList(){
-    return layerList;
-}
-
-function GetLayerDataList(layer = null){
-    return layer.list;
+function IteratorLayers(callback = null){
+    ListIterator(layerList, layer => {
+        ListIterator(layer.list, displayTuple => {
+            callback(displayTuple);
+        });
+    })
 }
 
 function AddToLayer(displayTuple = null){
@@ -44,5 +47,5 @@ function RemoveFromLayer(displayTuple = null){
 }
 
 export {
-    GetLayer, GetLayerList, GetLayerDataList, AddToLayer, RemoveFromLayer
+    GetLayer, IteratorLayers, AddToLayer, RemoveFromLayer
 }

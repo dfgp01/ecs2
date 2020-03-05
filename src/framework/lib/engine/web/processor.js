@@ -19,16 +19,17 @@ function runTick(timestamp) {
  */
 var start = null;
 var last = new Date().getTime();
-function runTick2(engine = null, onUpdateCallback = null) {
+function runTick2(fps = 0, onUpdateCallback = null) {
     _isEnd = false;
-    _callback = onUpdateCallback;
+    onUpdateCallback;
+    let tick = fps / 1000;
     setInterval(() => {
         start = new Date().getTime();
         if(!_isEnd){
-            _callback(start - last);
+            onUpdateCallback(start - last);
         }
         last = new Date().getTime();
-    }, engine.tick);
+    }, tick);
 }
 
 function stop(){

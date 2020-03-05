@@ -74,7 +74,7 @@ class H5Engine extends AbstractEngine {
     }
 
     start(onEnterFrameCallback = null){
-        runTick2(this, onEnterFrameCallback());
+        runTick2(this.fps, onEnterFrameCallback);
     }
 }
 

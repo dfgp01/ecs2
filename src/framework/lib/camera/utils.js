@@ -1,3 +1,5 @@
+import { NewCamera } from "./base";
+
 /**
  * options = {
  *      style : 0,

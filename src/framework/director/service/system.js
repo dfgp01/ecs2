@@ -1,3 +1,9 @@
+import { NewLink, ListIterator } from "@/framework/foundation/container/list";
+import { GetActionSystem } from "@/framework/lib/action/system";
+import { GetPosUpdateSystem } from "@/framework/lib/pos/system";
+import { GetRenderUpdateSystem } from "@/framework/lib/view/system";
+import { EngineStart } from "@/framework/lib/engine/base";
+import { GetEngine } from "../resource";
 
 /**
  * 主系统列表
@@ -5,8 +11,8 @@
 var logicSystems = NewLink();
 var renderSystem = null;
 function initSystems(debug = false){
-    InsertToLink(logicSystems, GetActionSystem());
-    InsertToLink(logicSystems, GetPosUpdateSystem());
+    //InsertToLink(logicSystems, GetActionSystem());
+    //InsertToLink(logicSystems, GetPosUpdateSystem());
     renderSystem = GetRenderUpdateSystem();
 }
 
@@ -15,19 +21,19 @@ var renderTick = 41;    //24fps
 var _t1 = 0;
 var _t2 = 0;
 function runWithScene(scene = null){
-    LinkIterator(logicSystems, system => {
+    ListIterator(logicSystems, system => {
         system.onStart();
     });
     renderSystem.onStart();
     scene.onStart();
 
     //main loop
-    runTick(dt => {
+    EngineStart(GetEngine(), dt => {
         _t1 += dt;
         if(_t1 >= logicTick){
             _t1 -= logicTick;
             scene.onUpdate(dt);
-            LinkIterator(logicSystems, system => {
+            ListIterator(logicSystems, system => {
                 system.onUpdate(dt);
             });
         }
@@ -47,4 +53,13 @@ function addSystem(system = null){
     InsertToLink(logicSystems, system);
 }
 
-export{initSystems, runWithScene, addSystem}
+function stopSystem(){
+    ListIterator(logicSystems, system => {
+        system.onEnd();
+    });
+    renderSystem.onEnd();
+}
+
+export {
+    initSystems, runWithScene, addSystem, stopSystem
+}

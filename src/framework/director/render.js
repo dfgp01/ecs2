@@ -1,9 +1,11 @@
+import { GetEngine, GetDefaultCamera } from "./resource";
+import { EngineDrawFrame, EngineDrawRect } from "../lib/engine/base";
 
 /**
  * 清除画布
  */
 function Clear(){
-    EngineClear(getEngine());
+    EngineClear(GetEngine());
 }
 
 /**
@@ -11,23 +13,23 @@ function Clear(){
  */
 function DrawFrame(pos = null, spriteFrame = null){
     DrawFrameInCamera(
-        getDefaultCamera(), pos, spriteFrame);
+        GetDefaultCamera(), pos, spriteFrame);
 }
 
 function DrawFrameInCamera(camera = null, pos = null, spriteFrame = null){
     let cPos = ToCameraPosStart(camera, pos);
-    EngineDrawSpriteFrame(getEngine(),
+    EngineDrawFrame(GetEngine(),
         cPos.x, cPos.y, spriteFrame);
 }
 
 function DrawRect(pos = null, rect = null){
     DrawRectInCamera(
-        getDefaultCamera(), pos, rect);
+        GetDefaultCamera(), pos, rect);
 }
 
 function DrawRectInCamera(camera = null, pos = null, rect = null){
     let cPos = ToCameraPosStart(camera, pos);
-    EngineDrawRect(getEngine(), cPos, rect);
+    EngineDrawRect(GetEngine(), cPos, rect);
 }
 
 /**
@@ -36,7 +38,7 @@ function DrawRectInCamera(camera = null, pos = null, rect = null){
 
 function DrawLine(pos = null, vec = null){
     DrawLineInCamera(
-        getDefaultCamera(), pos, vec);
+        GetDefaultCamera(), pos, vec);
 }
 
 function DrawLineInCamera(camera = null, pos = null, vec = null){

@@ -1,4 +1,9 @@
-import { DrawFrame } from "../../director/utils/render";
+import { DrawFrame, Clear } from "../../director/render";
+import { System } from "@/framework/foundation/component/ecs";
+import { GetCameras } from "@/framework/director/resource";
+import { ListIterator } from "@/framework/foundation/container/list";
+import { GetLayerList, GetLayerDataList, IteratorLayers } from "./component/layer";
+import { GetDisplayIsoPos, GetDisplaySpriteFrame, GetDisplayCenterPos } from "./component/render";
 
 /**
  * 渲染系统，逻辑步骤：
@@ -22,18 +27,12 @@ class RenderUpdateSystem extends System {
 class LayerRenderUpdateSystem extends System {
     onUpdate(dt = 0){
         Clear();
-        //也可以直接在这里搞多个摄像机
-        GetCameras().forEach(camera => {
-            UpdateCameraPosStart(camera);
-            ListIterator(GetLayerList(), layer => {
-                ListIterator(GetLayerDataList(layer), displayTuple => {
-                    if(IsDisplayISOmetrics(displayTuple)){
-                        drawIso(camera, displayTuple);
-                    }else{
-                        draw(camera, displayTuple);
-                    }
-                });
-            });
+        IteratorLayers(displayTuple => {
+            if(IsDisplayISOmetrics(displayTuple)){
+                drawIso(camera, displayTuple);
+            }else{
+                draw(camera, displayTuple);
+            }
         });
     }
 }

@@ -1,4 +1,10 @@
-import { GetRealPos } from "../../../foundation/offset/base";
+import { GetRealPos, GetPos, GetOffset } from "../../../foundation/offset/base";
+import { Component, GameObject } from "@/framework/foundation/component/ecs";
+import { NewLink } from "../../list/linklist";
+import { AddToList, GetListData } from "@/framework/foundation/container/list";
+import { NewPos, UpdatePos } from "@/framework/foundation/structure/geometric";
+import { NewRectPosRelation } from "@/framework/foundation/offset/rect";
+import { GetSpriteFrameRect } from "@/framework/foundation/structure/frame";
 
 /**
  * 显示组件，包含一些显示参数
@@ -17,12 +23,8 @@ function createRenderComponent(entityId = 0, options = null) {
     //默认值
     options = options ? options : {};
     let com = new RenderComponent(entityId, options.isometrics, options.angle, options.scale);
-    PushToLink(renderComs, com);
+    AddToList(renderComs, com);
     return com;
-}
-
-function getRenderComponent(entityId = 0){
-    return GetData(renderComs, entityId);
 }
 
 /**
@@ -34,7 +36,7 @@ function getRenderComponent(entityId = 0){
  * }
  */
 function GetRenderComponent(entityId = 0, options = null) {
-    let com = getRenderComponent(entityId);
+    let com = GetListData(renderComs, entityId);
     return com ? com : createRenderComponent(entityId, options);
 }
 
@@ -59,6 +61,7 @@ function NewDisplayer(entityId = 0, spriteFrame = null, offset = null, order = 0
     let renderCom = GetRenderComponent(entityId);
     let rp = NewRectPosRelation(entityId, offset, GetSpriteFrameRect(spriteFrame));
     let ds = new DisplayTuple(spriteFrame, renderCom, rp, order, layerOrder);
+    return ds;
 }
 
 function IsDisplayISOmetrics(displayer = null){

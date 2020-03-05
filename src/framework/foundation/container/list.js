@@ -151,7 +151,7 @@ function ListIteratorCompare(list = null, callback = null){
 }
 
 export {
-    AbstractList, NewLink,
+    AbstractList,
     GetListData, GetListFirst, GetListLast, GetListSize, 
     AddToList, PushToList, InsertToList, PopFromList, PullFromList, RemoveFromList,
     ListIterator, ListIteratorReverse, ListIteratorCompare
