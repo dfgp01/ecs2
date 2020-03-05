@@ -1,13 +1,13 @@
 import { NewVec, NewPos, GetRectHalfWidth, GetRectHalfHeight } from "../structure/geometric";
-import { GetRealPos } from "./base";
+import { GetRealPos, PosOffsetRelation } from "./base";
 import { Abs } from "../structure/math";
 
 /**
  * 矩形与位置的关系元件
  */
 class RectPosRelation extends PosOffsetRelation {
-    constructor(posCom = null, offset = null, rect = null){
-        super(posCom, offset);
+    constructor(pos = null, offset = null, rect = null){
+        super(pos, offset);
         this.rect = rect;
     }
 }

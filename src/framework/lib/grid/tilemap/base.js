@@ -1,11 +1,11 @@
 import { NewPos, ToLocatePos } from "../../../foundation/structure/geometric";
 import { GetInt } from "../../../foundation/structure/math";
-import { GetHalfGridMapWidth, GetHalfGridMapHeight, GetGridWidth, GetGridHeight } from "../../../foundation/container/gridmap";
+import { GetHalfGridMapWidth, GetHalfGridMapHeight, GetGridWidth, GetGridHeight, BaseGrid, AbstractGridMap } from "../../../foundation/container/gridmap";
 
 /**
   * gridmap的网格单元
   */
- class TileGrid extends AbstractGrid {
+ class TileGrid extends BaseGrid {
     constructor(width = 0, height = 0, rowIndex = 0, colIndex = 0, data = null){
         super(width, height, data);
         this.rowIndex = rowIndex;

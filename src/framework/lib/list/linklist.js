@@ -11,6 +11,7 @@ class LinkNode {
 
 class LinkList extends AbstractList {
 	constructor() {
+        super();
 		this.head = new LinkNode();		//empty data node
 		this.tail = new LinkNode();
 		this.head.next = this.tail;

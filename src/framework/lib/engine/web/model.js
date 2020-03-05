@@ -1,6 +1,7 @@
-import { AbstractEngine } from "../../../director/component/engine";
 import { runTick2, canvasOnKeyCallback, canvasOnMouseCallback } from "./processor";
 import { GetSpriteFrameBitmapData, GetSpriteFrameStartX, GetSpriteFrameStartY, GetSpriteFrameWidth, GetSpriteFrameHeight, GetSpriteFrameHalfWidth, GetSpriteFrameHalfHeight } from "../../../foundation/structure/frame";
+import { AbstractEngine } from "../base";
+import { GetRectHalfWidth, GetRectHalfHeight, GetRectHeight, GetRectWidth } from "../../../foundation/structure/geometric";
 
 /**
  * 浏览器的key-code
@@ -28,21 +29,21 @@ class H5Engine extends AbstractEngine {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    drawFrame(x = 0, y = 0, spriteFrame = null){
+    drawFrame(centerPos = null, spriteFrame = null){
         //参考：context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
         this.ctx.drawImage(
             GetSpriteFrameBitmapData(spriteFrame),
             GetSpriteFrameStartX(spriteFrame), GetSpriteFrameStartY(spriteFrame), GetSpriteFrameWidth(spriteFrame), GetSpriteFrameHeight(spriteFrame),
-            x - GetSpriteFrameHalfWidth(spriteFrame), y - GetSpriteFrameHalfHeight(spriteFrame), GetSpriteFrameWidth(spriteFrame), GetSpriteFrameHeight(spriteFrame));
+            centerPos.x - GetSpriteFrameHalfWidth(spriteFrame), centerPos.y - GetSpriteFrameHalfHeight(spriteFrame), GetSpriteFrameWidth(spriteFrame), GetSpriteFrameHeight(spriteFrame));
     }
 
-    drawRect(x = 0, y = 0, rect = null){
+    drawRect(centerPos = null, rect = null){
         this.ctx.strokeRect(
-            x - GetRectHalfWidth(rect), y - GetRectHalfHeight(rect),
+            centerPos.x - GetRectHalfWidth(rect), centerPos.y - GetRectHalfHeight(rect),
             GetRectWidth(rect), GetRectHeight(rect));
     }
 
-    drawLine(x1 = 0, y1 = 0, x2 = 0, y2 = 0){
+    drawLine(centerPos = null, endPos = null){
         let ctx = this.ctx;
         ctx.beginPath();
         ctx.moveTo(x1, y1);
@@ -50,7 +51,7 @@ class H5Engine extends AbstractEngine {
         ctx.stroke();
     }
 
-    drawCircle(x = 0, y = 0, radius = 0){
+    drawCircle(centerPos = null, radius = 0){
         let ctx = this.ctx;
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, 2 * Math.PI);

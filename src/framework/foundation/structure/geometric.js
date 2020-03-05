@@ -44,10 +44,6 @@ class Vec {
 }
 
 function NewVec(x = 0, y = 0){
-    if(x==0 && y==0){
-        console.error("vec param error. x:%d, y:%d", x, y);
-        return null;
-    }
     return new Vec(x, y);
 }
 

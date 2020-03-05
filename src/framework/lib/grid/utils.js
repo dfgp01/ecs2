@@ -1,5 +1,7 @@
 import { GridMapIterator } from "../../foundation/container/gridmap";
 import { GetInt } from "../../foundation/structure/math";
+import { NewTileMap } from "./tilemap/base";
+import { NewPos } from "../../foundation/structure/geometric";
 
 /**
  * tilemap = gridmap + pos

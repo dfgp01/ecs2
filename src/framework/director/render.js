@@ -1,5 +1,6 @@
 import { GetEngine, GetDefaultCamera } from "./resource";
-import { EngineDrawFrame, EngineDrawRect } from "../lib/engine/base";
+import { EngineDrawFrame, EngineDrawRect, EngineClear } from "../lib/engine/base";
+import { ToCameraStartPos } from "../lib/camera/utils";
 
 /**
  * 清除画布
@@ -17,7 +18,7 @@ function DrawFrame(pos = null, spriteFrame = null){
 }
 
 function DrawFrameInCamera(camera = null, pos = null, spriteFrame = null){
-    let cPos = ToCameraPosStart(camera, pos);
+    let cPos = ToCameraStartPos(camera, pos);
     EngineDrawFrame(GetEngine(),
         cPos.x, cPos.y, spriteFrame);
 }
@@ -28,7 +29,7 @@ function DrawRect(pos = null, rect = null){
 }
 
 function DrawRectInCamera(camera = null, pos = null, rect = null){
-    let cPos = ToCameraPosStart(camera, pos);
+    let cPos = ToCameraStartPos(camera, pos);
     EngineDrawRect(GetEngine(), cPos, rect);
 }
 

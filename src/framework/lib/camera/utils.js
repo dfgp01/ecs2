@@ -1,4 +1,5 @@
-import { NewCamera } from "./base";
+import { NewCamera, GetCameraStartPos } from "./base";
+import { ToLocatePos } from "../../foundation/structure/geometric";
 
 /**
  * options = {
@@ -24,7 +25,7 @@ function CreateCameraWithData(options = null, width = 0, height = 0){
 
 function ToCameraStartPos(camera = null, pos = null){
     return ToLocatePos(
-        pos, GetCameraStart(camera));
+        pos, GetCameraStartPos(camera));
 }
 
 export {

@@ -28,17 +28,17 @@ function SetSpriteFrame(name = "", spriteFrame = null, check = true){
 /**
  * 自定义数据
  */
-var data = new Map();
+var dataMap = new Map();
 function GetData(name = ""){
-    return data.get(name);
+    return dataMap.get(name);
 }
 function SetData(name = "", data = null, check = true){
-    let d =data.get(name);
+    let d = dataMap.get(name);
     if(d && check){
         console.error("data: %s exists.", name);
         return;
     }
-    data.set(name, data);
+    dataMap.set(name, data);
 }
 
 

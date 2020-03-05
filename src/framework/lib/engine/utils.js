@@ -1,3 +1,5 @@
+import { NewH5Engine } from "./web/model";
+
 const EngineWeb = 0;
 
 /**
@@ -43,4 +45,8 @@ function CreateEngineWithData(options = null){
         engine.onMouseCallback(options.mousedownHandler, options.mouseupHandler);
     }
     return engine;
+}
+
+export {
+    CreateEngineWithData
 }

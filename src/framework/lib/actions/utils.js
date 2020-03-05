@@ -31,5 +31,5 @@ function CreateAnimateWithData(animateData = null){
 }
 
 export {
-    CreateAnimateWithData, CreateCameraWithData, CreateTileMapWithData
+    CreateAnimateWithData
 }

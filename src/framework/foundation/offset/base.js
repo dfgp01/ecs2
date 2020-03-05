@@ -1,3 +1,4 @@
+import { NewPos, NewVec } from "../structure/geometric";
 
 /**
  * TODO

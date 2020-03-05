@@ -1,3 +1,8 @@
+import { SetDefaultCamera, SetEngine, SetData } from "../resource";
+import { CreateCameraWithData } from "../../lib/camera/utils";
+import { initSystems } from "./system";
+import { CreateTileMapWithData } from "../../lib/grid/utils";
+import { CreateEngineWithData } from "../../lib/engine/utils";
 
 /**
  * 通过参数配置初始化系统资源
@@ -25,11 +30,11 @@ function initGame(options = null) {
     screenHeight = screenHeight && screenHeight > 0 ? screenHeight : 800;
 
     //摄像机
-    setDefaultCamera(
+    SetDefaultCamera(
         CreateCameraWithData(options['camera'], screenWidth, screenHeight));
 
     //引擎
-    setEngine(
+    SetEngine(
         CreateEngineWithData(options['engine'], screenWidth, screenHeight));
     
     //系统
@@ -71,7 +76,7 @@ function initDataObj(options = null){
     }
     let name = options['name'];
     if(name){
-        setDataByName(name, dataObj);
+        SetData(name, dataObj);
     }
 }
 

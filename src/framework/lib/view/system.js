@@ -48,6 +48,7 @@ function draw(displayTuple = null){
         GetDisplaySpriteFrame(displayTuple));
 }
 
+var renderSys = null;
 function GetRenderUpdateSystem(){
     if(!renderSys){
         renderSys = new LayerRenderUpdateSystem();
