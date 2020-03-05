@@ -1,10 +1,10 @@
 import { GetRealPos, GetPos, GetOffset } from "../../../foundation/offset/base";
-import { Component, GameObject } from "@/framework/foundation/component/ecs";
+import { Component, GameObject } from "../../../foundation/component/ecs";
 import { NewLink } from "../../list/linklist";
-import { AddToList, GetListData } from "@/framework/foundation/container/list";
-import { NewPos, UpdatePos } from "@/framework/foundation/structure/geometric";
-import { NewRectPosRelation } from "@/framework/foundation/offset/rect";
-import { GetSpriteFrameRect } from "@/framework/foundation/structure/frame";
+import { AddToList, GetListData } from "../../../foundation/container/list";
+import { NewPos, UpdatePos } from "../../../foundation/structure/geometric";
+import { NewRectPosRelation } from "../../../foundation/offset/rect";
+import { GetSpriteFrameRect } from "../../../foundation/structure/frame";
 
 /**
  * 显示组件，包含一些显示参数

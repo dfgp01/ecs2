@@ -1,8 +1,6 @@
 import { DrawFrame, Clear } from "../../director/render";
-import { System } from "@/framework/foundation/component/ecs";
-import { GetCameras } from "@/framework/director/resource";
-import { ListIterator } from "@/framework/foundation/container/list";
-import { GetLayerList, GetLayerDataList, IteratorLayers } from "./component/layer";
+import { System } from "../../foundation/component/ecs";
+import { IteratorLayers } from "./component/layer";
 import { GetDisplayIsoPos, GetDisplaySpriteFrame, GetDisplayCenterPos } from "./component/render";
 
 /**

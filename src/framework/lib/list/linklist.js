@@ -1,4 +1,4 @@
-import { AbstractList } from "@/framework/foundation/container/list";
+import { AbstractList } from "../../foundation/container/list";
 
 class LinkNode {
 	constructor(data = null, prep = null, next = null, order = 0) {

@@ -1,6 +1,6 @@
-import { NewPos, ToLocatePos } from "@/framework/foundation/structure/geometric";
-import { GetInt } from "@/framework/foundation/structure/math";
-import { GetHalfGridMapWidth, GetHalfGridMapHeight, GetGridWidth, GetGridHeight } from "@/framework/foundation/container/gridmap";
+import { NewPos, ToLocatePos } from "../../../foundation/structure/geometric";
+import { GetInt } from "../../../foundation/structure/math";
+import { GetHalfGridMapWidth, GetHalfGridMapHeight, GetGridWidth, GetGridHeight } from "../../../foundation/container/gridmap";
 
 /**
   * gridmap的网格单元

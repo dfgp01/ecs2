@@ -1,9 +1,8 @@
-import { NewLink, ListIterator } from "@/framework/foundation/container/list";
-import { GetActionSystem } from "@/framework/lib/action/system";
-import { GetPosUpdateSystem } from "@/framework/lib/pos/system";
-import { GetRenderUpdateSystem } from "@/framework/lib/view/system";
-import { EngineStart } from "@/framework/lib/engine/base";
 import { GetEngine } from "../resource";
+import { ListIterator } from "../../foundation/container/list";
+import { NewLink } from "../../lib/list/linklist";
+import { EngineStart } from "../../lib/engine/base";
+import { GetRenderUpdateSystem } from "../../lib/view/system";
 
 /**
  * 主系统列表

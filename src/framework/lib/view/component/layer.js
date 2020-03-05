@@ -1,5 +1,5 @@
 import { NewLink } from "../../list/linklist";
-import { InsertToList, GetListData, RemoveFromList, ListIterator } from "@/framework/foundation/container/list";
+import { InsertToList, GetListData, RemoveFromList, ListIterator } from "../../../foundation/container/list";
 
 /**
  * 显示图层
