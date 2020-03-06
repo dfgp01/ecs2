@@ -43,18 +43,18 @@ class H5Engine extends AbstractEngine {
             GetRectWidth(rect), GetRectHeight(rect));
     }
 
-    drawLine(centerPos = null, endPos = null){
+    drawLine(startPos = null, endPos = null){
         let ctx = this.ctx;
         ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
+        ctx.moveTo(startPos.x, startPos.y);
+        ctx.lineTo(endPos.x, endPos.y);
         ctx.stroke();
     }
 
     drawCircle(centerPos = null, radius = 0){
         let ctx = this.ctx;
         ctx.beginPath();
-        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+        ctx.arc(centerPos.x, centerPos.y, radius, 0, 2 * Math.PI);
         ctx.stroke();
     }
 

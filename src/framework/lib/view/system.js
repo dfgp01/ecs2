@@ -1,7 +1,7 @@
 import { DrawFrame, Clear } from "../../director/render";
 import { System } from "../../foundation/component/ecs";
 import { IteratorLayers } from "./component/layer";
-import { GetDisplayIsoPos, GetDisplaySpriteFrame, GetDisplayCenterPos } from "./component/render";
+import { GetDisplayIsoPos, GetDisplaySpriteFrame, GetDisplayCenterPos, UpdateIsoPos } from "./component/render";
 
 /**
  * 渲染系统，逻辑步骤：

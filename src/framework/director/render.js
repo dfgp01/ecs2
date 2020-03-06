@@ -1,5 +1,5 @@
 import { GetEngine, GetDefaultCamera } from "./resource";
-import { EngineDrawFrame, EngineDrawRect, EngineClear } from "../lib/engine/base";
+import { EngineDrawFrame, EngineDrawRect, EngineClear, EngineDrawLine, EngineDrawCircle } from "../lib/engine/base";
 import { ToCameraStartPos } from "../lib/camera/utils";
 
 /**
@@ -33,30 +33,30 @@ function DrawRectInCamera(camera = null, pos = null, rect = null){
     EngineDrawRect(GetEngine(), cPos, rect);
 }
 
-/**
- * ###################################### 下面的还没改，运行起来先
-*/
-
-function DrawLine(pos = null, vec = null){
+function DrawLine(posStart = null, posEnd = null){
     DrawLineInCamera(
-        GetDefaultCamera(), pos, vec);
+        GetDefaultCamera(), posStart, posEnd);
 }
 
-function DrawLineInCamera(camera = null, pos = null, vec = null){
-    let cPos = ToCameraPos(camera, pos);
-    let cPos2 = ToCameraPos(camera, NewPos(pos.x + vec.x, pos.y + vec.y));
-    EngineDrawLine(getEngine(),
-        cPos.x, cPos.y, cPos2.x, cPos2.y);
+function DrawLineInCamera(camera = null, posStart = null, posEnd = null){
+    let cPos1 = ToCameraStartPos(camera, posStart);
+    let cPos2 = ToCameraStartPos(camera, posEnd);
+    EngineDrawLine(GetEngine(), cPos1, cPos2);
 }
 
-function DrawCircle(circle = null){
-    GetEngine().drawCircle(
-        circle,
-        GetCamera().toCameraPos(
-            GetCirclePosStart(circle)));
+function DrawCircle(pos = null, radius = 0){
+    DrawCircleInCamera(
+        GetDefaultCamera(), pos, radius);
+}
+
+function DrawCircleInCamera(camera = null, pos = null, radius = 0){
+    let cPos = ToCameraStartPos(camera, pos);
+    EngineDrawCircle(GetEngine(), cPos, radius);
 }
 
 export{
     Clear, DrawFrame, DrawFrameInCamera,
-    DrawRect, DrawRectInCamera
+    DrawRect, DrawRectInCamera, 
+    DrawLine, DrawLineInCamera,
+    DrawCircle, DrawCircleInCamera
 }

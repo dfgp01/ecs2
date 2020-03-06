@@ -15,13 +15,13 @@ const EngineWeb = 0;
  *      mouseupHandler : func
  * }
  */
-function CreateEngineWithData(options = null){
+function CreateEngineWithData(options = null, width = 0, height = 0, keyDownHandler = null, keyUpHanler = null, touchOnCallback = null, touchOverCallback = null){
     //默认值
     options = options ? options : {};
-    let width = options['width'];
-    width = width ? width : 400;
-    let height = options['height'];
-    height = height ? height : 400;
+    // let width = options['width'];
+    // width = width ? width : 400;
+    // let height = options['height'];
+    // height = height ? height : 400;
     let fps = options['fps'];
     fps = fps ? fps : 60;
     let type = options['type'];
@@ -38,11 +38,11 @@ function CreateEngineWithData(options = null){
     }
 
     //注册按键回调
-    if(options.keyDownHandler && options.keyUpHanler){
-        engine.onKeyCallback(options.keyDownHandler, options.keyUpHanler);
+    if(keyDownHandler && keyUpHanler){
+        engine.onKeyCallback(keyDownHandler, keyUpHanler);
     }
-    if(options.mousedownHandler && options.mouseupHandler){
-        engine.onMouseCallback(options.mousedownHandler, options.mouseupHandler);
+    if(touchOnCallback && touchOverCallback){
+        engine.onTouchCallback(touchOnCallback, touchOverCallback);
     }
     return engine;
 }

@@ -22,7 +22,7 @@ var last = new Date().getTime();
 function runTick2(fps = 0, onUpdateCallback = null) {
     _isEnd = false;
     onUpdateCallback;
-    let tick = fps / 1000;
+    let tick = 1000 / fps;
     setInterval(() => {
         start = new Date().getTime();
         if(!_isEnd){

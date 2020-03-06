@@ -1,5 +1,5 @@
-import { NewRectPosRelation, GetRectPosStart } from "../../foundation/offset/rect";
-import { NewPos, NewRect } from "../../foundation/structure/geometric";
+import { NewRectPosRelation, GetRectPosStart, GetRect } from "../../foundation/offset/rect";
+import { NewPos, NewRect, GetRectWidth, GetRectHeight } from "../../foundation/structure/geometric";
 
 /**
  * 摄像机抽象类
@@ -23,6 +23,17 @@ function GetCameraStartPos(camera = null){
     return GetRectPosStart(camera.rectPosRel);
 }
 
+function GetCameraWidth(camera = null){
+    return GetRectWidth(
+        GetRect(camera.rectPosRel));
+}
+
+function GetCameraHeight(camera = null){
+    return GetRectHeight(
+        GetRect(camera.rectPosRel));
+}
+
 export {
-    NewCamera, GetCameraStartPos
+    NewCamera, GetCameraStartPos,
+    GetCameraWidth, GetCameraHeight
 }

@@ -44,11 +44,11 @@ function EngineDrawRect(engine = null, centerPos = null, rect = null){
     engine.drawRect(centerPos, rect);
 }
 
-function EngineDrawLine(engine = null, centerPos = null, endPos = null){
-    engine.drawLine(centerPos, endPos);
+function EngineDrawLine(engine = null, startPos = null, endPos = null){
+    engine.drawLine(startPos, endPos);
 }
 
-function EngineDrawCircle(engine = null, centerPos = null, radius = null){
+function EngineDrawCircle(engine = null, centerPos = null, radius = 0){
     engine.drawCircle(centerPos, radius);
 }
 

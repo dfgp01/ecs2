@@ -35,7 +35,7 @@ function initGame(options = null) {
 
     //引擎
     SetEngine(
-        CreateEngineWithData(options['engine'], screenWidth, screenHeight));
+        CreateEngineWithData(options['engine'], screenWidth, screenHeight, options.keyDownHandler, options.keyUpHanler, options.touchOnCallback, options.touchOverCallback));
     
     //系统
     initSystems(options['debug']);
