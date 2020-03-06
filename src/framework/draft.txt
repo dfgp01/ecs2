@@ -35,3 +35,21 @@
             这样，在计算rect-cross时，直接使用本对象即可
         方案2：PosOffsetTuple（子类RectPosTuple）, 只是作为VO类，被其他元件拥有，如Collider, DisplayTuple等
         思考：方案1会回到OOP的怪圈中
+
+2020.03.06
+    引入event机制
+        engine-init时，需要传入onTouch, onKey等callback
+        tilemap-init时，需要传入onCreate-callback
+        这样造成函数的参数过长过多，而且callback规范不一，可读性差
+        设计统一的event机制，使engine, tilemap等init时发送事件即可
+        main.js处自行addEventListener来处理
+
+    框架组件的归属
+        既然director负责调度所有资源的运行，就不应依赖于lib
+        engine, action等均属于组件，在未成熟前，暂时将其归类在lib中
+        框架最终分成——基础层、调度层、实现库层
+
+    iso转换机制
+        期望：iso的处理是对用户透明的
+        目前，iso封装在viewCom中，在renderSys中统一处理
+        没有screen-pos到iso-world的转换，不建议暴露转换接口到外部，思考如何内部消化
