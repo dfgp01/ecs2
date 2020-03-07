@@ -26,11 +26,17 @@ class AbstractGridMap {
     iterator(callback = null){}
 }
 
-function GetGridData(gridmap = null, pos = null){
+function GetGridDataWithPos(gridmap = null, pos = null){
     return gridmap.getData(pos);
 }
-function SetGridData(gridmap = null, pos = null, data = null){
+function SetGridDataWithPos(gridmap = null, pos = null, data = null){
     return gridmap.setData(pos, data);
+}
+function GetGridData(grid = null){
+    return grid.data;
+}
+function SetGridData(grid = null, data = null){
+    return grid.data = data;
 }
 function GetGrid(gridmap = null, pos = null){
     return gridmap.getGrid(pos);
@@ -79,7 +85,8 @@ function GridMapIterator(gridmap = null, callback = null){
 }
 
 export {
-    BaseGrid, AbstractGridMap, GetGridData, SetGridData, GetGrid,
+    BaseGrid, AbstractGridMap, 
+    GetGridDataWithPos, SetGridDataWithPos, GetGridData, SetGridData, GetGrid,
     GetGridWidth, GetHalfGridWidth, GetGridMapWidth, GetHalfGridMapWidth,
     GetGridHeight, GetHalfGridHeight, GetGridMapHeight, GetHalfGridMapHeight,
     GridMapIterator
