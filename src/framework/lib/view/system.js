@@ -1,7 +1,7 @@
 import { DrawFrame, Clear } from "../../director/render";
 import { System } from "../../foundation/component/ecs";
 import { IteratorLayers } from "./component/layer";
-import { GetDisplayIsoPos, GetDisplaySpriteFrame, GetDisplayCenterPos, UpdateIsoPos } from "./component/render";
+import { GetDisplayIsoPos, GetDisplaySpriteFrame, GetDisplayCenterPos, UpdateIsoPos, IsDisplayISOmetrics } from "./component/render";
 
 /**
  * 渲染系统，逻辑步骤：
@@ -27,9 +27,9 @@ class LayerRenderUpdateSystem extends System {
         Clear();
         IteratorLayers(displayTuple => {
             if(IsDisplayISOmetrics(displayTuple)){
-                drawIso(camera, displayTuple);
+                drawIso(displayTuple);
             }else{
-                draw(camera, displayTuple);
+                draw(displayTuple);
             }
         });
     }

@@ -8,7 +8,7 @@ import { NewDisplayer } from "./component/render";
  * order = 自己所在图层内的顺序
  * TODO 需要判断重复性，如一个entityId多次用了同样的sprite，相互覆盖，造成浪费
  */
-function AddDisplayer(spriteFrame = null, entityId = 0, layerOrder = 0, order = 0, offset = null) {
+function AddDisplayer(spriteFrame = null, entityId = 0, layerOrder = 1, order = 0, offset = null) {
     let ds = NewDisplayer(entityId, spriteFrame, offset, order, layerOrder);
     AddToLayer(ds);
     return ds;

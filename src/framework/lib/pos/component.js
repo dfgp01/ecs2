@@ -1,5 +1,7 @@
 import { AddToList, GetListData, RemoveFromList } from "../../foundation/container/list";
 import { NewVec, NewPos, UpdatePos, UpdateVec } from "../../foundation/structure/geometric";
+import { Component } from "../../foundation/component/ecs";
+import { NewLink } from "../list/linklist";
 
 /**
  * 位置组件

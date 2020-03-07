@@ -44,9 +44,9 @@ function checkAdd(list = null, data = null){
         return false;
     }
     //不能重复添加
-    let d = GetListData(list, id);
+    let d = GetListData(list, data.id);
     if(d){
-        console.error("error id:%d is exist", id);
+        console.error("error id:%d is exist", data.id);
         return false;
     }
     return true;

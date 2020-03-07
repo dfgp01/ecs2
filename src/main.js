@@ -1,8 +1,8 @@
 import data from './data';
-import { GetData, GetDefaultCamera, GetSpriteFrame } from './framework/director/resource';
+import { GetData, GetDefaultCamera, GetSpriteFrame } from './framework/director/service/resource';
 import { DrawRect, DrawLine, DrawCircle } from './framework/director/render';
 import { Start } from './framework/director/boot';
-import { GridMapIterator, GetGridWidth, GetHalfGridWidth } from './framework/foundation/container/gridmap';
+import { GridMapIterator, GetGridWidth, GetHalfGridWidth, GetGridData } from './framework/foundation/container/gridmap';
 import { GetTileGridCenter } from './framework/lib/grid/tilemap/base';
 import { NewRect, NewPos } from './framework/foundation/structure/geometric';
 import { GetCameraHeight, GetCameraWidth } from './framework/lib/camera/base';
@@ -16,10 +16,6 @@ var options = Object.assign(data, {
     touchOnCallback : touchOnCallback,
     touchOverCallback : touchOverCallback,
 });
-options.tilemap.onCreate = function(data = null, tilemap = null, grid = null){
-    console.log(data);
-    initDisplay(data, tilemap, grid);
-}
 
 function touchOnCallback(x = 0, y = 0){
     console.log(x, y);
@@ -30,6 +26,12 @@ function touchOverCallback(x = 0, y = 0){
 
 class MyScene {
     onStart(){
+        let tilemap = GetData("tile1");
+        GridMapIterator(tilemap, grid => {
+            let data = GetGridData(grid);
+            let pos = GetTileGridCenter(tilemap, grid);
+            initDisplay(data, pos);
+        });
         //draw();
     }
     onUpdate(dt = 0){
@@ -57,7 +59,7 @@ function drawTile(){
         let pos = GetTileGridCenter(tilemap, grid);
         let halfWidth = GetHalfGridWidth(grid);
         let width = GetGridWidth(grid);
-        console.log("g[%d, %d]: (%d, %d), %d %d", grid.rowIndex, grid.colIndex, pos.x, pos.y, halfWidth, width);
+        //console.log("g[%d, %d]: (%d, %d), %d %d", grid.rowIndex, grid.colIndex, pos.x, pos.y, halfWidth, width);
         //DrawRect(pos, NewRect(width, width));
         testIso(pos, halfWidth);
     });
@@ -72,14 +74,16 @@ function testIso(pos = null, halfWidth = 0){
     let pos3iso = getIso(pos3);
     let pos4 = NewPos(pos.x + halfWidth, pos.y + halfWidth);
     let pos4iso = getIso(pos4);
-    console.log("p1:(%d, %d), iso:(%d, %d)", pos1.x ,pos1.y, pos1iso.x, pos1iso.y);
-    console.log("p2:(%d, %d), iso:(%d, %d)", pos2.x ,pos2.y, pos2iso.x, pos2iso.y);
-    console.log("p3:(%d, %d), iso:(%d, %d)", pos3.x ,pos3.y, pos3iso.x, pos3iso.y);
-    console.log("p4:(%d, %d), iso:(%d, %d)", pos4.x ,pos4.y, pos4iso.x, pos4iso.y);
+    // console.log("p1:(%d, %d), iso:(%d, %d)", pos1.x ,pos1.y, pos1iso.x, pos1iso.y);
+    // console.log("p2:(%d, %d), iso:(%d, %d)", pos2.x ,pos2.y, pos2iso.x, pos2iso.y);
+    // console.log("p3:(%d, %d), iso:(%d, %d)", pos3.x ,pos3.y, pos3iso.x, pos3iso.y);
+    // console.log("p4:(%d, %d), iso:(%d, %d)", pos4.x ,pos4.y, pos4iso.x, pos4iso.y);
+
     // DrawLine(pos1iso, pos2iso);
     // DrawLine(pos2iso, pos3iso);
     // DrawLine(pos3iso, pos4iso);
     // DrawLine(pos4iso, pos1iso);
+
     DrawLine(pos1iso, pos2iso);
     DrawLine(pos2iso, pos4iso);
     DrawLine(pos4iso, pos3iso);
@@ -101,11 +105,13 @@ function getIso(pos = null){
 			}
 		},
  */
-function initDisplay(data = null, tilemap = null, grid = null){
-    let d = data['displayer'];
+function initDisplay(data = null, pos = null){
+    let d = data['display'];
+    if(!d){
+        return;
+    }
     let id = NewEntityId();
     GetRenderComponent(id, {isometrics:true});
-    let pos = GetTileGridCenter(tilemap, grid);
     SetUnitPos(id, pos.x, pos.y);
     AddDisplayer(
         GetSpriteFrame(d['frame']), id);

@@ -1,4 +1,4 @@
-import { GetEngine } from "../resource";
+import { GetEngine } from "./resource";
 import { ListIterator } from "../../foundation/container/list";
 import { NewLink } from "../../lib/list/linklist";
 import { EngineStart } from "../../lib/engine/base";

@@ -15,13 +15,13 @@ const EngineWeb = 0;
  *      mouseupHandler : func
  * }
  */
-function CreateEngineWithData(options = null, width = 0, height = 0, keyDownHandler = null, keyUpHanler = null, touchOnCallback = null, touchOverCallback = null){
+function CreateEngineWithData(options = null, keyDownHandler = null, keyUpHanler = null, touchOnCallback = null, touchOverCallback = null){
     //默认值
     options = options ? options : {};
-    // let width = options['width'];
-    // width = width ? width : 400;
-    // let height = options['height'];
-    // height = height ? height : 400;
+    let width = options['width'];
+    width = width ? width : 800;
+    let height = options['height'];
+    height = height ? height : 800;
     let fps = options['fps'];
     fps = fps ? fps : 60;
     let type = options['type'];
@@ -34,6 +34,7 @@ function CreateEngineWithData(options = null, width = 0, height = 0, keyDownHand
             break;
         default:
             //error log
+            console.error("error type");
             return null;
     }
 

@@ -1,8 +1,23 @@
-import { SetDefaultCamera, SetEngine, SetData, SetDef } from "../resource";
+import { SetDefaultCamera, SetEngine, SetData, SetDef, GetBitmap, SetSpriteFrame, GetEngine } from "./resource";
 import { CreateCameraWithData } from "../../lib/camera/utils";
 import { initSystems } from "./system";
 import { CreateTileMapWithData } from "../../lib/grid/utils";
 import { CreateEngineWithData } from "../../lib/engine/utils";
+import { CreateBitmap, CreateSpriteFrame } from "../../foundation/structure/frame";
+import { EngineLoadResource } from "../../lib/engine/base";
+
+/**
+ * 要先初始化引擎
+ * options {
+ *      screen-width : 800,
+ *      screen-height : 800,
+ *      fps : 60,
+ * }
+ */
+function initEngine(options = null, keyDownHandler = null, keyUpHanler = null, touchOnCallback = null, touchOverCallback = null){
+    SetEngine(
+        CreateEngineWithData(options));
+}
 
 /**
  * 通过参数配置初始化系统资源
@@ -33,10 +48,6 @@ function initGame(options = null) {
     SetDefaultCamera(
         CreateCameraWithData(options['camera'], screenWidth, screenHeight));
 
-    //引擎
-    SetEngine(
-        CreateEngineWithData(options['engine'], screenWidth, screenHeight, options.keyDownHandler, options.keyUpHanler, options.touchOnCallback, options.touchOverCallback));
-    
     //系统
     initSystems(options['debug']);
 
@@ -78,7 +89,7 @@ function initDatas(datas = null){
 function initDataObj(options = null){
     let dataObj = null;
     if(options['tilemap']){
-        dataObj = CreateTileMapWithData(options['tilemap'], options['tilemap'].onCeate);
+        dataObj = CreateTileMapWithData(options['tilemap']);
     }
     let name = options['name'];
     if(name){
@@ -86,6 +97,97 @@ function initDataObj(options = null){
     }
 }
 
+
+/**
+ * 加载资源，创建帧
+ "res" : {
+		"imgs" : [
+			"res/3.png"
+		],
+		"frames" : [
+			{
+				"name" : "building1",
+				"res" : "res/3.png",
+				"area" : {
+					"width" : 151,
+					"height" : 167
+				}
+			}
+		]
+	},
+ */
+function loadWithResource(res = null, OnloadCallback = null, OnCompleteCallback = null){
+    let imgs = res ? res['imgs'] : null;
+    if(imgs && imgs.length > 0){
+        loadResource(imgs, res['frames'], OnloadCallback, OnCompleteCallback);
+        return;
+    }
+    OnCompleteCallback();
+}
+
+function loadResource(imgs = null, frames = null, OnloadCallback = null, OnCompleteCallback = null){
+    let _count = 0;
+    imgs.forEach(img =>{
+        EngineLoadResource(GetEngine(), img, bitmapData => {
+            let bitmaps = new Map();
+            bitmaps.set(img, CreateBitmap(bitmapData, bitmapData.width, bitmapData.height));
+            _count++;
+            if(OnloadCallback){
+                OnloadCallback(img, _count);
+            }
+            if(imgs.length == _count){
+                createSpriteFramesWithData(frames, bitmaps);
+                if(OnCompleteCallback){
+                    OnCompleteCallback();
+                }
+            }
+        })
+    });
+}
+
+
+/**
+ "frames" : [
+		{
+			"name" : "building1",
+			"res" : "res/3.png",
+			"area" : {
+				"width" : 151,
+				"height" : 167
+			}
+		}
+	],
+ */
+function createSpriteFramesWithData(spriteFrameDatas = null, bitmaps = null){
+    if(!spriteFrameDatas || spriteFrameDatas.length == 0 || !bitmaps){
+        return;
+    }
+    spriteFrameDatas.forEach(data => {
+        createSpriteFrameWithData(
+            data['name'], 
+            bitmaps.get(data['res']),
+            data['area']
+        );
+    });
+}
+
+function createSpriteFrameWithData(name = "", bitmap = null, area = null){
+    if(name == "" || !bitmap || !area){
+        console.err("error param.");
+        return null;
+    }
+    let x = area['x'];
+    let y = area['y'];
+    let width = area['width'];
+    let height = area['height'];
+    if(!width || !height){
+        console.err("error param.");
+        return null;
+    }
+    let f = CreateSpriteFrame(name, bitmap, x, y, width, height);
+    SetSpriteFrame(name, f);
+}
+
 export{
-    initGame
+    initEngine, initGame, loadWithResource
 }

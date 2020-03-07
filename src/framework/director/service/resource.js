@@ -12,15 +12,8 @@
 var spriteFrameMap = new Map();
 function GetSpriteFrame(name = "", defaultValue = true){
     let f = spriteFrameMap.get(name);
-    if(f){
-        return f;
-    }
-    if(defaultValue){
-        return spriteFrameMap.get("defalut");
-    }
-    return null;
-    // return f ? f : 
-    //     defaultValue ? spriteFrameMap.get("defalut") : null;
+    return f ? f : 
+        defaultValue ? spriteFrameMap.get("defalut") : null;
 }
 function SetSpriteFrame(name = "", spriteFrame = null, check = true){
     let f = spriteFrameMap.get(name);
@@ -35,7 +28,7 @@ function SetSpriteFrame(name = "", spriteFrame = null, check = true){
  * 自定义数据定义
  */
 var defMap = new Map();
-function GetDef(key = 0){
+function GetDef(key = ""){
     return defMap.get(key);
 }
 function SetDef(key = 0, data = null){
@@ -102,7 +95,7 @@ function GetScene(){
 }
 
 export {
-    GetSpriteFrame, SetSpriteFrame, 
+    GetSpriteFrame, SetSpriteFrame,
     GetDef, SetDef, GetData, SetData, 
     SetDefaultCamera, GetDefaultCamera, AddCamera, GetCameras,
     SetEngine, GetEngine, SetScene, GetScene

@@ -1,8 +1,8 @@
-import { GridMapIterator } from "../../foundation/container/gridmap";
+import { GridMapIterator, SetGridData } from "../../foundation/container/gridmap";
 import { GetInt } from "../../foundation/structure/math";
 import { NewTileMap } from "./tilemap/base";
 import { NewPos } from "../../foundation/structure/geometric";
-import { GetDef } from "../../director/resource";
+import { GetDef } from "../../director/service/resource";
 
 /**
  * tilemap = gridmap + pos
@@ -24,10 +24,9 @@ import { GetDef } from "../../director/resource";
  *      gridiheight : 32     每个格子的宽高
  *      x : 0
  *      y : 0           初始位置，默认为stage中心，即(0, 0)
- *      onCreate : func
  * }
  */
-function CreateTileMapWithData(options = null, onCreate = null){
+function CreateTileMapWithData(options = null){
     //默认值
     defaultTileMapData(options);
     
@@ -39,27 +38,25 @@ function CreateTileMapWithData(options = null, onCreate = null){
         return null;
     }
     let tilemap = NewTileMap(
-        rows, columns, options.gridWidth, options.gridHeight, NewPos(options.x, options.y));
-    if(onCreate){
+        rows, columns, options['grid-width'], options['grid-height'], NewPos(options.x, options.y));
         GridMapIterator(tilemap, grid => {
-            let data = GetDef(options.data[grid.rowIndex * columns + grid.colIndex])
-            onCreate(data, tilemap, grid);
+            let data = GetDef(options.data[grid.rowIndex * columns + grid.colIndex]);
+            SetGridData(grid, data);
         });
-    }
     return tilemap;
 }
 
 function defaultTileMapData(options = null){
     options = Object.assign({
         columns : 1,
-        gridWidth : 32,
-        gridHeight : 32,
+        "grid-width" : 32,
+        "grid-height" : 32,
         x : 0,
         y : 0,
         data : [0]
     }, options);
-    options.gridWidth = options.gridWidth > 0 ? options.gridWidth : 32;
-    options.gridHeight = options.gridHeight > 0 ? options.gridHeight : 32;
+    options['grid-width'] = options['grid-width'] > 0 ? options['grid-width'] : 32;
+    options['grid-height'] = options['grid-height'] > 0 ? options['grid-height'] : 32;
 }
 
 export{

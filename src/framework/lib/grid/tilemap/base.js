@@ -124,10 +124,11 @@ function GetTileGridEnd(tilemap = null, grid = null){
 }
 function GetTileGridCenter(tilemap = null, grid = null){
     let start = GetTilemapStart(tilemap);
-    return NewPos(
+    let s =  NewPos(
         start.x + tilemap.gridWidth * (grid.colIndex + 0.5),
         start.y + tilemap.gridHeight * (grid.rowIndex + 0.5)
     );
+    return s;
 }
 
 export {

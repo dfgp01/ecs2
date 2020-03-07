@@ -58,7 +58,7 @@ class DisplayTuple extends GameObject {
     }
 }
 
-function NewDisplayer(entityId = 0, spriteFrame = null, offset = null, order = 0, layerOrder = 0){
+function NewDisplayer(entityId = 0, spriteFrame = null, offset = null, order = 0, layerOrder = 1){
     let renderCom = GetRenderComponent(entityId);
     let posCom = GetPosComponent(entityId);
     let rp = NewRectPosRelation(posCom.pos, offset, NewRect(
@@ -84,8 +84,8 @@ function GetDisplayIsoPos(displayer = null){
 }
 
 function UpdateIsoPos(displayer = null){
-    let pos = GetPos(displayTuple.rectPosRel);
-    let offset = GetOffset(displayTuple.rectPosRel);
+    let pos = GetPos(displayer.rectPosRel);
+    let offset = GetOffset(displayer.rectPosRel);
     UpdatePos(displayer.isoPos,
         (pos.x - pos.y) * 0.5 + offset.x,
         (pos.x + pos.y) * 0.5 + offset.y);

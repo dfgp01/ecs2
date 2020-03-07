@@ -1,4 +1,4 @@
-import { GetEngine, GetDefaultCamera } from "./resource";
+import { GetEngine, GetDefaultCamera } from "./service/resource";
 import { EngineDrawFrame, EngineDrawRect, EngineClear, EngineDrawLine, EngineDrawCircle } from "../lib/engine/base";
 import { ToCameraStartPos } from "../lib/camera/utils";
 
@@ -19,8 +19,7 @@ function DrawFrame(pos = null, spriteFrame = null){
 
 function DrawFrameInCamera(camera = null, pos = null, spriteFrame = null){
     let cPos = ToCameraStartPos(camera, pos);
-    EngineDrawFrame(GetEngine(),
-        cPos.x, cPos.y, spriteFrame);
+    EngineDrawFrame(GetEngine(), cPos, spriteFrame);
 }
 
 function DrawRect(pos = null, rect = null){

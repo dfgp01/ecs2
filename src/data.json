@@ -1,19 +1,20 @@
 {
 	"debug" : true,
-	"textures" : [
-		{
-			"img" : "res/3.png",
-			"frames" : [
-				{
-					"name" : "building1",
-					"area" : {
-						"width" : 151,
-						"height" : 167
-					}
+	"res" : {
+		"imgs" : [
+			"res/3.png"
+		],
+		"frames" : [
+			{
+				"name" : "building1",
+				"res" : "res/3.png",
+				"area" : {
+					"width" : 151,
+					"height" : 167
 				}
-			]
-		}
-	],
+			}
+		]
+	},
 	"def" : {
 		"0" : {},
 		"1" : {
@@ -40,9 +41,9 @@
 			"name" : "tile1",
 			"tilemap" : {
 				"data" : [
-					1, 1, 1,
-					1, 0, 1,
-					1, 1, 1
+					"0", "0", "0",
+					"0", "1", "0",
+					"0", "0", "0"
 				],
 				"columns" : 3,
 				"grid-width" : 64,
