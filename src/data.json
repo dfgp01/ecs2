@@ -1,9 +1,38 @@
 {
 	"debug" : true,
+	"textures" : [
+		{
+			"img" : "res/3.png",
+			"frames" : [
+				{
+					"name" : "building1",
+					"area" : {
+						"width" : 151,
+						"height" : 167
+					}
+				}
+			]
+		}
+	],
 	"def" : {
 		"0" : {},
 		"1" : {
-			"color" : "#333333"
+			"display" : {
+				"isometric" : true,
+				"frame" : "building1"
+			}
+		},
+		"2" : {
+			"display" : {
+				"isometric" : true,
+				"frame" : "building2"
+			}
+		},
+		"3" : {
+			"display" : {
+				"isometric" : true,
+				"frame" : "building3"
+			}
 		}
 	},
 	"datas" : [
@@ -16,8 +45,8 @@
 					1, 1, 1
 				],
 				"columns" : 3,
-				"gridWidth" : 80,
-				"gridHeight" : 80
+				"grid-width" : 64,
+				"grid-height" : 64
 			}
 		}
 	]

@@ -2,6 +2,7 @@ import { GridMapIterator } from "../../foundation/container/gridmap";
 import { GetInt } from "../../foundation/structure/math";
 import { NewTileMap } from "./tilemap/base";
 import { NewPos } from "../../foundation/structure/geometric";
+import { GetDef } from "../../director/resource";
 
 /**
  * tilemap = gridmap + pos
@@ -19,8 +20,8 @@ import { NewPos } from "../../foundation/structure/geometric";
  *          2, 2, 1, 1, 1, 1
  *          ]
  *      columns : 6     列数
- *      gridWidth : 32
- *      gridHeight : 32     每个格子的宽高
+ *      grid-width : 32
+ *      gridiheight : 32     每个格子的宽高
  *      x : 0
  *      y : 0           初始位置，默认为stage中心，即(0, 0)
  *      onCreate : func
@@ -41,8 +42,8 @@ function CreateTileMapWithData(options = null, onCreate = null){
         rows, columns, options.gridWidth, options.gridHeight, NewPos(options.x, options.y));
     if(onCreate){
         GridMapIterator(tilemap, grid => {
-            let val = options.data[grid.rowIndex * columns + grid.colIndex];
-            onCreate(val, tilemap, grid);
+            let data = GetDef(options.data[grid.rowIndex * columns + grid.colIndex])
+            onCreate(data, tilemap, grid);
         });
     }
     return tilemap;

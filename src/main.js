@@ -1,18 +1,25 @@
 import data from './data';
-import { GetData, GetDefaultCamera } from './framework/director/resource';
+import { GetData, GetDefaultCamera, GetSpriteFrame } from './framework/director/resource';
 import { DrawRect, DrawLine, DrawCircle } from './framework/director/render';
 import { Start } from './framework/director/boot';
 import { GridMapIterator, GetGridWidth, GetHalfGridWidth } from './framework/foundation/container/gridmap';
 import { GetTileGridCenter } from './framework/lib/grid/tilemap/base';
 import { NewRect, NewPos } from './framework/foundation/structure/geometric';
 import { GetCameraHeight, GetCameraWidth } from './framework/lib/camera/base';
+import { AddDisplayer } from './framework/lib/view/utils';
+import { NewEntityId } from './framework/foundation/component/ecs';
+import { GetRenderComponent } from './framework/lib/view/component/render';
+import { SetUnitPos } from './framework/lib/pos/component';
 
 //谨记数据驱动，分清业务配置和框架逻辑配置
 var options = Object.assign(data, {
     touchOnCallback : touchOnCallback,
     touchOverCallback : touchOverCallback,
-    
 });
+options.tilemap.onCreate = function(data = null, tilemap = null, grid = null){
+    console.log(data);
+    initDisplay(data, tilemap, grid);
+}
 
 function touchOnCallback(x = 0, y = 0){
     console.log(x, y);
@@ -85,6 +92,26 @@ function getIso(pos = null){
         (pos.x + pos.y) * 0.5
     );
 }
+
+/**
+ * "1" : {
+			"display" : {
+				"isometric" : true,
+				"frame" : "building1"
+			}
+		},
+ */
+function initDisplay(data = null, tilemap = null, grid = null){
+    let d = data['displayer'];
+    let id = NewEntityId();
+    GetRenderComponent(id, {isometrics:true});
+    let pos = GetTileGridCenter(tilemap, grid);
+    SetUnitPos(id, pos.x, pos.y);
+    AddDisplayer(
+        GetSpriteFrame(d['frame']), id);
+}
+
+
 
 (function (){
     console.log(options);

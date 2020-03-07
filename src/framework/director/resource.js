@@ -9,21 +9,38 @@
  * 可能会改成id形式
  * 引入默认资源机制，找不到帧时的默认空帧，可以是一张红叉图片，
  */
-var _spriteFrameMap = new Map();
+var spriteFrameMap = new Map();
 function GetSpriteFrame(name = "", defaultValue = true){
-    let f = _spriteFrameMap.get(name);
-    return f ? f : 
-        defaultValue ? _spriteFrameMap.get("defalut") : null;
+    let f = spriteFrameMap.get(name);
+    if(f){
+        return f;
+    }
+    if(defaultValue){
+        return spriteFrameMap.get("defalut");
+    }
+    return null;
+    // return f ? f : 
+    //     defaultValue ? spriteFrameMap.get("defalut") : null;
 }
 function SetSpriteFrame(name = "", spriteFrame = null, check = true){
-    let f = _spriteFrameMap.get(name);
+    let f = spriteFrameMap.get(name);
     if(f && check){
         console.error("frame: %s exists.", name);
         return;
     }
-    _spriteFrameMap.set(name, spriteFrame);
+    spriteFrameMap.set(name, spriteFrame);
 }
 
+/**
+ * 自定义数据定义
+ */
+var defMap = new Map();
+function GetDef(key = 0){
+    return defMap.get(key);
+}
+function SetDef(key = 0, data = null){
+    defMap.set(key, data);
+}
 
 /**
  * 自定义数据
@@ -85,7 +102,8 @@ function GetScene(){
 }
 
 export {
-    GetSpriteFrame, SetSpriteFrame, GetData, SetData, 
+    GetSpriteFrame, SetSpriteFrame, 
+    GetDef, SetDef, GetData, SetData, 
     SetDefaultCamera, GetDefaultCamera, AddCamera, GetCameras,
     SetEngine, GetEngine, SetScene, GetScene
 }

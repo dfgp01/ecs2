@@ -1,4 +1,4 @@
-import { SetDefaultCamera, SetEngine, SetData } from "../resource";
+import { SetDefaultCamera, SetEngine, SetData, SetDef } from "../resource";
 import { CreateCameraWithData } from "../../lib/camera/utils";
 import { initSystems } from "./system";
 import { CreateTileMapWithData } from "../../lib/grid/utils";
@@ -53,9 +53,15 @@ function initGame(options = null) {
     }
 
     //自定义数据等
+    initDef(options['def']);
     initDatas(options['datas']);
 }
 
+function initDef(options = null){
+    for(let key in options){
+        SetDef(key, options[key]);
+    }
+}
 
 /**
  * TODO 临时方法，以后优化
@@ -72,7 +78,7 @@ function initDatas(datas = null){
 function initDataObj(options = null){
     let dataObj = null;
     if(options['tilemap']){
-        dataObj = CreateTileMapWithData(options['tilemap']);
+        dataObj = CreateTileMapWithData(options['tilemap'], options['tilemap'].onCeate);
     }
     let name = options['name'];
     if(name){

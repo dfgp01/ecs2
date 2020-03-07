@@ -5,6 +5,7 @@ import { AddToList, GetListData } from "../../../foundation/container/list";
 import { NewPos, UpdatePos, NewRect } from "../../../foundation/structure/geometric";
 import { NewRectPosRelation } from "../../../foundation/offset/rect";
 import { GetSpriteFrameWidth, GetSpriteFrameHeight } from "../../../foundation/structure/frame";
+import { GetPosComponent } from "../../pos/component";
 
 /**
  * 显示组件，包含一些显示参数
@@ -59,7 +60,8 @@ class DisplayTuple extends GameObject {
 
 function NewDisplayer(entityId = 0, spriteFrame = null, offset = null, order = 0, layerOrder = 0){
     let renderCom = GetRenderComponent(entityId);
-    let rp = NewRectPosRelation(entityId, offset, NewRect(
+    let posCom = GetPosComponent(entityId);
+    let rp = NewRectPosRelation(posCom.pos, offset, NewRect(
             GetSpriteFrameWidth(spriteFrame), GetSpriteFrameHeight(spriteFrame)));
     let ds = new DisplayTuple(spriteFrame, renderCom, rp, order, layerOrder);
     return ds;
