@@ -127,9 +127,9 @@ function loadWithResource(res = null, OnloadCallback = null, OnCompleteCallback 
 
 function loadResource(imgs = null, frames = null, OnloadCallback = null, OnCompleteCallback = null){
     let _count = 0;
+    let bitmaps = new Map();
     imgs.forEach(img =>{
         EngineLoadResource(GetEngine(), img, bitmapData => {
-            let bitmaps = new Map();
             bitmaps.set(img, CreateBitmap(bitmapData, bitmapData.width, bitmapData.height));
             _count++;
             if(OnloadCallback){
@@ -173,7 +173,7 @@ function createSpriteFramesWithData(spriteFrameDatas = null, bitmaps = null){
 
 function createSpriteFrameWithData(name = "", bitmap = null, area = null){
     if(name == "" || !bitmap || !area){
-        console.err("error param.");
+        console.error("error param.");
         return null;
     }
     let x = area['x'];

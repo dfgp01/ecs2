@@ -2,6 +2,7 @@ import { DrawFrame, Clear } from "../../director/render";
 import { System } from "../../foundation/component/ecs";
 import { IteratorLayers } from "./component/layer";
 import { GetDisplayIsoPos, GetDisplaySpriteFrame, GetDisplayCenterPos, UpdateIsoPos, IsDisplayISOmetrics } from "./component/render";
+import { drawDebug, drawIsoDebug } from "./debug";
 
 /**
  * 渲染系统，逻辑步骤：
@@ -40,12 +41,14 @@ function drawIso(displayTuple = null){
     DrawFrame(
         GetDisplayIsoPos(displayTuple),
         GetDisplaySpriteFrame(displayTuple));
+    drawIsoDebug(displayTuple);
 }
 
 function draw(displayTuple = null){
     DrawFrame(
         GetDisplayCenterPos(displayTuple),
         GetDisplaySpriteFrame(displayTuple));
+    drawDebug(displayTuple);
 }
 
 var renderSys = null;

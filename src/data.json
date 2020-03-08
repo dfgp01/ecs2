@@ -2,7 +2,8 @@
 	"debug" : true,
 	"res" : {
 		"imgs" : [
-			"res/3.png"
+			"res/3.png",
+			"res/2.png"
 		],
 		"frames" : [
 			{
@@ -12,6 +13,14 @@
 					"width" : 151,
 					"height" : 167
 				}
+			},
+			{
+				"name" : "building2",
+				"res" : "res/2.png",
+				"area" : {
+					"width" : 145,
+					"height" : 356
+				}
 			}
 		]
 	},
@@ -20,13 +29,15 @@
 		"1" : {
 			"display" : {
 				"isometric" : true,
-				"frame" : "building1"
+				"frame" : "building1",
+				"offset-y" : -50
 			}
 		},
 		"2" : {
 			"display" : {
 				"isometric" : true,
-				"frame" : "building2"
+				"frame" : "building2",
+				"offset-y" : -150
 			}
 		},
 		"3" : {
@@ -41,9 +52,9 @@
 			"name" : "tile1",
 			"tilemap" : {
 				"data" : [
+					"0", "0", "2",
 					"0", "0", "0",
-					"0", "1", "0",
-					"0", "0", "0"
+					"2", "0", "0"
 				],
 				"columns" : 3,
 				"grid-width" : 64,

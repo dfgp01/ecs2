@@ -87,7 +87,7 @@ function UpdateIsoPos(displayer = null){
     let pos = GetPos(displayer.rectPosRel);
     let offset = GetOffset(displayer.rectPosRel);
     UpdatePos(displayer.isoPos,
-        (pos.x - pos.y) * 0.5 + offset.x,
+        (pos.x - pos.y) + offset.x,
         (pos.x + pos.y) * 0.5 + offset.y);
 }
 

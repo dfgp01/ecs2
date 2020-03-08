@@ -4,7 +4,7 @@ import { DrawRect, DrawLine, DrawCircle } from './framework/director/render';
 import { Start } from './framework/director/boot';
 import { GridMapIterator, GetGridWidth, GetHalfGridWidth, GetGridData } from './framework/foundation/container/gridmap';
 import { GetTileGridCenter } from './framework/lib/grid/tilemap/base';
-import { NewRect, NewPos } from './framework/foundation/structure/geometric';
+import { NewRect, NewPos, NewVec } from './framework/foundation/structure/geometric';
 import { GetCameraHeight, GetCameraWidth } from './framework/lib/camera/base';
 import { AddDisplayer } from './framework/lib/view/utils';
 import { NewEntityId } from './framework/foundation/component/ecs';
@@ -114,7 +114,11 @@ function initDisplay(data = null, pos = null){
     GetRenderComponent(id, {isometrics:true});
     SetUnitPos(id, pos.x, pos.y);
     AddDisplayer(
-        GetSpriteFrame(d['frame']), id);
+        GetSpriteFrame(
+            d['frame']), id, 1, 0,
+            NewVec(
+                d['offset-x'], d['offset-y']
+            ));
 }
 
 
