@@ -3,6 +3,8 @@ import { GetInt } from "../../foundation/structure/math";
 import { NewTileMap } from "./tilemap/base";
 import { NewPos } from "../../foundation/structure/geometric";
 import { GetDef } from "../../director/service/resource";
+import { DispatchEvent } from "../../director/boot";
+import { NewEvent, EventTilemapCreated } from "../../foundation/component/event";
 
 /**
  * tilemap = gridmap + pos
@@ -39,10 +41,12 @@ function CreateTileMapWithData(options = null){
     }
     let tilemap = NewTileMap(
         rows, columns, options['grid-width'], options['grid-height'], NewPos(options.x, options.y));
-        GridMapIterator(tilemap, grid => {
-            let data = GetDef(options.data[grid.rowIndex * columns + grid.colIndex]);
-            SetGridData(grid, data);
-        });
+    GridMapIterator(tilemap, grid => {
+        let data = GetDef(options.data[grid.rowIndex * columns + grid.colIndex]);
+        SetGridData(grid, data);
+    });
+    DispatchEvent(
+        NewEvent(EventTilemapCreated, tilemap));
     return tilemap;
 }
 

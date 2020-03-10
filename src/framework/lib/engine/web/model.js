@@ -66,14 +66,6 @@ class H5Engine extends AbstractEngine {
         }
     }
 
-    onKeyCallback(keyDownCallback = null, keyUpCallback = null){
-        canvasOnKeyCallback(keyDownCallback, keyUpCallback);
-    }
-
-    onTouchCallback(touchOnCallback = null, touchOverCallback = null){
-        canvasOnMouseCallback(this, touchOnCallback, touchOverCallback);
-    }
-
     start(onEnterFrameCallback = null){
         runTick2(this.fps, onEnterFrameCallback);
     }
@@ -86,7 +78,10 @@ function NewH5Engine(width = 0, height = 0, fps = 0){
     canvas.height = height;
     let ctx = canvas.getContext("2d");
     ctx.strokeStyle="#0000ff";          //画矩形框用的
-    return new H5Engine(fps, canvas, ctx);
+    let engine = new H5Engine(fps, canvas, ctx);
+    canvasOnKeyCallback();
+    canvasOnMouseCallback(engine.canvas);
+    return engine;
 }
 
 export{

@@ -15,7 +15,7 @@ const EngineWeb = 0;
  *      mouseupHandler : func
  * }
  */
-function CreateEngineWithData(options = null, keyDownHandler = null, keyUpHanler = null, touchOnCallback = null, touchOverCallback = null){
+function CreateEngineWithData(options = null){
     //默认值
     options = options ? options : {};
     let width = options['width'];
@@ -36,14 +36,6 @@ function CreateEngineWithData(options = null, keyDownHandler = null, keyUpHanler
             //error log
             console.error("error type");
             return null;
-    }
-
-    //注册按键回调
-    if(keyDownHandler && keyUpHanler){
-        engine.onKeyCallback(keyDownHandler, keyUpHanler);
-    }
-    if(touchOnCallback && touchOverCallback){
-        engine.onTouchCallback(touchOnCallback, touchOverCallback);
     }
     return engine;
 }

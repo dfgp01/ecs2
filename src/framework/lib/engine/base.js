@@ -27,8 +27,6 @@ class AbstractEngine {
     //imgSrc是图像地址
     loadResource(imgSrc = "", onLoadCallback = null){}
 
-    onKeyCallback(keyDownCallback = null, keyUpCallback = null){}
-    onTouchCallback(touchOnCallback = null, touchOverCallback = null){}
     start(onEnterFrameCallback = null){}
 }
 

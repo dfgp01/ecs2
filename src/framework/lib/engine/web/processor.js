@@ -1,3 +1,6 @@
+import { DispatchEvent } from "../../../director/boot";
+import { EventKeydown, NewEvent, EventKeyup, EventTouchOn, EventTouchOver } from "../../../foundation/component/event";
+import { NewPos } from "../../../foundation/structure/geometric";
 
 var _callback;
 var _frameNo = 0;
@@ -39,37 +42,45 @@ function stop(){
 
 //因为按住键的话，会不断触发onKeydown，所以做个map判断
 var _keyDownMap = new Map();
-function canvasOnKeyCallback(keyDownCallback = null, keyUpCallback = null){
+function canvasOnKeyCallback(){
     window.addEventListener("keydown", e => {
         let code = e.keyCode;
         if(_keyDownMap.get(code)){
             return;
         }
         _keyDownMap.set(code, 1);
-        keyDownCallback(e.keyCode);
+        DispatchEvent(
+            NewEvent(
+                EventKeydown, code));
     });
     window.addEventListener("keyup", e => {
         let code = e.keyCode;
         _keyDownMap.delete(code);
-        keyUpCallback(e.keyCode);
+        DispatchEvent(
+            NewEvent(
+                EventKeyup, code));
     });
 }
 
 /**
  * https://blog.csdn.net/qq_17616169/article/details/72833044
  */
-function canvasOnMouseCallback(engine = null, mousedownCallback = null, mouseupCallback = null){
-    engine.canvas.addEventListener("mousedown", event => {
+function canvasOnMouseCallback(canvas = null){
+    canvas.addEventListener("mousedown", event => {
         let rect = canvas.getBoundingClientRect();
         let x = event.clientX - rect.left * (canvas.width / rect.width);
         let y = event.clientY - rect.top * (canvas.height / rect.height);
-        mousedownCallback(x, y);
+        DispatchEvent(
+            NewEvent(
+                EventTouchOn, NewPos(x, y)));
     });
-    engine.canvas.addEventListener("mouseup", event => {
+    canvas.addEventListener("mouseup", event => {
         let rect = canvas.getBoundingClientRect();
         let x = event.clientX - rect.left * (canvas.width / rect.width);
         let y = event.clientY - rect.top * (canvas.height / rect.height);
-        mouseupCallback(x, y);
+        DispatchEvent(
+            NewEvent(
+                EventTouchOver, NewPos(x, y)));
     });
     // engine.canvas.addEventListener("click", event => {
     //     console.log(event.x, event.y);

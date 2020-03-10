@@ -1,3 +1,5 @@
+import { NewLink } from "../../lib/list/linklist";
+
 /**
  * 全局单例资源
  */
@@ -94,9 +96,23 @@ function GetScene(){
     return currScene;
 }
 
+/**
+ * 监听器
+ */
+var listenerMap = new Map();
+function getListenerList(eventType = 0){
+    let lisList = listenerMap.get(eventType);
+    if(!lisList){
+        lisList = NewLink();
+        listenerMap.set(eventType, lisList);
+    }
+    return lisList;
+}
+
 export {
     GetSpriteFrame, SetSpriteFrame,
     GetDef, SetDef, GetData, SetData, 
     SetDefaultCamera, GetDefaultCamera, AddCamera, GetCameras,
-    SetEngine, GetEngine, SetScene, GetScene
+    SetEngine, GetEngine, SetScene, GetScene,
+    getListenerList
 }

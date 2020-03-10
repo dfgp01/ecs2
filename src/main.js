@@ -1,7 +1,7 @@
 import data from './data';
 import { GetData, GetDefaultCamera, GetSpriteFrame } from './framework/director/service/resource';
 import { DrawRect, DrawLine, DrawCircle } from './framework/director/render';
-import { Start } from './framework/director/boot';
+import { Start, AddEventListener } from './framework/director/boot';
 import { GridMapIterator, GetGridWidth, GetHalfGridWidth, GetGridData } from './framework/foundation/container/gridmap';
 import { GetTileGridCenter } from './framework/lib/grid/tilemap/base';
 import { NewRect, NewPos, NewVec } from './framework/foundation/structure/geometric';
@@ -10,6 +10,7 @@ import { AddDisplayer } from './framework/lib/view/utils';
 import { NewEntityId } from './framework/foundation/component/ecs';
 import { GetRenderComponent } from './framework/lib/view/component/render';
 import { SetUnitPos } from './framework/lib/pos/component';
+import { EventKeydown, EventTouchOn, AbstractEventListener } from './framework/foundation/component/event';
 
 //谨记数据驱动，分清业务配置和框架逻辑配置
 var options = Object.assign(data, {
@@ -122,8 +123,27 @@ function initDisplay(data = null, pos = null){
 }
 
 
+class KeydownListener extends AbstractEventListener{
+    constructor(order = 0){
+        super(EventKeydown, order);
+    }
+    handle(event = null){
+        console.log(event.data);
+    }
+}
+
+class MousedownListener extends AbstractEventListener{
+    constructor(order = 0){
+        super(EventTouchOn, order);
+    }
+    handle(event = null){
+        console.log(event.data.x, event.data.y);
+    }
+}
 
 (function (){
     console.log(options);
+    AddEventListener(new KeydownListener());
+    AddEventListener(new MousedownListener());
     Start(options, new MyScene());
 })()

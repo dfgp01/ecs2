@@ -1,6 +1,7 @@
 import { initGame, loadWithResource, initEngine } from "./service/init";
 import { runWithScene, stopSystem } from "./service/system";
-import { GetScene } from "./service/resource";
+import { GetScene, getListenerList } from "./service/resource";
+import { InsertToList, RemoveFromList, ListIterator } from "../foundation/container/list";
 
 /**
  * options {
@@ -47,6 +48,25 @@ function Stop(){
     StopEngine(getEngine());
 }
 
+
+function AddEventListener(listener = null){
+    let lisList = getListenerList(listener.type);
+    InsertToList(lisList, listener, listener.order);
+}
+
+function RemoveEventListener(listener = null){
+    let lisList = getListenerList(listener.type);
+    RemoveFromList(lisList, listener.id);
+}
+
+function DispatchEvent(event = null){
+    let lisList = getListenerList(event.type);
+    ListIterator(lisList, listener => {
+        listener.handle(event);
+    });
+}
+
 export {
-    Start, Stop
+    Start, Stop,
+    AddEventListener, RemoveEventListener, DispatchEvent
 }
