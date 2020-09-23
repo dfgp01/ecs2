@@ -1,5 +1,5 @@
-import { NewRectPosRelation, GetRectPosStart, GetRect } from "../../foundation/offset/rect";
 import { NewPos, NewRect, GetRectWidth, GetRectHeight } from "../../foundation/structure/geometric";
+import { NewRectOffsetRelation } from "../../foundation/unit/rect";
 
 /**
  * 摄像机抽象类
@@ -15,7 +15,7 @@ class BaseCamera {
 
 function NewCamera(x = 0, y = 0, width = 0, height = 0){
     let pos = NewPos(x, y);
-    let rp = NewRectPosRelation(pos, null, NewRect(width, height));
+    let rp = NewRectOffsetRelation(NewRect(width, height));
     return new BaseCamera(rp);
 }
 

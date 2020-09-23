@@ -1,7 +1,8 @@
 import { runTick2, canvasOnKeyCallback, canvasOnMouseCallback } from "./processor";
 import { GetSpriteFrameBitmapData, GetSpriteFrameStartX, GetSpriteFrameStartY, GetSpriteFrameWidth, GetSpriteFrameHeight, GetSpriteFrameHalfWidth, GetSpriteFrameHalfHeight } from "../../../foundation/structure/frame";
-import { AbstractEngine } from "../base";
 import { GetRectHalfWidth, GetRectHalfHeight, GetRectHeight, GetRectWidth } from "../../../foundation/structure/geometric";
+import { AbstractEngine } from "../../../foundation/component/engine";
+import { DEBUG_BORDER_BLUE, DEBUG_BORDER_BLACK } from "../../../foundation/const";
 
 /**
  * 浏览器的key-code
@@ -37,7 +38,8 @@ class H5Engine extends AbstractEngine {
             centerPos.x - GetSpriteFrameHalfWidth(spriteFrame), centerPos.y - GetSpriteFrameHalfHeight(spriteFrame), GetSpriteFrameWidth(spriteFrame), GetSpriteFrameHeight(spriteFrame));
     }
 
-    drawRect(centerPos = null, rect = null){
+    drawRect(centerPos = null, rect = null, style = 0){
+        setStyle(this.ctx, style);
         this.ctx.strokeRect(
             centerPos.x - GetRectHalfWidth(rect), centerPos.y - GetRectHalfHeight(rect),
             GetRectWidth(rect), GetRectHeight(rect));
@@ -68,6 +70,17 @@ class H5Engine extends AbstractEngine {
 
     start(onEnterFrameCallback = null){
         runTick2(this.fps, onEnterFrameCallback);
+    }
+}
+
+function setStyle(ctx = null, style = 0){
+    switch(style){
+        case DEBUG_BORDER_BLUE:
+            ctx.strokeStyle="#0000ff";
+            break;
+        case DEBUG_BORDER_BLACK:
+            ctx.strokeStyle="#000000";
+            break;
     }
 }
 

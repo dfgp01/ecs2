@@ -16,6 +16,8 @@ class AbstractList {
     iterator(callback = null){}
     iteratorReverse(callback = null){}
     iteratorCompare(callback = null){}
+    iteratorQuene(callback = null){}
+    iteratorStack(callback = null){}
 }
 
 function GetListData(list = null, id = 0, required = false){
@@ -75,7 +77,7 @@ function PushToList(list = null, data = null){
 }
 
 /**
- * 根据顺序号插入
+ * 根据顺序号插入，从小到大排序
  * @param {*} list 
  * @param {*} data 
  * @param {*} order 
@@ -143,16 +145,42 @@ function ListIteratorReverse(list = null, callback = null){
  * @param {*} callback func(data1, data2) return bool 若bool=true，则终止遍历
  */
 function ListIteratorCompare(list = null, callback = null){
-    if(!link || !callback) {
+    if(!list || !callback) {
         //log here
         return
     }
     list.iteratorCompare(callback);
 }
 
+/**
+ * 队列形式遍历，会删除节点
+ * @param {*} list 
+ * @param {*} callback 
+ */
+function ListIteratorQuene(list = null, callback = null){
+    if(!list || !callback) {
+        //log here
+        return
+    }
+    list.iteratorQuene(callback);
+}
+
+/**
+ * 堆栈形式遍历，会删除节点
+ * @param {*} list 
+ * @param {*} callback 
+ */
+function ListIteratorStack(list = null, callback = null){
+    if(!list || !callback) {
+        //log here
+        return
+    }
+    list.iteratorStack(callback);
+}
+
 export {
     AbstractList,
     GetListData, GetListFirst, GetListLast, GetListSize, 
     AddToList, PushToList, InsertToList, PopFromList, PullFromList, RemoveFromList,
-    ListIterator, ListIteratorReverse, ListIteratorCompare
+    ListIterator, ListIteratorReverse, ListIteratorCompare, ListIteratorQuene, ListIteratorStack
 }

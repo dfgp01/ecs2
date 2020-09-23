@@ -27,10 +27,10 @@ function GetEventData(event = null){
 }
 
 class AbstractEventListener extends GameObject {
-    constructor(type = 0, order = 0){
+    constructor(type = 0, priority = 0){
         super();
         this.type = type;
-        this.order = order;
+        this.priority = priority;
     }
     handle(event = null){}
 }
@@ -39,15 +39,15 @@ function GetEventListenerType(listener = null){
     return listener.type;
 }
 
-function GetEventListenerOrder(listener = null){
-    return listener.order;
+function GetEventListenerPriority(listener = null){
+    return listener.priority;
 }
 
-function HandleEventListener(listener = null, event = null){
-    listener.handle(event);
+function HandleEventListener(listener = null, event = null, dt = 0){
+    listener.handle(event, dt);
 }
 
 export {
     Event, NewEvent, GetEventType, GetEventData,
-    AbstractEventListener, GetEventListenerType, GetEventListenerOrder, HandleEventListener
+    AbstractEventListener, GetEventListenerType, GetEventListenerPriority, HandleEventListener
 }

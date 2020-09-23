@@ -1,4 +1,4 @@
-import { DispatchEvent } from "../../../director/boot";
+import { DispatchEvent } from "../../../director/utils/boot";
 import { EventKeydown, NewEvent, EventKeyup, EventTouchOn, EventTouchOver } from "../../../foundation/component/event";
 import { NewPos } from "../../../foundation/structure/geometric";
 

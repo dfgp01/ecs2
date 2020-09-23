@@ -121,6 +121,36 @@ class LinkList extends AbstractList {
             removeNode(this, this._delList.pop());
         }
     }
+
+    iteratorQuene(callback = null){
+        let _old = null;
+        this._lock = true;
+        let node = this.head.next;
+        while(node != this.tail){
+            if(callback(node.data)){
+                break;
+            }
+            _old = node;
+            node = node.next;
+            removeNode(this, _old);
+        }
+        this._lock = false;
+    }
+
+    iteratorStack(callback = null){
+        let _old = null;
+        this._lock = true;
+        let node = this.tail.prep;
+        while(node != this.head){
+            if(callback(node.data)){
+                break;
+            }
+            _old = node;
+            node = node.prep;
+            removeNode(this, _old);
+        }
+        this._lock = false;
+    }
 }
 
 function addToLink(link = null, data = null, next = null, order = 0){

@@ -1,5 +1,6 @@
+import { GameObject } from "../../../foundation/component/ecs";
 
-class BlockCollider extends Entity {
+class BlockCollider extends GameObject {
     constructor(entityId = 0, rect = null){
         super();
         this.entityId = entityId;
@@ -7,7 +8,7 @@ class BlockCollider extends Entity {
     }
 }
 
-class BodyCollider extends Entity {
+class BodyCollider extends GameObject {
     constructor(entityId = 0, rect = null){
         super();
         this.entityId = entityId;

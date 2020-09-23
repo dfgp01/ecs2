@@ -1,71 +1,72 @@
-import { SetDefaultCamera, SetEngine, SetData, SetDef, GetBitmap, SetSpriteFrame, GetEngine } from "./resource";
+import { SetDefaultCamera, SetEngine, SetData, SetDef, SetSpriteFrame, GetEngine, SetScreen } from "./resource";
 import { CreateCameraWithData } from "../../lib/camera/utils";
 import { initSystems } from "./system";
-import { CreateTileMapWithData } from "../../lib/grid/utils";
+import { CreateTileMapWithData } from "../../lib/gridmap/utils";
 import { CreateEngineWithData } from "../../lib/engine/utils";
 import { CreateBitmap, CreateSpriteFrame } from "../../foundation/structure/frame";
-import { EngineLoadResource } from "../../lib/engine/base";
-
-/**
- * 要先初始化引擎
- * options {
- *      screen-width : 800,
- *      screen-height : 800,
- *      fps : 60,
- * }
- */
-function initEngine(options = null, keyDownHandler = null, keyUpHanler = null, touchOnCallback = null, touchOverCallback = null){
-    SetEngine(
-        CreateEngineWithData(options));
-}
 
 /**
  * 通过参数配置初始化系统资源
  * options {
- *      debug : false,
- *      fps : 60,
+ *      system : {
+ *          debug : false,
+ *          collide : {}
+ *      },
+ *      
+ *      screen : {
+ *          width : 800, height : 800
+ *      },
+ *      engine : {
+ *          fps : 60
+ *      }
  *      textures : []格式见LoadResource()内
- *      screen-width : 800,
- *      screen-height : 800,
  *      camera : {},
- *      engine : {},
  *      layers : [
  *          {
  *              type : 1 格式参考tilemap一节
  *          }
  *      ]
- *      collide : {}
  * }
  */
 function initGame(options = null) {
+    initScreen(options['screen']);
+    initEngine(options['engine']);
+    initCamera(options['camera']);
+    initSystems(options['system']);
+
+    //自定义数据等
+    //initDef(options['def']);
+    //initDatas(options['datas']);
+}
+
+function initScreen(options = null){
     //默认值
+    options = options ? options : {};
     let screenWidth = options['screen-width'];
     screenWidth = screenWidth && screenWidth > 0 ? screenWidth : 800;
     let screenHeight = options['screen-height'];
     screenHeight = screenHeight && screenHeight > 0 ? screenHeight : 800;
 
-    //摄像机
+    SetScreen(screenWidth, screenHeight);
+}
+
+/**
+ * 要先初始化引擎
+ * options {
+ *      fps : 60,
+ * }
+ */
+function initEngine(options = null){
+    SetEngine(
+        CreateEngineWithData(options));
+}
+
+/**
+ * 摄像机
+ */
+function initCamera(options = null){
     SetDefaultCamera(
-        CreateCameraWithData(options['camera'], screenWidth, screenHeight));
-
-    //系统
-    initSystems(options['debug']);
-
-    //开启碰撞系统
-    if(options.collide){
-        OpenCollider(options.collide);
-
-        // if(options.useTileCombine){
-        //     let resultNodes = CreateCombineNodes(tilemap, collide.boxHandler);
-        //     resultNodes.forEach(result => {
-        //         collide.loadCallback(result.value, result.rect);
-        //     });
-        // }
-    }
-
-    //自定义数据等
-    initDef(options['def']);
-    initDatas(options['datas']);
+        CreateCameraWithData(options));
 }
 
 function initDef(options = null){
@@ -73,6 +74,7 @@ function initDef(options = null){
         SetDef(key, options[key]);
     }
 }
+
 
 /**
  * TODO 临时方法，以后优化
@@ -189,5 +191,5 @@ function createSpriteFrameWithData(name = "", bitmap = null, area = null){
 }
 
 export{
-    initEngine, initGame, loadWithResource
+    initGame, loadWithResource
 }

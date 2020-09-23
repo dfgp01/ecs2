@@ -17,6 +17,11 @@ function UpdatePos(pos = null, x = 0, y = 0){
     pos.y = y;
 }
 
+function UpdatePosWithVec(pos = null, vec = null){
+    pos.x += vec.x;
+    pos.y += vec.y;
+}
+
 /**
  * 计算相对坐标
  * 以targetPos为准，计算referPos于targetPos的相对坐标
@@ -55,6 +60,13 @@ function UpdateVec(vec = null, x = 0, y = 0){
     vec.x = x;
     vec.y = y;
     //vec.distance = x * x + y * y;
+}
+
+function NewPosWithVec(pos = null, vec = null){
+    return new Pos(
+        pos.x + vec.x,
+        pos.y + vec.y  
+    );
 }
 
 /**
@@ -141,8 +153,8 @@ function UpdateCircle(circle = null, radius = 0){
 }
 
 export {
-    NewPos, UpdatePos, ToLocatePos, 
-    NewVec, NewVecWithPos, UpdateVec, GetVecDistance,
+    NewPos, UpdatePos, UpdatePosWithVec, ToLocatePos, 
+    NewVec, NewVecWithPos, UpdateVec, NewPosWithVec, GetVecDistance,
     NewRect, UpdateRectSize, GetRectWidth, GetRectHalfWidth, GetRectHeight, GetRectHalfHeight, GetRectArea,
     NewCircle, GetCircleRadius, UpdateCircle
 }

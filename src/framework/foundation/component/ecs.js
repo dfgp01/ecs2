@@ -8,20 +8,20 @@ function NextClassId(){
 }
 
 /**
- * 每个实体拥有一个独立ID
- */
-var entityId = 1;
-function NewEntityId(){
-	return entityId++;
-}
-
-/**
  * 暂定这个名
  */
 class DFClass {
 	constructor(clzId = 0) {
 		this.clzId = clzId;
 	}
+}
+
+/**
+ * 每个实体拥有一个独立ID
+ */
+var entityId = 1;
+function NewEntityId(){
+	return entityId++;
 }
 
 /**
@@ -45,15 +45,36 @@ class Component {
 }
 
 /**
+ * 元件，命名待定
+ */
+class UnitComponent extends GameObject {
+	constructor(entityId = 0) {
+		super();
+		this.entityId = entityId;
+	}
+}
+
+function GetOwnerId(unitComponent = null){
+	return unitComponent.entityId;
+}
+
+/**
 *	The base System
 */
-class System {
-	constructor(){
-		this.id = NewEntityId();
+class System extends GameObject{
+	constructor(priority = 0){
+		super();
+		this.priority = priority;
 	}
     onStart(){}
     onUpdate(dt = 0){}
     onEnd(){}
 }
 
-export {NewEntityId, GameObject, Component, System}
+function GetSystemPriority(system = null){
+	return system.priority;
+}
+
+export {
+	NewEntityId, GameObject, Component, UnitComponent, GetOwnerId, System, GetSystemPriority
+}

@@ -1,7 +1,9 @@
 import { NewLink } from "../../lib/list/linklist";
+import { NewRect, GetRectWidth, GetRectHeight } from "../../foundation/structure/geometric";
 
 /**
  * 全局单例资源
+ * todo 要另外做一个resource目录
  */
 
 
@@ -65,12 +67,18 @@ function GetDefaultCamera(){
     return defaultCamera;
 }
 
-var cameras = [];
-function AddCamera(camera = null){
-    cameras.push(camera);
+/**
+ * 屏幕，暂时用rect
+ */
+var defaultScreen = null;
+function SetScreen(width = 0, height = 0){
+    defaultScreen = NewRect(width, height);
 }
-function GetCameras(){
-    return cameras;
+function GetScreenWidth(){
+    return GetRectWidth(defaultScreen);
+}
+function GetScreenHeight(){
+    return GetRectHeight(defaultScreen);
 }
 
 
@@ -97,22 +105,18 @@ function GetScene(){
 }
 
 /**
- * 监听器
+ * 所有游戏单位
  */
-var listenerMap = new Map();
-function getListenerList(eventType = 0){
-    let lisList = listenerMap.get(eventType);
-    if(!lisList){
-        lisList = NewLink();
-        listenerMap.set(eventType, lisList);
-    }
-    return lisList;
+var unitList = NewLink();
+function GetUnitList(){
+    return unitList;
 }
 
 export {
     GetSpriteFrame, SetSpriteFrame,
     GetDef, SetDef, GetData, SetData, 
-    SetDefaultCamera, GetDefaultCamera, AddCamera, GetCameras,
+    SetDefaultCamera, GetDefaultCamera,
+    SetScreen, GetScreenWidth, GetScreenHeight,
     SetEngine, GetEngine, SetScene, GetScene,
-    getListenerList
+    GetUnitList
 }

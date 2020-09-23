@@ -1,9 +1,7 @@
-import { GetRealPos, GetPos, GetOffset } from "../../../foundation/offset/base";
 import { Component, GameObject } from "../../../foundation/component/ecs";
 import { NewLink } from "../../list/linklist";
 import { AddToList, GetListData } from "../../../foundation/container/list";
 import { NewPos, UpdatePos, NewRect } from "../../../foundation/structure/geometric";
-import { NewRectPosRelation } from "../../../foundation/offset/rect";
 import { GetSpriteFrameWidth, GetSpriteFrameHeight } from "../../../foundation/structure/frame";
 import { GetPosComponent } from "../../pos/component";
 

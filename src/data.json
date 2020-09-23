@@ -1,65 +1,24 @@
 {
-	"debug" : true,
-	"res" : {
-		"imgs" : [
-			"res/3.png",
-			"res/2.png"
-		],
-		"frames" : [
-			{
-				"name" : "building1",
-				"res" : "res/3.png",
-				"area" : {
-					"width" : 151,
-					"height" : 167
-				}
-			},
-			{
-				"name" : "building2",
-				"res" : "res/2.png",
-				"area" : {
-					"width" : 145,
-					"height" : 356
-				}
-			}
-		]
-	},
-	"def" : {
-		"0" : {},
-		"1" : {
-			"display" : {
-				"isometric" : true,
-				"frame" : "building1",
-				"offset-y" : -50
-			}
-		},
-		"2" : {
-			"display" : {
-				"isometric" : true,
-				"frame" : "building2",
-				"offset-y" : -150
-			}
-		},
-		"3" : {
-			"display" : {
-				"isometric" : true,
-				"frame" : "building3"
+	"system" : {
+		"debug" : true,
+		"collide" : {
+			"quadtree" : {
+				"use-strict" : 1,
+				"width" : 900, "height" : 900, "deep" : 3
 			}
 		}
 	},
-	"datas" : [
-		{
-			"name" : "tile1",
-			"tilemap" : {
-				"data" : [
-					"0", "0", "2",
-					"0", "0", "0",
-					"2", "0", "0"
-				],
-				"columns" : 3,
-				"grid-width" : 64,
-				"grid-height" : 64
-			}
-		}
-	]
+	"scene" : {
+		"blocks" : 0,
+		"block-width" : 16,
+		"bodies" : 1,
+		"body-width" : 10,
+		"body-speed-seed" : 5
+	},
+	"tilemap" : {
+		"columns" : 20,
+		"rows" : 20,
+		"grid-width" : 20,
+		"grid-height" : 20
+	}
 }

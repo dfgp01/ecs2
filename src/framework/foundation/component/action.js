@@ -1,3 +1,4 @@
+import { UnitComponent } from "./ecs";
 
 const ACTION_STATE_RUNNING = 1;
 const ACTION_STATE_END = 2;
@@ -14,10 +15,9 @@ const ACTION_STATE_END = 2;
         onEnd: 在system请求isEnd=true后调用，用于收尾，如资源回收
         onStop: 由utils.StopAction触发，强制中断，不走isEnd流程，默认调用onEnd，因此根据情况可能需要额外处理
 */
-class Action extends GameObject {
+class Action extends UnitComponent {
     constructor(entityId = 0, order = 0){
-        super();
-        this.entityId = entityId;
+        super(entityId);
         this.order = order;
         this.state = 0;
     }

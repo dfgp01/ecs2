@@ -1,8 +1,9 @@
-import { DrawFrame, Clear } from "../../director/render";
+import { DrawFrame, Clear, DrawRect } from "../../director/utils/render";
 import { System } from "../../foundation/component/ecs";
 import { IteratorLayers } from "./component/layer";
 import { GetDisplayIsoPos, GetDisplaySpriteFrame, GetDisplayCenterPos, UpdateIsoPos, IsDisplayISOmetrics } from "./component/render";
 import { drawDebug, drawIsoDebug } from "./debug";
+import { SYSTEM_PRIORITY_RENDER_UPDATE } from "../../foundation/const";
 
 /**
  * 渲染系统，逻辑步骤：
@@ -13,6 +14,9 @@ import { drawDebug, drawIsoDebug } from "./debug";
  * 5.   画出图像
  */
 class RenderUpdateSystem extends System {
+    constructor(){
+        super(SYSTEM_PRIORITY_RENDER_UPDATE)
+    }
     onUpdate(dt = 0){
         Clear();
         LinkIterator(GetDisplayList(), displayTuple => {
@@ -24,6 +28,9 @@ class RenderUpdateSystem extends System {
 }
 
 class LayerRenderUpdateSystem extends System {
+    constructor(){
+        super(SYSTEM_PRIORITY_RENDER_UPDATE)
+    }
     onUpdate(dt = 0){
         Clear();
         IteratorLayers(displayTuple => {
@@ -54,9 +61,24 @@ function draw(displayTuple = null){
 var renderSys = null;
 function GetRenderUpdateSystem(){
     if(!renderSys){
-        renderSys = new LayerRenderUpdateSystem();
+        //renderSys = new LayerRenderUpdateSystem();
+        renderSys = new Tmp();
     }
     return renderSys;
 }
 
-export {GetRenderUpdateSystem}
+/**
+ * todo 临时
+ */
+class Tmp extends System {
+    constructor(){
+        super(SYSTEM_PRIORITY_RENDER_UPDATE)
+    }
+    onUpdate(dt = 0){
+        Clear();
+    }
+}
+
+export {
+    GetRenderUpdateSystem
+}
