@@ -4,25 +4,21 @@ import { NewPos } from "../../../foundation/structure/geometric";
 import { GetInt } from "../../../foundation/structure/math";
 
 class TileMapColliderContainer extends BaseGridMapColliderContainer {
-    init(options = null){
+    onInit(options = null){
         let rows = options['rows'];
         let columns = options['columns'];
         let width = options['width'];
         let height = options['height'];
         this.gridmap = NewTileMap(rows, columns, GetInt(width / columns), GetInt(height / rows), NewPos());
-        super.init(options);
+        super.initGrids();
     }
 }
 
-var container = null;
-function GetTileMapColliderContainer(){
-    if(!container){
-        container = new TileMapColliderContainer();
-    }
-    return container;
+function NewTileMapColliderContainer(){
+    return new TileMapColliderContainer();
 }
 
 export{
-    GetTileMapColliderContainer
+    NewTileMapColliderContainer
 }
 

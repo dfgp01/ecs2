@@ -1,12 +1,16 @@
-import { GetTileMapColliderContainer } from '../gridmap/tilemap';
-import { GetNormalColliderSystem, GetNormalColliderContainer } from '../list/normal';
-import { GetGroupColliderContainer, GetGroupColliderSystem } from '../list/group';
+import { NewTileMapColliderContainer } from '../gridmap/tilemap';
+import { GetNormalColliderSystem } from '../list/normal';
+import { GetGroupColliderSystem } from '../list/group';
 import { GetGridMapColliderSystem } from '../gridmap/base';
-import { GetSimpleQuadtreeColliderContainer, GetStrictQuadtreeColliderContainer } from '../gridmap/quadtree';
+import { NewSimpleQuadtreeColliderContainer, NewStrictQuadtreeColliderContainer } from '../gridmap/quadtree';
 import { NewCollider } from '../base';
 
-//抽象接口
 var colliderContainer = null;
+
+var sys = null;
+function GetColliderSystem(){
+    return sys;
+}
 
 /**
  * 启用碰撞检测机制
@@ -26,31 +30,26 @@ function OpenCollider(options = null){
     if(!options){
         return
     }
-    let sys = null;
     let ops = null;
 
     if(options['group']){
         ops = options['group'];
-        colliderContainer = GetGroupColliderContainer();
         sys = GetGroupColliderSystem();
     }else if(options['tilemap']){
         ops = options['tilemap'];
-        colliderContainer = GetTileMapColliderContainer();
-        sys = GetGridMapColliderSystem(colliderContainer);
+        sys = GetGridMapColliderSystem(NewTileMapColliderContainer());
     }else if(options['quadtree']){
         ops = options['quadtree'];
         if(ops['use-strict']){
-            colliderContainer = GetStrictQuadtreeColliderContainer();
-            sys = GetGridMapColliderSystem(colliderContainer);
+            sys = GetGridMapColliderSystem(NewStrictQuadtreeColliderContainer());
         }else{
-            colliderContainer = GetSimpleQuadtreeColliderContainer();
-            sys = GetGridMapColliderSystem(colliderContainer);
+            sys = GetGridMapColliderSystem(NewSimpleQuadtreeColliderContainer());
         }
     }else{
-        colliderContainer = GetNormalColliderContainer();
         sys = GetNormalColliderSystem();
     }
-    colliderContainer.init(ops);
+    colliderContainer = sys.container;
+    colliderContainer.onInit(ops);
     return sys;
 }
 
@@ -65,5 +64,5 @@ function RemoveCollider(collider = null) {
 }
 
 export {
-    OpenCollider, AddCollider, RemoveCollider
+    GetColliderSystem, OpenCollider, AddCollider, RemoveCollider
 }

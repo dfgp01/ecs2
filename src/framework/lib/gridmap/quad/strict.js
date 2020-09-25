@@ -8,12 +8,23 @@ import { IsLeaFNode } from "./node";
  */
 class StrictQuadTree extends BaseQuadTreeMap {
 
-    getOffsetGrid(grid = null, xOffset = 0, yOffset = 0){
-        let r = this.deep - grid.deep;
-        let xFlag = grid._xFlag << r;
-        let yFlag = grid._yFlag << r;
-        return getNodeByFlag(this, this.deep, xFlag + xOffset, yFlag + yOffset);
+    /**
+     * 计算所有节点
+     */
+    getGridCount(){
+        let i = 0;
+        iteratorByDepth(this.root, node => {
+            i++;
+        });
+        return i;
     }
+
+    // getOffsetGrid(grid = null, xOffset = 0, yOffset = 0){
+    //     let r = this.deep - grid.deep;
+    //     let xFlag = grid._xFlag << r;
+    //     let yFlag = grid._yFlag << r;
+    //     return getNodeByFlag(this, this.deep, xFlag + xOffset, yFlag + yOffset);
+    // }
 
     //深度优先遍历，处理每一个节点，包括根节点
     iterator(callback = null){

@@ -11,6 +11,7 @@ export const TEAM_MASK_CODE = [
 /**
  * system priority
  */
+export const SYSTEM_PRIORITY_ACTION = 50;
 export const SYSTEM_PRIORITY_COLLIDE = 100;
 export const SYSTEM_PRIORITY_POS_UPDATE = 800;
 export const SYSTEM_PRIORITY_LISTENER = 200;
@@ -23,5 +24,18 @@ export const EVENT_PRIORITY_NORMAL = 900;
 /**
  * debug style
  */
-export const DEBUG_BORDER_BLUE = 0;
-export const DEBUG_BORDER_BLACK = 1;
+export const DEBUG_BORDER_BLACK = 0;
+export const DEBUG_BORDER_BLUE = 1;
+export const DEBUG_BORDER_GREEN = 2;
+export const DEBUG_BORDER_RED = 3;
+export const DEBUG_BORDER_YELLOW = 4;
+export const DEBUG_BORDER_PINK = 5;
+export const DEBUG_BORDER_GREENBLUE = 6;
+
+export const DEBUG_FILL_BLACK = 129;
+export const DEBUG_FILL_BLUE = 130;
+export const DEBUG_FILL_GREEN = 131;
+export const DEBUG_FILL_RED = 132;
+export const DEBUG_FILL_YELLOW = 133;
+export const DEBUG_FILL_PINK = 134;
+export const DEBUG_FILL_GREENBLUE = 135;

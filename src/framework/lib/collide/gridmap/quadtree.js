@@ -13,31 +13,27 @@ const { BaseGridMapColliderContainer } = require("./base");
 
 class SimpleQuadtreeColliderContainer extends BaseGridMapColliderContainer {
     
-    init(options = null){
+    onInit(options = null){
         let deep = options['deep'];
         let width = options['width'];
         let height = options['height'];
         this.gridmap = NewSimpleQuadTree(width, height, deep);
-        super.init(options);
+        super.initGrids();
     }
 }
 
-var container1 = null;
-function GetSimpleQuadtreeColliderContainer(){
-    if(!container1){
-        container1 = new SimpleQuadtreeColliderContainer();
-    }
-    return container1;
+function NewSimpleQuadtreeColliderContainer(){
+    return new SimpleQuadtreeColliderContainer();
 }
 
 class StrictQuadtreeColliderContainer extends BaseGridMapColliderContainer {
     
-    init(options = null){
+    onInit(options = null){
         let deep = options['deep'];
         let width = options['width'];
         let height = options['height'];
         this.gridmap = NewStrictQuadTree(width, height, deep);
-        super.init(options);
+        super.initGrids();
     }
 
     addCollider(collider = null){
@@ -71,14 +67,10 @@ function findNodeBySize(grid = null, rect = null){
     return findNodeBySize(parent, rect);
 }
 
-var container2 = null;
-function GetStrictQuadtreeColliderContainer(){
-    if(!container2){
-        container2 = new StrictQuadtreeColliderContainer();
-    }
-    return container2;
+function NewStrictQuadtreeColliderContainer(){
+    return new StrictQuadtreeColliderContainer();
 }
 
 export{
-    GetSimpleQuadtreeColliderContainer, GetStrictQuadtreeColliderContainer
+    NewSimpleQuadtreeColliderContainer, NewStrictQuadtreeColliderContainer
 }

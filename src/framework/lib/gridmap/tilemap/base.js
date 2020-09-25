@@ -1,7 +1,7 @@
 import { GetInt } from "../../../foundation/structure/math";
-import { AbstractGridMap, CheckInGridMap, GetGridHeight, GetGridMapStartPos, GetGridWidth } from "../../../foundation/container/gridmap";
+import { AbstractGridMap, GetGridHeight, GetGridMapStartPos, GetGridWidth } from "../../../foundation/container/gridmap";
 import { NewTileGrid } from "./node";
-import { NewPos } from "../../../foundation/structure/geometric";
+import { NewPos, ToLocatePos } from "../../../foundation/structure/geometric";
 
 
 /**
@@ -33,12 +33,15 @@ class TileMap extends AbstractGridMap {
         return this.rows * this.gridHeight;
     }
 
+    getGridCount(){
+        return this.grids.length;
+    }
+
     getGrid(pos = null){
-        if(!CheckInGridMap(pos, this)){
-            return null;
-        }
-        let column = GetInt(pos.x / this.gridWidth);
-        let row = GetInt(pos.y / this.gridHeight);
+        //这里要将pos变为相对坐标
+        let rPos = ToLocatePos(pos, GetGridMapStartPos(this));
+        let column = GetInt(rPos.x / this.gridWidth);
+        let row = GetInt(rPos.y / this.gridHeight);
         return this.grids[row * this.columns + column];
     }
 
@@ -114,10 +117,6 @@ function GetTileGridWithIndex(tilemap = null, index = 0){
     return tilemap.grids[index];
 }
 
-function GetTileGridCount(tilemap = null){
-    return tilemap.grids.length;
-}
-
 /**
  * 是否边缘格子
  * @param {*} tileGrid 
@@ -129,7 +128,7 @@ function IsSideTileGrid(tilemap = null, tileGrid = null){
 
 export {
     NewTileMap,
-    GetTileGridWithIndex, GetTileGridCount, IsSideTileGrid
+    GetTileGridWithIndex, IsSideTileGrid
 }
 
 

@@ -2,7 +2,7 @@ import { runTick2, canvasOnKeyCallback, canvasOnMouseCallback } from "./processo
 import { GetSpriteFrameBitmapData, GetSpriteFrameStartX, GetSpriteFrameStartY, GetSpriteFrameWidth, GetSpriteFrameHeight, GetSpriteFrameHalfWidth, GetSpriteFrameHalfHeight } from "../../../foundation/structure/frame";
 import { GetRectHalfWidth, GetRectHalfHeight, GetRectHeight, GetRectWidth } from "../../../foundation/structure/geometric";
 import { AbstractEngine } from "../../../foundation/component/engine";
-import { DEBUG_BORDER_BLUE, DEBUG_BORDER_BLACK } from "../../../foundation/const";
+import { DEBUG_BORDER_BLUE, DEBUG_BORDER_BLACK, DEBUG_FILL_BLACK, DEBUG_BORDER_GRAY, DEBUG_BORDER_GREEN, DEBUG_BORDER_RED, DEBUG_BORDER_YELLOW, DEBUG_BORDER_PINK, DEBUG_BORDER_GREENBLUE, DEBUG_FILL_BLUE, DEBUG_FILL_GREEN, DEBUG_FILL_RED, DEBUG_FILL_PINK, DEBUG_FILL_GREENBLUE, DEBUG_FILL_YELLOW } from "../../../foundation/const";
 
 /**
  * 浏览器的key-code
@@ -40,9 +40,15 @@ class H5Engine extends AbstractEngine {
 
     drawRect(centerPos = null, rect = null, style = 0){
         setStyle(this.ctx, style);
-        this.ctx.strokeRect(
-            centerPos.x - GetRectHalfWidth(rect), centerPos.y - GetRectHalfHeight(rect),
-            GetRectWidth(rect), GetRectHeight(rect));
+        if(style < DEBUG_FILL_BLACK){
+            this.ctx.strokeRect(
+                centerPos.x - GetRectHalfWidth(rect), centerPos.y - GetRectHalfHeight(rect),
+                GetRectWidth(rect), GetRectHeight(rect));
+        }else{
+            this.ctx.fillRect(
+                centerPos.x - GetRectHalfWidth(rect), centerPos.y - GetRectHalfHeight(rect),
+                GetRectWidth(rect), GetRectHeight(rect));
+        }
     }
 
     drawLine(startPos = null, endPos = null){
@@ -75,11 +81,48 @@ class H5Engine extends AbstractEngine {
 
 function setStyle(ctx = null, style = 0){
     switch(style){
+        case DEBUG_BORDER_BLACK:
+            ctx.strokeStyle="#000000";
+            break;
         case DEBUG_BORDER_BLUE:
             ctx.strokeStyle="#0000ff";
             break;
-        case DEBUG_BORDER_BLACK:
-            ctx.strokeStyle="#000000";
+        case DEBUG_BORDER_GREEN:
+            ctx.strokeStyle="#00ff00";
+            break;
+        case DEBUG_BORDER_RED:
+            ctx.strokeStyle="#ff0000";
+            break;
+        case DEBUG_BORDER_YELLOW:
+            ctx.strokeStyle="#ffff00";
+            break;
+        case DEBUG_BORDER_PINK:
+            ctx.strokeStyle="#ff00ff";
+            break;
+        case DEBUG_BORDER_GREENBLUE:
+            ctx.strokeStyle="#00ffff";
+            break;
+
+        case DEBUG_FILL_BLACK:
+            ctx.fillStyle="#000000";
+            break;
+        case DEBUG_FILL_BLUE:
+            ctx.fillStyle="#0000ff";
+            break;
+        case DEBUG_FILL_GREEN:
+            ctx.fillStyle="#00ff00";
+            break;
+        case DEBUG_FILL_RED:
+            ctx.fillStyle="#ff0000";
+            break;
+        case DEBUG_FILL_YELLOW:
+            ctx.fillStyle="#ffff00";
+            break;
+        case DEBUG_FILL_PINK:
+            ctx.fillStyle="#ff00ff";
+            break;
+        case DEBUG_FILL_GREENBLUE:
+            ctx.fillStyle="#00ffff";
             break;
     }
 }

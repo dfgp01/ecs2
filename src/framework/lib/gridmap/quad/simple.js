@@ -1,12 +1,16 @@
 import { NewPos } from "../../../foundation/structure/geometric";
 import { BaseQuadTreeMap } from "./base";
-import { createRootNode, getNodeByFlag } from "./calc";
+import { createRootNode } from "./calc";
 import { IsLeaFNode } from "./node";
 
 class SimpleQuadTree extends BaseQuadTreeMap {
 
-    getOffsetGrid(grid = null, xOffset = 0, yOffset = 0){
-        return getNodeByFlag(this, grid.deep, grid._xFlag + xOffset, grid._yFlag + yOffset);
+    /**
+     * 只计算叶子节点数量
+     */
+    getGridCount(){
+        return Math.pow(4, this.deep);
+        //return 4 ^ this.deep;   //原来这个是异或符，不是N次方符，晕
     }
 
     //深度优先遍历，只返回子节点

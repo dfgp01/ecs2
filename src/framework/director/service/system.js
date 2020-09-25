@@ -8,6 +8,7 @@ import { GetRenderDebugSystem } from "../../lib/view/debug";
 import { EngineStart } from "../../foundation/component/engine";
 import { GetRenderUpdateSystem } from "../../lib/view/system";
 import { OpenCollider } from "../../lib/collide/utils/boot";
+import { GetActionSystem } from "./action";
 
 /**
  * 主系统列表
@@ -17,8 +18,7 @@ var renderSystems = NewLink();
 function initSystems(options = null){
     options = options ? options : {};
     //InsertToLink(logicSystems, GetActionSystem());
-    //InsertToLink(logicSystems, GetPosUpdateSystem());
-    
+    addSystem(GetActionSystem());
     addSystem(GetEventListenerSystem());
     addSystem(GetUnitPosUpdateSystem());
     addRenderSystem(GetRenderUpdateSystem());

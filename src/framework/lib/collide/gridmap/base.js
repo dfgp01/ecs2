@@ -15,7 +15,7 @@ class BaseGridMapColliderContainer extends AbstractColliderContainer {
         this.gridmap = null;    //gridmap.data限定为list<collider>
     }
 
-    init(options = null){
+    initGrids(){
         GridMapIterator(this.gridmap, (grid) => {
             SetGridData(grid, NewLink());
         });
@@ -40,10 +40,6 @@ class BaseGridMapColliderContainer extends AbstractColliderContainer {
  * 基于网格算法的检测系统
  */
 class GridMapColliderSystem extends AbstractColliderSystem {
-    constructor(container = null){
-        super();
-        this.container = container;
-    }
     onUpdate(dt = 0){
         GridMapIterator(this.container.gridmap, grid => {
             let list = GetGridData(grid);

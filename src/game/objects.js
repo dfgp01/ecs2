@@ -7,7 +7,7 @@ import { GetUnitId } from "../framework/foundation/unit/base";
 import { PushToList, GetListData } from "../framework/foundation/container/list";
 import { CreateGameUnit } from "../framework/director/utils/boot";
 import { NewRectOffsetRelation } from "../framework/foundation/unit/rect";
-import { NewRect } from "../framework/foundation/structure/geometric";
+import { NewPos, NewRect } from "../framework/foundation/structure/geometric";
 import { AddDebugDisplayer } from "../framework/lib/view/utils";
 import { DEBUG_BORDER_BLACK, DEBUG_BORDER_BLUE } from "../framework/foundation/const";
 import { BLOCK_TAG, BODY_TAG } from "./const";
@@ -115,8 +115,24 @@ function getRandom(maxNum = 0){
     return Math.floor(Math.random() * (maxNum-1)) + 1;
 }
 
+/**
+ * 获得 n~m 之间的随机数
+ * @param {*} min 
+ * @param {*} max 
+ */
+function RandomBetween(min = 0, max = 0){
+    return min + Math.floor(Math.random() * (max - min));
+}
+
+function RandomPos(sceenWidth = 0, sceenHeight = 0){
+    return NewPos(
+        RandomBetween(sceenWidth / 2 * -1, sceenWidth / 2),
+        RandomBetween(sceenHeight / 2 * -1, sceenHeight / 2)
+    );
+}
+
 export{
     GetSpeedComponentList, 
     TurnLeft, TurnRight, TurnUp, TurnDown,
-    GetMoverList, NewBlock, NewBody, NewRandoms
+    GetMoverList, NewBlock, NewBody, NewRandoms, RandomBetween, RandomPos
 }

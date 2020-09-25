@@ -19,7 +19,7 @@ function GetGridWidth(grid = null){
     return GetRectWidth(grid.rect);
 }
 function GetGridHalfWidth(grid = null){
-    return GetRectHalfWidth(grid.width);
+    return GetRectHalfWidth(grid.rect);
 }
 function GetGridHeight(grid = null){
     return GetRectHeight(grid.rect);
@@ -49,6 +49,7 @@ class AbstractGridMap {
     }
     getGridMapWidth(){}
     getGridMapHeight(){}
+    getGridCount(){}
     getGrid(pos = null){}
     getGridStartPos(grid = null){}
     getGridCenterPos(grid = null){}
@@ -79,7 +80,9 @@ function GetGridMapHalfHeight(gridmap = null){
     return GetGridMapHeight(gridmap) * 0.5;
 }
 
-
+function GetGridMapGridCount(gridmap = null){
+    return gridmap.getGridCount();
+}
 
 /**
  * 基础坐标
@@ -199,7 +202,7 @@ function CheckInGridMap(pos = null, gridmap = null){
 
 export {
     BaseGrid, GetGridWidth, GetGridHalfWidth, GetGridHeight, GetGridHalfHeight, GetGridData, SetGridData,
-    AbstractGridMap, GetGridMapWidth, GetGridMapHalfWidth, GetGridMapHeight, GetGridMapHalfHeight,
+    AbstractGridMap, GetGridMapWidth, GetGridMapHalfWidth, GetGridMapHeight, GetGridMapHalfHeight, GetGridMapGridCount,
     GetGridMapPos, GetGridMapCenterPos, GetGridMapStartPos, GetGridMapEndPos, GetGridStartPos, GetGridCenterPos, GetGridEndPos, GetGridWithPos, GetOffsetGrid,
     GetGridMapData, SetGridMapData, RemoveGridMapData, GridMapIterator, GridMapAdjacentCompare, GridMapUpdatePart,
     CheckInGridMap

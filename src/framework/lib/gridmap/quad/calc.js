@@ -1,5 +1,4 @@
-import { GetGridCenterPos, GetGridHeight, GetGridMapStartPos, GetGridWidth } from "../../../foundation/container/gridmap";
-import { NewPos } from "../../../foundation/structure/geometric";
+import { GetGridHalfHeight, GetGridHalfWidth, GetGridHeight, GetGridMapCenterPos, GetGridWidth } from "../../../foundation/container/gridmap";
 import { GetParentNode, IsLeaFNode, NewQuadTreeNode } from "./node";
 
 
@@ -46,8 +45,12 @@ function addChild(width = 0, height = 0, currDeep = 0, maxDeep = 0, parent = nul
  */
 var bin = [1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095];
 function getFlagMask(targetDeep = 0){
-    //return bin[targetDeep - 1];
-    return 2 ^ targetDeep - 1;
+    return bin[targetDeep - 1];
+    //return Math.pow(2, targetDeep - 1);
+}
+var squre = [1, 2, 4, 6, 8, 16, 32, 64, 128, 255, 512, 1024];
+function getSqure2(pow = 0){
+    return squre[pow];
 }
 
 //边界检测
@@ -65,14 +68,17 @@ function getNodeByFlag(tree = null, targetDeep = 0, xFlag = 0, yFlag = 0){
 
 //递归按照编码找节点
 function findByFlag(node = null, remainDeep = 0, xFlag = 0, yFlag = 0){
-    if(remainDeep == 0){
+    if(remainDeep == 0 || IsLeaFNode(node)){
         return node;
     }
-    let r = (remainDeep - 1);
-    let mask = 2 ^ r;
-    let j = xFlag & mask >> r;
-    let i = yFlag & mask >> r;
-    return findByFlag(node.children[i | j], xFlag - j, yFlag - j);
+    //let mask = 2 ^ r;         //原来这个是异或符，不是N次方符，晕，要用Math.pow(2, rate)
+    
+    //获取最高位，用于定位index，然后去掉最高位，用尾部继续递归
+    let tailFlagNum = (remainDeep - 1);
+    let j = xFlag >> tailFlagNum;
+    let i = yFlag >> tailFlagNum << 1;
+    let tailMask = getFlagMask(tailFlagNum);
+    return findByFlag(node.children[i | j], remainDeep - 1, xFlag & tailMask, yFlag & tailMask);
 }
 
 /**
@@ -91,15 +97,20 @@ function getNodeWithPos(tree = null, pos = null){
     // return getNodeByFlag(tree, tree.deep, xFlag, yFlag);
 }
 
-function findNodeWithPos(grid = null, pos = null){
+/**
+ * rPos已经是相对坐标了
+ * @param {*} grid 
+ * @param {*} rPos
+ */
+function findNodeWithPos(grid = null, rPos = null, anchor = null){
     if(IsLeaFNode(grid)){
         return grid;
     }
-    //todo 这里可能需要优化
-    let gridPos = GetGridCenterPos(grid._gridmap, grid);
-    let xFlag = gridPos.x > pos.x ? 0 : 1;
-    let yFlag = gridPos.y > pos.y ? 0 : 1;
-    return findNodeWithPos(grid.children[xFlag | yFlag], pos);
+    let xFlag = rPos.x > anchor.x ? 1 : 0;
+    let yFlag = rPos.y > anchor.y ? 2 : 0;
+    anchor.x += GetGridWidth(grid) * 0.25 * (xFlag > 0 ? 1 : -1);
+    anchor.y += GetGridHeight(grid) * 0.25 * (yFlag > 0 ? 1 : -1);
+    return findNodeWithPos(grid.children[xFlag | yFlag], rPos, anchor);
 }
 
 /**
@@ -107,26 +118,32 @@ function findNodeWithPos(grid = null, pos = null){
  * @param {*} grid 
  * @param {*} offset 
  */
-function calcGridPos(grid = null, offset = 0){
+function calcGridPos(tree = null, grid = null, offset = 0){
+    let pos = GetGridMapCenterPos(tree);
+    calcPos(pos, grid);
+    pos.x += GetGridHalfWidth(grid) * offset;
+    pos.y += GetGridHalfHeight(grid) * offset;
+    return pos;
+}
+
+function calcPos(anchor = null, grid = null){
     let parent = GetParentNode(grid);
     if(!parent){//is root
-        return GetGridMapStartPos(grid._gridmap);
-        
+        return;
     }
-    let parentPos = calcGridPos(parent, offset);
+    calcPos(anchor, parent);
+
     let i = 0;
-    parent.children.forEach(node => {
-        if(node == grid){
-            return; //这里不会退出主函数，只会退出匿名函数
-        }
-        i++;
+    //新知识，some和every，forrach是不能跳出循环的..............
+    parent.children.some((item, index, array) => {
+        i = index;
+        return item == grid;
     });
-    return NewPos(
-        parentPos.x + GetGridWidth(grid) * ((i & 1 ? 1 : 0) + offset),
-        parentPos.y + GetGridHeight(grid) * ((i & 2 ? 1 : 0) + offset)
-    );
+
+    anchor.x += GetGridHalfWidth(grid) * (i & 1 ? 1 : -1);
+    anchor.y += GetGridHalfHeight(grid) * (i & 2 ? 1 : -1);
 }
 
 export{
-    createRootNode, getNodeByFlag, getNodeWithPos, calcGridPos
+    createRootNode, getNodeByFlag, findNodeWithPos, calcGridPos
 }

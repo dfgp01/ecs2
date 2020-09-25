@@ -1,8 +1,6 @@
 import { AddToLayer, RemoveFromLayer } from "./component/layer";
 import { NewDisplayer } from "./component/render";
-import { NewLink } from "../list/linklist";
-import { UnitComponent } from "../../foundation/component/ecs";
-import { PushToList } from "../../foundation/container/list";
+import { AddToList, PushToList, RemoveFromList } from "../../foundation/container/list";
 import { NewDebugDisplayer, GetDebugDisplayerList } from "./debug";
 
 
@@ -25,11 +23,15 @@ function RemoveDisplayer(displayer = null) {
 
 function AddDebugDisplayer(entityId = 0, rectOR = null, style = 0){
     let c = NewDebugDisplayer(entityId, rectOR, style);
-    PushToList(GetDebugDisplayerList(), c);
+    AddToList(GetDebugDisplayerList(), c);
     return c;
+}
+
+function RemoveDebugDisplayer(id = 0){
+    RemoveFromList(GetDebugDisplayerList(), id);
 }
 
 export {
     AddDisplayer, RemoveDisplayer, 
-    AddDebugDisplayer
+    AddDebugDisplayer, RemoveDebugDisplayer
 }

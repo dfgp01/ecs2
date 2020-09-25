@@ -1,7 +1,7 @@
 import { UnitComponent } from "./ecs";
 
-const ACTION_STATE_RUNNING = 1;
-const ACTION_STATE_END = 2;
+export const ACTION_STATE_RUNNING = 1;
+export const ACTION_STATE_END = 2;
 
 /**
 *   action模块的设计理念是：
@@ -18,42 +18,37 @@ const ACTION_STATE_END = 2;
 class Action extends UnitComponent {
     constructor(entityId = 0, order = 0){
         super(entityId);
-        this.order = order;
+        this.order = order; //排序号，优先级
         this.state = 0;
     }
     onStart(){}
     onUpdate(dt = 0){}
     onEnd(){}
-    isEnd(){    return false;    }
-    onStop(){   this.onEnd();   }
+    isEnd(){    return false;   }
+    onCancel(){}
 }
 
-
-function actionStart(action = null){
-    action.state = ACTION_STATE_RUNNING;
-    action.onStart();
+function GetActionOrder(action = null){
+    return action.order;
 }
 
-function actionUpdate(action = null, dt = 0){
-    action.onUpdate(dt);
+function GetActionState(action = null){
+    return action.state;
 }
 
-function actionEnd(action = null){
-    action.state = ACTION_STATE_END;
-    action.onEnd();
+function SetActionState(action = null, state = 0){
+    action.state = state;
 }
 
-function actionStop(action = null){
-    action.state = ACTION_STATE_END;
-    action.onStop();
-}
-
-
-function isStart(action = null){
+function IsActionStart(action = null){
     return action.state == ACTION_STATE_RUNNING;
 }
-function isStop(action = null){
+
+function IsActionEnd(action = null){
     return action.state == ACTION_STATE_END;
 }
 
-export {Action, actionStart, actionUpdate, actionEnd, actionStop, isStart, isStop}
+
+export {
+    Action, GetActionOrder, GetActionState, SetActionState, IsActionStart, IsActionEnd
+}

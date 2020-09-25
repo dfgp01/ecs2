@@ -18,13 +18,11 @@ class GroupPair {
 class GroupColliderContainer extends AbstractColliderContainer {
     constructor(){
         super();
-        this.pairs = null;
-        this.teams = null;
-    }
-
-    init(options = null){
         this.pairs = NewLink();
         this.teams = [];
+    }
+
+    onInit(options = null){
         TEAM_MASK_CODE.forEach(code => {
             this.teams.push(NewLink());
         });
@@ -70,22 +68,15 @@ function getTeam(teams = null, code = 0){
     return null;
 }
 
-var container = null;
-function GetGroupColliderContainer(){
-    if(!container){
-        container = new GroupColliderContainer();
-    }
-    return container;
-}
 
 /**
  * 基于分组的碰撞检测
  */
 class GroupColliderSystem extends AbstractColliderSystem {
     onUpdate(dt = 0){
-        ListIterator(container.pairs, pair => {
+        ListIterator(this.container.pairs, pair => {
             //是否同组碰撞
-            if(pair.tag == pair.team1){
+            if(!pair.team2){
                 //one team
                 ListIteratorCompare(pair.team1, (collider1, collider2) => {
                     super.check(dt, collider1, collider2);
@@ -105,11 +96,11 @@ class GroupColliderSystem extends AbstractColliderSystem {
 var sys = null;
 function GetGroupColliderSystem(){
     if(!sys){
-        sys = new GroupColliderSystem();
+        sys = new GroupColliderSystem(new GroupColliderContainer());
     }
     return sys;
 }
 
 export{
-    GetGroupColliderContainer, GetGroupColliderSystem
+    GetGroupColliderSystem
 }

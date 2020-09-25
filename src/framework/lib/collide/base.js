@@ -38,7 +38,7 @@ function GetColliderCenterPos(collider = null){
  * 接口模式实现多态
  */
 class AbstractColliderContainer {
-    init(options = null){}
+    onInit(options = null){}
     addCollider(collider = null){}
     removeCollider(collider = null){}
 }
@@ -48,9 +48,11 @@ class AbstractColliderContainer {
  * 碰撞检测主系统
  */
 class AbstractColliderSystem extends System {
-    constructor(){
+    constructor(container = null){
         super(SYSTEM_PRIORITY_COLLIDE);
+        this.container = container;
     }
+
     check(dt = 0, collider1 = null, collider2 = null){
         if(IsDirtyRectsCross(
             GetGameUnitByClz(collider1), collider1.rectOR,

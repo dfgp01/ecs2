@@ -1,6 +1,6 @@
 import { GetInt } from "../../foundation/structure/math";
-import { NewTileMap, GetTileGridCount, GetTileGrid, IsBorderTileGrid, GetTileGridWithIndex } from "./tilemap/base";
-import { GetGridWithPos, GridMapIterator } from "../../foundation/container/gridmap";
+import { NewTileMap, GetTileGridCount, GetTileGridWithIndex } from "./tilemap/base";
+import { GetGridMapGridCount } from "../../foundation/container/gridmap";
 
 /**
  * tilemap = gridmap + pos
@@ -86,7 +86,7 @@ function defaultTileMapData(options = null){
  */
 function TilemapRandomAccess(tilemap = null, callback = null){
     let arr = [];
-    let size = GetTileGridCount(tilemap);
+    let size = GetGridMapGridCount(tilemap);
     for(let i=0; i<size; i++){
         arr.push(i);
     }
@@ -107,7 +107,7 @@ function TilemapRandomAccess(tilemap = null, callback = null){
  * @param {*} tilemap 
  */
 function GetRandomTileGrid(tilemap = null){
-    let size = GetTileGridCount(tilemap);
+    let size = GetGridMapGridCount(tilemap);
     let index = Math.floor(Math.random() * size);
     return GetTileGridWithIndex(tilemap, index);
 }

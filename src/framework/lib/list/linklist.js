@@ -70,7 +70,11 @@ class LinkList extends AbstractList {
     }
 
     remove(id = 0){
-        removeWithCheck(this, this._map.get(id));
+        let node = this._map.get(id);
+        if(node){
+            this._map.delete(id);
+            removeWithCheck(this, node);
+        }
     }
 
     iterator(callback = null){
@@ -176,7 +180,6 @@ function removeWithCheck(link = null, targetNode = null){
 }
 
 function removeNode(link = null, node = null){
-    link._map.delete(keyId);
     let p = node.prep;
     let n = node.next;
     p.next = n;
