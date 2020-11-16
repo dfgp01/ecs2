@@ -1,27 +1,27 @@
 import { GetEngine } from "./resource";
-import { ListIterator, InsertToList } from "../../foundation/container/list";
-import { NewLink } from "../../lib/list/linklist";
-import { GetEventListenerSystem } from "./listener";
 import { GetSystemPriority } from "../../foundation/component/ecs";
-import { GetUnitPosUpdateSystem } from "./unit";
-import { GetRenderDebugSystem } from "../../lib/view/debug";
-import { EngineStart } from "../../foundation/component/engine";
-import { GetRenderUpdateSystem } from "../../lib/view/system";
+import { EngineClear, EngineStart } from "../../foundation/component/engine";
 import { OpenCollider } from "../../lib/collide/utils/boot";
-import { GetActionSystem } from "./action";
+import { GetRenderDebugSystem } from "../../lib/view/debug";
+import { GetFrameUpdateSystem } from "../../lib/view/display";
+import { GetActionSystem } from "../../lib/actions/base";
+import { NewLinkList } from "../../lib/collection/linklist";
+import { GetEventListenerSystem } from "../../lib/events/base";
+import { GetUnitPosUpdateSystem } from "../../lib/unit/base";
+import { AddToCollection, CollectionIterator } from "../../foundation/component/collection";
 
 /**
  * 主系统列表
  */
-var logicSystems = NewLink();
-var renderSystems = NewLink();
+var logicSystems = NewLinkList();
+var renderSystems = NewLinkList();
 function initSystems(options = null){
     options = options ? options : {};
     //InsertToLink(logicSystems, GetActionSystem());
     addSystem(GetActionSystem());
     addSystem(GetEventListenerSystem());
     addSystem(GetUnitPosUpdateSystem());
-    addRenderSystem(GetRenderUpdateSystem());
+    addRenderSystem(GetFrameUpdateSystem());
     if(options['debug']){
         addRenderSystem(GetRenderDebugSystem());
     }
@@ -36,10 +36,10 @@ var renderTick = 41;    //24fps
 var _t1 = 0;
 var _t2 = 0;
 function runWithScene(scene = null){
-    ListIterator(logicSystems, system => {
+    CollectionIterator(logicSystems, system => {
         system.onStart();
     });
-    ListIterator(renderSystems, system => {
+    CollectionIterator(renderSystems, system => {
         system.onStart();
     });
     scene.onStart();
@@ -50,7 +50,7 @@ function runWithScene(scene = null){
         if(_t1 >= logicTick){
             _t1 -= logicTick;
             scene.onUpdate(dt);
-            ListIterator(logicSystems, system => {
+            CollectionIterator(logicSystems, system => {
                 system.onUpdate(dt);
             });
         }
@@ -58,7 +58,8 @@ function runWithScene(scene = null){
         _t2 += dt;
         if(_t2 >= renderTick){
             _t2 -= renderTick;
-            ListIterator(renderSystems, system => {
+            EngineClear(GetEngine());
+            CollectionIterator(renderSystems, system => {
                 system.onUpdate(dt);
             });
         }
@@ -69,18 +70,18 @@ function addSystem(system = null){
     if(!system){
         return;
     }
-    InsertToList(logicSystems, system, GetSystemPriority(system));
+    AddToCollection(logicSystems, system, GetSystemPriority(system));
 }
 
 function addRenderSystem(system = null){
     if(!system){
         return;
     }
-    InsertToList(renderSystems, system, GetSystemPriority(system));
+    AddToCollection(renderSystems, system, GetSystemPriority(system));
 }
 
 function stopSystem(){
-    ListIterator(logicSystems, system => {
+    CollectionIterator(logicSystems, system => {
         system.onEnd();
     });
     renderSystem.onEnd();

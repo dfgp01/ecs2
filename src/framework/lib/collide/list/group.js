@@ -1,6 +1,6 @@
+import { AddToCollection, CollectionIterator, CollectionIteratorCompare, RemoveFromCollection } from "../../../foundation/component/collection";
 import { TEAM_MASK_CODE } from "../../../foundation/const";
-import { AddToList, ListIterator, ListIteratorCompare, RemoveFromList } from "../../../foundation/container/list";
-import { NewLink } from "../../list/linklist";
+import { NewLinkList } from "../../collection/linklist";
 import { AbstractColliderContainer, AbstractColliderSystem, GetColliderTag } from "../base";
 
 
@@ -18,13 +18,13 @@ class GroupPair {
 class GroupColliderContainer extends AbstractColliderContainer {
     constructor(){
         super();
-        this.pairs = NewLink();
+        this.pairs = NewLinkList();
         this.teams = [];
     }
 
     onInit(options = null){
         TEAM_MASK_CODE.forEach(code => {
-            this.teams.push(NewLink());
+            this.teams.push(NewLinkList());
         });
 
         let ps = options['pairs'];   //[[1, 2], [2, 4], [1, 8]...]
@@ -36,7 +36,7 @@ class GroupColliderContainer extends AbstractColliderContainer {
             }
             let t1 = getTeam(this.teams, team1);
             let t2 = team1 == team2 ? null : getTeam(this.teams, team2);
-            AddToList(this.pairs, new GroupPair(team1 | team2, t1, t2));
+            AddToCollection(this.pairs, new GroupPair(team1 | team2, t1, t2));
         });
     }
 
@@ -44,7 +44,7 @@ class GroupColliderContainer extends AbstractColliderContainer {
         for(let i=0; i<TEAM_MASK_CODE.length; i++){
             let flag = TEAM_MASK_CODE[i] & GetColliderTag(collider);
             if(flag){
-                AddToList(this.teams[i], collider);
+                AddToCollection(this.teams[i], collider);
             }
         }
     }
@@ -53,7 +53,7 @@ class GroupColliderContainer extends AbstractColliderContainer {
         for(let i=0; i<TEAM_MASK_CODE.length; i++){
             let flag = TEAM_MASK_CODE[i] & GetColliderTag(collider);
             if(flag){
-                RemoveFromList(this.teams[i], collider.id);
+                RemoveFromCollection(this.teams[i], collider.id);
             }
         }
     }
@@ -74,17 +74,17 @@ function getTeam(teams = null, code = 0){
  */
 class GroupColliderSystem extends AbstractColliderSystem {
     onUpdate(dt = 0){
-        ListIterator(this.container.pairs, pair => {
+        CollectionIterator(this.container.pairs, pair => {
             //是否同组碰撞
             if(!pair.team2){
                 //one team
-                ListIteratorCompare(pair.team1, (collider1, collider2) => {
+                CollectionIteratorCompare(pair.team1, (collider1, collider2) => {
                     super.check(dt, collider1, collider2);
                 });
             }else{
                 //two team
-                ListIterator(pair.team1, collider1 => {
-                    ListIterator(pair.team2, collider2 => {
+                CollectionIterator(pair.team1, collider1 => {
+                    CollectionIterator(pair.team2, collider2 => {
                         super.check(dt, collider1, collider2);
                     });
                 })

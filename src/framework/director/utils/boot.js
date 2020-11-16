@@ -1,10 +1,6 @@
 import { initGame, loadWithResource } from "../service/init";
 import { runWithScene, stopSystem, addSystem } from "../service/system";
-import { GetScene, GetUnitList } from "../service/resource";
-import { addEvent, addEventListener, removeEventListener } from "../service/listener";
-import { GetOwnerId } from "../../foundation/component/ecs";
-import { NewUnit } from "../../foundation/unit/base";
-import { PushToList, RemoveFromList, GetListData } from "../../foundation/container/list";
+import { GetScene } from "../service/resource";
 
 /**
  * options {
@@ -36,8 +32,8 @@ import { PushToList, RemoveFromList, GetListData } from "../../foundation/contai
  */
 function Start(options = null, scene = null){
     options = options ? options : {};
+    initGame(options);
     loadWithResource(options['res'], null, () => {
-        initGame(options);
         runWithScene(scene);
     });
 }
@@ -54,49 +50,12 @@ function Stop(){
     StopEngine(getEngine());
 }
 
-function AddEventListener(listener = null){
-    addEventListener(listener);
-}
-
-function RemoveEventListener(listener = null){
-    removeEventListener(listener);
-}
-
-function DispatchEvent(event = null){
-    addEvent(event);
-}
 
 function AddSystem(system = null){
     addSystem(system);
 }
 
-/**
- * ######  Unit
- */
-
-function GetGameUnitById(entityId = 0){
-    return GetListData(GetUnitList(), entityId);
-}
-
-
-function GetGameUnitByClz(unitComponent = null){
-    return GetGameUnitById(
-        GetOwnerId(unitComponent));
-}
-
-function CreateGameUnit(pos = null, vec = null){
-    let u = NewUnit(pos, vec);
-    PushToList(GetUnitList(), u);
-    return u;
-}
-
-function RemoveGameUnit(entityId = 0){
-    RemoveFromList(GetUnitList(), entityId);
-}
-
 export {
     Start, StartTest, Stop,
-    AddEventListener, RemoveEventListener, DispatchEvent,
-    AddSystem,
-    GetGameUnitById, GetGameUnitByClz, CreateGameUnit, RemoveGameUnit
+    AddSystem
 }

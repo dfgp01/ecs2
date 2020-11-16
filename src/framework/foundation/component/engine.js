@@ -19,10 +19,13 @@ class AbstractEngine {
     drawRect(centerPos = null, rect = null, style = 0){}
 
     //画线段
-    drawLine(centerPos = null, endPos = null){}
+    drawLine(centerPos = null, endPos = null, style = 0){}
 
     //画圆
-    drawCircle(centerPos = null, radius = 0){}
+    drawCircle(centerPos = null, radius = 0, style = 0){}
+
+    //文字
+    drawText(centerPos = null, content = "", style = 0){}
 
     //imgSrc是图像地址
     loadResource(imgSrc = "", onLoadCallback = null){}
@@ -42,12 +45,16 @@ function EngineDrawRect(engine = null, centerPos = null, rect = null, style = 0)
     engine.drawRect(centerPos, rect, style);
 }
 
-function EngineDrawLine(engine = null, startPos = null, endPos = null){
-    engine.drawLine(startPos, endPos);
+function EngineDrawLine(engine = null, startPos = null, endPos = null, style = 0){
+    engine.drawLine(startPos, endPos, style);
 }
 
-function EngineDrawCircle(engine = null, centerPos = null, radius = 0){
-    engine.drawCircle(centerPos, radius);
+function EngineDrawCircle(engine = null, centerPos = null, radius = 0, style = 0){
+    engine.drawCircle(centerPos, radius, style);
+}
+
+function EngineDrawText(engine = null, centerPos = null, content = "", style = 0){
+    engine.drawText(centerPos, content, style);
 }
 
 function EngineLoadResource(engine = null, imgSrc = "", onLoadCallback = null){
@@ -68,6 +75,6 @@ function EngineStart(engine = null, onEnterFrameCallback = null){
 
 export {
     AbstractEngine, EngineClear, 
-    EngineDrawFrame, EngineDrawRect, EngineDrawLine, EngineDrawCircle,
+    EngineDrawFrame, EngineDrawRect, EngineDrawLine, EngineDrawCircle, EngineDrawText,
     EngineLoadResource, EngineOnKeyCallback, EngineOnTouchCallback, EngineStart
 }

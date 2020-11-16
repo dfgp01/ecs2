@@ -1,13 +1,10 @@
-import { GetGameUnitByClz } from "../../../director/utils/boot";
-import { GetGridData, GetGridHeight, GetGridWidth, GetGridWithPos } from "../../../foundation/container/gridmap";
-import { AddToList } from "../../../foundation/container/list";
+import { GetGridData, GetGridHeight, GetGridWidth, GetGridWithPos } from "../../gridmap/base";
 import { GetRectHeight, GetRectWidth } from "../../../foundation/structure/geometric";
-import { GetUnitPos } from "../../../foundation/unit/base";
-import { GetRectOffsetRelationRect } from "../../../foundation/unit/rect";
 import { GetParentNode } from "../../gridmap/quad/node";
 import { NewSimpleQuadTree } from "../../gridmap/quad/simple";
 import { NewStrictQuadTree } from "../../gridmap/quad/strict";
-import { GetColliderRectOR } from "../base";
+import { GetColliderRect, NewColliderRectCenter } from "../base";
+import { AddToCollection } from "../../../foundation/component/collection";
 
 const { BaseGridMapColliderContainer } = require("./base");
 
@@ -45,12 +42,12 @@ class StrictQuadtreeColliderContainer extends BaseGridMapColliderContainer {
 }
 
 function addColliderBySize(quadtree = null, collider = null){
-    let grid = GetGridWithPos(quadtree, GetUnitPos(GetGameUnitByClz(collider)));
+    let grid = GetGridWithPos(quadtree, NewColliderRectCenter(collider));
     if(!grid){
         return; //log here todo要完善GetGridWithPos的错误提示
     }
-    let targetGrid = findNodeBySize(grid, GetRectOffsetRelationRect(GetColliderRectOR(collider)));
-    AddToList(GetGridData(targetGrid), collider);
+    let targetGrid = findNodeBySize(grid, GetColliderRect(collider));
+    AddToCollection(GetGridData(targetGrid), collider);
 }
 
 /**

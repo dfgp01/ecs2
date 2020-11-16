@@ -2,7 +2,7 @@ import { runTick2, canvasOnKeyCallback, canvasOnMouseCallback } from "./processo
 import { GetSpriteFrameBitmapData, GetSpriteFrameStartX, GetSpriteFrameStartY, GetSpriteFrameWidth, GetSpriteFrameHeight, GetSpriteFrameHalfWidth, GetSpriteFrameHalfHeight } from "../../../foundation/structure/frame";
 import { GetRectHalfWidth, GetRectHalfHeight, GetRectHeight, GetRectWidth } from "../../../foundation/structure/geometric";
 import { AbstractEngine } from "../../../foundation/component/engine";
-import { DEBUG_BORDER_BLUE, DEBUG_BORDER_BLACK, DEBUG_FILL_BLACK, DEBUG_BORDER_GRAY, DEBUG_BORDER_GREEN, DEBUG_BORDER_RED, DEBUG_BORDER_YELLOW, DEBUG_BORDER_PINK, DEBUG_BORDER_GREENBLUE, DEBUG_FILL_BLUE, DEBUG_FILL_GREEN, DEBUG_FILL_RED, DEBUG_FILL_PINK, DEBUG_FILL_GREENBLUE, DEBUG_FILL_YELLOW } from "../../../foundation/const";
+import { DEBUG_BORDER_BLUE, DEBUG_BORDER_BLACK, DEBUG_FILL_BLACK, DEBUG_BORDER_GRAY, DEBUG_BORDER_GREEN, DEBUG_BORDER_RED, DEBUG_BORDER_YELLOW, DEBUG_BORDER_PINK, DEBUG_BORDER_GREENBLUE, DEBUG_FILL_BLUE, DEBUG_FILL_GREEN, DEBUG_FILL_RED, DEBUG_FILL_PINK, DEBUG_FILL_GREENBLUE, DEBUG_FILL_YELLOW, DEBUG_BORDER_WHITE, DEBUG_FILL_WHITE } from "../../../foundation/const";
 
 /**
  * 浏览器的key-code
@@ -51,7 +51,8 @@ class H5Engine extends AbstractEngine {
         }
     }
 
-    drawLine(startPos = null, endPos = null){
+    drawLine(startPos = null, endPos = null, style = 0){
+        setStyle(this.ctx, style);
         let ctx = this.ctx;
         ctx.beginPath();
         ctx.moveTo(startPos.x, startPos.y);
@@ -59,11 +60,17 @@ class H5Engine extends AbstractEngine {
         ctx.stroke();
     }
 
-    drawCircle(centerPos = null, radius = 0){
+    drawCircle(centerPos = null, radius = 0, style = 0){
+        setStyle(this.ctx, style);
         let ctx = this.ctx;
         ctx.beginPath();
         ctx.arc(centerPos.x, centerPos.y, radius, 0, 2 * Math.PI);
         ctx.stroke();
+    }
+
+    drawText(centerPos = null, content = "", style = 0){
+        setStyle(this.ctx, style);
+        this.ctx.fillText(content, centerPos.x, centerPos.y);
     }
 
     loadResource(imgSrc = "", onLoadCallback = null){
@@ -102,6 +109,9 @@ function setStyle(ctx = null, style = 0){
         case DEBUG_BORDER_GREENBLUE:
             ctx.strokeStyle="#00ffff";
             break;
+        case DEBUG_BORDER_WHITE:
+            ctx.strokeStyle="#ffffff";
+            break;
 
         case DEBUG_FILL_BLACK:
             ctx.fillStyle="#000000";
@@ -124,6 +134,9 @@ function setStyle(ctx = null, style = 0){
         case DEBUG_FILL_GREENBLUE:
             ctx.fillStyle="#00ffff";
             break;
+        case DEBUG_FILL_WHITE:
+            ctx.fillStyle="#ffffff";
+            break;
     }
 }
 
@@ -134,6 +147,7 @@ function NewH5Engine(width = 0, height = 0, fps = 0){
     canvas.height = height;
     let ctx = canvas.getContext("2d");
     ctx.strokeStyle="#0000ff";          //画矩形框用的
+    ctx.textAlign = 'center';
     let engine = new H5Engine(fps, canvas, ctx);
     canvasOnKeyCallback();
     canvasOnMouseCallback(engine.canvas);

@@ -1,9 +1,10 @@
-import { SetDefaultCamera, SetEngine, SetData, SetDef, SetSpriteFrame, GetEngine, SetScreen } from "./resource";
+import { SetDefaultCamera, SetEngine, SetSpriteFrame, GetEngine, SetScreen } from "./resource";
 import { CreateCameraWithData } from "../../lib/camera/utils";
 import { initSystems } from "./system";
 import { CreateTileMapWithData } from "../../lib/gridmap/utils";
 import { CreateEngineWithData } from "../../lib/engine/utils";
 import { CreateBitmap, CreateSpriteFrame } from "../../foundation/structure/frame";
+import { EngineLoadResource } from "../../foundation/component/engine";
 
 /**
  * 通过参数配置初始化系统资源
@@ -42,9 +43,9 @@ function initGame(options = null) {
 function initScreen(options = null){
     //默认值
     options = options ? options : {};
-    let screenWidth = options['screen-width'];
+    let screenWidth = options['width'];
     screenWidth = screenWidth && screenWidth > 0 ? screenWidth : 800;
-    let screenHeight = options['screen-height'];
+    let screenHeight = options['height'];
     screenHeight = screenHeight && screenHeight > 0 ? screenHeight : 800;
 
     SetScreen(screenWidth, screenHeight);
@@ -111,6 +112,8 @@ function initDataObj(options = null){
 				"name" : "building1",
 				"res" : "res/3.png",
 				"area" : {
+                    "x" : 0,
+                    "y" : 0,
 					"width" : 151,
 					"height" : 167
 				}
@@ -122,9 +125,10 @@ function loadWithResource(res = null, OnloadCallback = null, OnCompleteCallback 
     let imgs = res ? res['imgs'] : null;
     if(imgs && imgs.length > 0){
         loadResource(imgs, res['frames'], OnloadCallback, OnCompleteCallback);
-        return;
+    }else{
+        OnCompleteCallback();
     }
-    OnCompleteCallback();
+    
 }
 
 function loadResource(imgs = null, frames = null, OnloadCallback = null, OnCompleteCallback = null){
@@ -154,6 +158,8 @@ function loadResource(imgs = null, frames = null, OnloadCallback = null, OnCompl
 			"name" : "building1",
 			"res" : "res/3.png",
 			"area" : {
+                "x" : 0,
+                "y" : 0,
 				"width" : 151,
 				"height" : 167
 			}

@@ -3,7 +3,8 @@ import { GetNormalColliderSystem } from '../list/normal';
 import { GetGroupColliderSystem } from '../list/group';
 import { GetGridMapColliderSystem } from '../gridmap/base';
 import { NewSimpleQuadtreeColliderContainer, NewStrictQuadtreeColliderContainer } from '../gridmap/quadtree';
-import { NewCollider } from '../base';
+import { NewCollideEventListener, NewCollider } from '../base';
+import { AddEventListener } from '../../events/utils';
 
 var colliderContainer = null;
 
@@ -53,8 +54,8 @@ function OpenCollider(options = null){
     return sys;
 }
 
-function AddCollider(entityId = 0, rectOR = null, tag = 0) {
-    let c = NewCollider(entityId, rectOR, tag);
+function AddCollider(entityId = 0, rect = null, tag = 0, offset = null) {
+    let c = NewCollider(entityId, rect, tag, offset);
     colliderContainer.addCollider(c);
     return c;
 }
@@ -63,6 +64,17 @@ function RemoveCollider(collider = null) {
     colliderContainer.removeCollider(collider);
 }
 
+
+/**
+ * 碰撞处理器
+ * @param {*} callback  func(collider1, collider2, tag)
+ */
+function NewCollideHandler(callback = null){
+    let lis = NewCollideEventListener(callback);
+    AddEventListener(lis);
+    return lis.id;
+}
+
 export {
-    GetColliderSystem, OpenCollider, AddCollider, RemoveCollider
+    GetColliderSystem, OpenCollider, AddCollider, RemoveCollider, NewCollideHandler
 }

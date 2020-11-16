@@ -1,10 +1,7 @@
-import { GetGameUnitByClz } from "../../../director/utils/boot";
-import { GetGridData, GetGridMapData, GridMapAdjacentCompare, GridMapIterator, SetGridData } from "../../../foundation/container/gridmap";
-import { NewRectORCenter } from "../../../foundation/utils/rect";
-import { NewLink } from "../../list/linklist";
-import { AbstractColliderContainer, AbstractColliderSystem, GetColliderCenterPos, GetColliderRectOR } from "../base";
-
-const { AddToList, RemoveFromList, ListIteratorCompare, ListIterator } = require("../../../foundation/container/list");
+import { AddToCollection, CollectionIterator, CollectionIteratorCompare, RemoveFromCollection } from "../../../foundation/component/collection";
+import { NewLinkList } from "../../collection/linklist";
+import { GetGridData, GetGridMapData, GridMapAdjacentCompare, GridMapIterator, SetGridData } from "../../gridmap/base";
+import { AbstractColliderContainer, AbstractColliderSystem, NewColliderRectCenter } from "../base";
 
 /**
  * 网格类的装载容器
@@ -17,22 +14,23 @@ class BaseGridMapColliderContainer extends AbstractColliderContainer {
 
     initGrids(){
         GridMapIterator(this.gridmap, (grid) => {
-            SetGridData(grid, NewLink());
+            SetGridData(grid, NewLinkList());
         });
     }
 
     addCollider(collider = null){
-        let list = GetGridMapData(this.gridmap, GetColliderCenterPos(collider));
-        AddToList(list, collider);
+        let list = GetGridMapData(this.gridmap, NewColliderRectCenter(collider));
+        if(list){
+            AddToCollection(list, collider);
+        }
     }
 
     //todo
     removeCollider(collider = null){
-        let pos = NewRectORCenter(
-            GetGameUnitByClz(collider), 
-            GetColliderRectOR(collider));
-        let list = GetGridMapData(this.gridmap, pos);
-        RemoveFromList(list, collider.id);
+        let list = GetGridMapData(this.gridmap, NewColliderRectCenter(collider));
+        if(list){
+            RemoveFromCollection(list, collider.id);
+        }
     }
 }
 
@@ -43,15 +41,15 @@ class GridMapColliderSystem extends AbstractColliderSystem {
     onUpdate(dt = 0){
         GridMapIterator(this.container.gridmap, grid => {
             let list = GetGridData(grid);
-            ListIteratorCompare(list, (collider1, collider2) => {
+            CollectionIteratorCompare(list, (collider1, collider2) => {
                 super.check(dt, collider1, collider2);
             });
         });
         GridMapAdjacentCompare(this.container.gridmap, (currGrid = null, sideGrid = null) => {
             let list1 = GetGridData(currGrid);
             let list2 = GetGridData(sideGrid);
-            ListIterator(list1, collider1 => {
-                ListIterator(list2, collider2 => {
+            CollectionIterator(list1, collider1 => {
+                CollectionIterator(list2, collider2 => {
                     super.check(dt, collider1, collider2);
                 });
             });

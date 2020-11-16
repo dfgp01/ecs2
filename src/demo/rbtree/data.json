@@ -1,0 +1,9 @@
+{
+	"system" : {
+		"debug" : true
+	},
+	"screen" : {
+		"width" : 1600,
+		"height" : 1600
+	}
+}

@@ -1,8 +1,8 @@
 import { GameObject } from "./ecs";
-import { GetUnitPos, NewUnit } from "../unit/base";
-import { GetRectPosCenter, NewRectOffsetRelation, GetRectPosStart, GetRectOffsetRelationRect } from "../unit/rect";
-import { GetRectWidth, GetRectHeight, NewPos, NewRect } from "../structure/geometric";
-import { NewRectORStart } from "../utils/rect";
+import { GetRectWidth, GetRectHeight, NewPos, NewRect, NewVec } from "../structure/geometric";
+import { NewGameUnit } from "../../lib/unit/utils";
+import { GetUnitPos } from "../../lib/unit/base";
+import { NewRectStart } from "../utils/rect";
 
 
 /**
@@ -11,10 +11,10 @@ import { NewRectORStart } from "../utils/rect";
  *  等以后遇到逻辑分叉点，再用子类实现
  */
 class AbstractCamera extends GameObject {
-    constructor(unit = null, rectOR = null){
+    constructor(unit = null, rect = null){
         super();
         this.unit = unit;
-        this.rectOR = rectOR;
+        this.rect = rect;
     }
 
     getPos(){}
@@ -41,7 +41,7 @@ class AbstractCamera extends GameObject {
 
 function NewCamera(x = 0, y = 0, width = 0, height = 0){
     return new AbstractCamera(
-        NewUnit(NewPos(x, y)), NewRectOffsetRelation(NewRect(width, height)));
+        NewGameUnit(NewPos(x, y)), NewRect(width, height));
 }
 
 function GetCameraPos(camera = null){
@@ -49,15 +49,18 @@ function GetCameraPos(camera = null){
 }
 
 function GetCameraStartPos(camera = null){
-    return NewRectORStart(camera.unit, camera.rectOR);
+    return NewRectStart(
+        GetUnitPos(camera.unit),
+        NewVec(),
+        camera.rect);
 }
 
 function GetCameraWidth(camera = null){
-    return GetRectWidth(GetRectOffsetRelationRect(camera.rectOR));
+    return GetRectWidth(camera.rect);
 }
 
 function GetCameraHeight(camera = null){
-    return GetRectHeight(GetRectOffsetRelationRect(camera.rectOR));
+    return GetRectHeight(camera.rect);
 }
 
 export {

@@ -1,10 +1,5 @@
-import { GetGameUnitByClz } from "../../../director/utils/boot";
 import { GetRectHalfHeight, GetRectHalfWidth } from "../../../foundation/structure/geometric";
 import { Abs } from "../../../foundation/structure/math";
-import { SetUnitVec, GetUnitVec } from "../../../foundation/unit/base";
-import { GetRectOffsetRelationRect } from "../../../foundation/unit/rect";
-import { NewDirtyRectOREnd, NewDirtyRectORStart, NewRectORCenter } from "../../../foundation/utils/rect";
-import { GetColliderRectOR } from "../base";
 
 /**
  * 碰撞位置关系

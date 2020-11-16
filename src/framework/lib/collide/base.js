@@ -1,8 +1,9 @@
-import { DispatchEvent, GetGameUnitByClz } from "../../director/utils/boot";
 import { System, UnitComponent } from "../../foundation/component/ecs";
-import { AbstractEventListener, GetEventData, NewEvent } from "../../foundation/component/event";
 import { EVENT_TYPE_COLLIDE, SYSTEM_PRIORITY_COLLIDE } from "../../foundation/const";
-import { IsDirtyRectsCross, NewRectORCenter } from "../../foundation/utils/rect";
+import { NewVec } from "../../foundation/structure/geometric";
+import { IsRectsCross, NewRectCenter } from "../../foundation/utils/rect";
+import { AbstractEventListener, AddNewEvent } from "../events/base";
+import { GetGameUnitPosByClz } from "../unit/utils";
 
 
 /**
@@ -10,27 +11,37 @@ import { IsDirtyRectsCross, NewRectORCenter } from "../../foundation/utils/rect"
  * tag : 自定义标识码
  */
 class Collider extends UnitComponent {
-    constructor(entityId = 0, rectOR = null, tag = 0) {
+    constructor(entityId = 0, rect = null, offset = null, tag = 0) {
         super(entityId);
-        this.rectOR = rectOR;
+        this.rect = rect;
+        this.offset = offset;
         this.tag = tag;
     }
 }
 
-function NewCollider(entityId = 0, rectOR = null, tag = 0){
-    return new Collider(entityId, rectOR, tag);
+function NewCollider(entityId = 0, rect = null, tag = 0, offset = null){
+    if(!rect){
+        //log here
+        return null;
+    }
+    offset = offset ? offset : NewVec();
+    return new Collider(entityId, rect, offset, tag);
 }
 
-function GetColliderRectOR(collider = null){
-    return collider.rectOR;
+function GetColliderRect(collider = null){
+    return collider.rect;
+}
+
+function GetColliderOffset(collider = null){
+    return collider.offset;
 }
 
 function GetColliderTag(collider = null){
     return collider.tag;
 }
 
-function GetColliderCenterPos(collider = null){
-    return NewRectORCenter(GetGameUnitByClz(collider), collider.rectOR);
+function NewColliderRectCenter(collider = null){
+    return NewRectCenter(GetGameUnitPosByClz(collider), collider.offset);
 }
 
 
@@ -54,11 +65,10 @@ class AbstractColliderSystem extends System {
     }
 
     check(dt = 0, collider1 = null, collider2 = null){
-        if(IsDirtyRectsCross(
-            GetGameUnitByClz(collider1), collider1.rectOR,
-            GetGameUnitByClz(collider2), collider2.rectOR)){
-            DispatchEvent(
-                NewCollideEvent(collider1, collider2));
+        if(IsRectsCross(
+            NewColliderRectCenter(collider1), collider1.rect,
+            NewColliderRectCenter(collider2), collider2.rect)){
+            NewCollideEvent(collider1, collider2);
         }
     }
 }
@@ -72,7 +82,7 @@ class CollideEventData {
 }
 
 function NewCollideEvent(collider1 = null, collider2 = null){
-    return NewEvent(EVENT_TYPE_COLLIDE, new CollideEventData(
+    return AddNewEvent(EVENT_TYPE_COLLIDE, new CollideEventData(
         collider1, collider2, collider1.tag | collider2.tag
     ));
 }
@@ -81,20 +91,23 @@ function GetCollideEventTag(collideEvt = null){
     return GetEventData(collideEvt).tag;
 }
 
-class AbstractCollideEventListener extends AbstractEventListener {
-    constructor(priority = 0){
+class CollideEventListener extends AbstractEventListener {
+    constructor(priority = 0, callback = null){
         super(EVENT_TYPE_COLLIDE, priority);
+        this.callback = callback;
     }
-    handle(event = null){
-        let d = GetEventData(event);
-        this.onHandle(d.collider1, d.collider2, d.tag);
+    onHandle(eventData = null){
+        this.callback(eventData.collider1, eventData.collider2, eventData.tag);
     }
-    onHandle(collider1 = null, collider2 = null, tag = 0){}
+}
+
+function NewCollideEventListener(callback = null){
+    return new CollideEventListener(callback);
 }
 
 
 export{
-    Collider, NewCollider, GetColliderRectOR, GetColliderTag, GetColliderCenterPos,
+    Collider, NewCollider, GetColliderRect, GetColliderOffset, GetColliderTag, NewColliderRectCenter,
     AbstractColliderContainer, AbstractColliderSystem, 
-    NewCollideEvent, GetCollideEventTag, AbstractCollideEventListener
+    NewCollideEvent, GetCollideEventTag, NewCollideEventListener
 }

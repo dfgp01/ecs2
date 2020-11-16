@@ -1,0 +1,18 @@
+{
+	"system" : {
+		"debug" : true,
+		"collide" : {
+			"group" : {
+				"pairs" : [[1,1],[1,2]]
+			}
+		}
+	},
+	"scene" : {
+		"width" : 800, "height" : 800,
+		"blocks" : 10,
+		"block-width" : 30,
+		"bodies" : 5,
+		"body-width" : 20,
+		"body-speed-seed" : 5
+	}
+}

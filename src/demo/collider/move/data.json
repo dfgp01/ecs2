@@ -1,0 +1,21 @@
+{
+	"system" : {
+		"debug" : true,
+		"collide" : {
+		}
+	},
+	"scene" : {
+		"width" : 800, "height" : 800,
+		"blocks" : 2,
+		"block-width" : 30,
+		"bodies" : 1,
+		"body-width" : 20,
+		"body-speed-seed" : 5
+	},
+	"tilemap" : {
+		"columns" : 6,
+		"rows" : 6,
+		"grid-width" : 80,
+		"grid-height" : 80
+	}
+}

@@ -1,6 +1,6 @@
 import { NewPos } from "../../../foundation/structure/geometric";
+import { BaseGrid } from "../base";
 
-const { BaseGrid, GetGridMapStartPos, GetGridWidth, GetGridHeight } = require("../../../foundation/container/gridmap");
 
 /**
   * tilemap的网格单元

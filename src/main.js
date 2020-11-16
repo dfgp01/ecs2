@@ -1,20 +1,12 @@
-import data from './data';
-import { StartTest } from './framework/director/utils/boot';
-import { MainLoop, Starter } from './game/service';
+import { StartAnimateShowDemo } from './demo/animate/main';
+import { StartGridShowDemo } from './demo/collider/gridshow/main';
+import { StartCollideMoveShowDemo } from './demo/collider/move/main';
+import { StartRBTreeDemo } from './demo/rbtree/main';
 
-//谨记数据驱动，分清业务配置和框架逻辑配置
-var options = data;
-
-class MyScene {
-    onStart(){
-        Starter(options);
-    }
-    onUpdate(dt = 0){
-        MainLoop();
-    }
-}
 
 (function (){
-    console.log(options);
-    StartTest(options, new MyScene());
+    //StartAnimateShowDemo();
+    //StartGridShowDemo();
+    //StartCollideMoveShowDemo();
+    StartRBTreeDemo()
 })()

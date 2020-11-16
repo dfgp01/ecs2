@@ -1,7 +1,5 @@
-import { NewPos } from "../../../foundation/structure/geometric";
 import { BaseQuadTreeMap } from "./base";
-import { createRootNode } from "./calc";
-import { IsLeaFNode } from "./node";
+import { createRootNode, IsLeaFNode } from "./node";
 
 class SimpleQuadTree extends BaseQuadTreeMap {
 
@@ -20,10 +18,10 @@ class SimpleQuadTree extends BaseQuadTreeMap {
 
     //相邻对比，只处理子节点
     adjacentCompare(currGrid = null, callback = null){
-        otherCheck(currGrid, -1, 0, callback);
-        otherCheck(currGrid, -1, -1, callback);
-        otherCheck(currGrid, 0, -1, callback);
-        otherCheck(currGrid, 1, -1, callback);
+        otherCheck(this, currGrid, -1, 0, callback);
+        otherCheck(this, currGrid, -1, -1, callback);
+        otherCheck(this, currGrid, 0, -1, callback);
+        otherCheck(this, currGrid, 1, -1, callback);
     }
 }
 
@@ -37,9 +35,9 @@ function iteratorByDepth(node = null, callback = null){
     });
 }
 
-function otherCheck(node = null, xOffset = 0, yOffset = 0, callback = null){
+function otherCheck(gridmap = null, node = null, xOffset = 0, yOffset = 0, callback = null){
     //获取同级别的邻格
-    let sideNode = node._gridmap.getOffsetGrid(node, xOffset, yOffset);
+    let sideNode = gridmap.getOffsetGrid(node, xOffset, yOffset);
     if(!sideNode){
         return;
     }
@@ -47,8 +45,8 @@ function otherCheck(node = null, xOffset = 0, yOffset = 0, callback = null){
 }
 
 function NewSimpleQuadTree(width = 0, height = 0, deep = 0){
-    let tree = new SimpleQuadTree(NewPos(), deep);
-    tree.root = createRootNode(width, height, deep, tree);
+    let tree = new SimpleQuadTree(deep);
+    tree.root = createRootNode(width, height, deep);
     return tree;
 }
 

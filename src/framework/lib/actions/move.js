@@ -1,30 +1,31 @@
 import { Action } from "./base";
-import { GetVec, AddMover, RemoveMover } from "../component/pos/utils";
+import { GetGameUnitByClz } from "../../director/utils/unit";
+import { GetUnitVec } from "../../foundation/unit/base";
 
 class MoveAction extends Action{
-    constructor(entityId = 0, priority = 0, dx = 0, dy = 0){
-        super(entityId, priority);
+    constructor(entityId = 0, dx = 0, dy = 0){
+        super(entityId);
         this.dx = dx;
         this.dy = dy;
     }
     onStart(){
-        this.vec = GetVec(this.entityId);
-        AddMover(this.entityId);
+        this._vec = GetUnitVec(
+            GetGameUnitByClz(this));
     }
     onUpdate(dt = 0){
-        this.vec.x += this.dx;
-        this.vec.y += this.dy;
-    }
-    onEnd(){
-        RemoveMover(this.entityId);
+        this._vec.x += this.dx;
+        this._vec.y += this.dy;
     }
 }
 
-function CreateMoveAction(entityId = 0, priority = 0, dx = 0, dy = 0) {
+function NewMoveAction(entityId = 0, dx = 0, dy = 0) {
     if(dx == 0 && dy == 0){
+        //log here
         return null;
     }
-    return new MoveAction(entityId, priority, dx, dy);
+    return new MoveAction(entityId, dx, dy);
 }
 
-export{MoveAction, CreateMoveAction}
+export{
+    NewMoveAction
+}

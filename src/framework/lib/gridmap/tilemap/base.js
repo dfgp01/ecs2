@@ -1,7 +1,19 @@
 import { GetInt } from "../../../foundation/structure/math";
-import { AbstractGridMap, GetGridHeight, GetGridMapStartPos, GetGridWidth } from "../../../foundation/container/gridmap";
-import { NewTileGrid } from "./node";
-import { NewPos, ToLocatePos } from "../../../foundation/structure/geometric";
+import { AbstractGridMap, BaseGrid, GetGridHeight, GetGridMapStartPos, GetGridWidth } from "../base";
+import { NewPos } from "../../../foundation/structure/geometric";
+
+
+/**
+  * tilemap的网格单元
+  *     data = UnitComponent
+  */
+ class TileGrid extends BaseGrid {
+    constructor(width = 0, height = 0, rowIndex = 0, colIndex = 0){
+        super(width, height);
+        this.rowIndex = rowIndex;
+        this.colIndex = colIndex;
+    }
+}
 
 
 /**
@@ -17,8 +29,8 @@ import { NewPos, ToLocatePos } from "../../../foundation/structure/geometric";
 ]
  */
 class TileMap extends AbstractGridMap {
-    constructor(pos = null, rows = 0, columns = 0, gridWidth = 0, gridHeight = 0){
-        super(pos);
+    constructor(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0){
+        super();
         this.rows = rows;
         this.columns = columns;
         this.grids = [];
@@ -26,22 +38,36 @@ class TileMap extends AbstractGridMap {
         this.gridHeight = gridHeight;
     }
 
-    getGridMapWidth(){
+    getWidth(){
         return this.columns * this.gridWidth;
     }
-    getGridMapHeight(){
+    getHeight(){
         return this.rows * this.gridHeight;
+    }
+
+    getStartPos(){
+        return NewPos(
+            -this.columns * this.gridWidth * 0.5,
+            -this.rows * this.gridHeight * 0.5
+        );
+    }
+    getEndPos(){
+        return NewPos(
+            this.columns * this.gridWidth * 0.5,
+            this.rows * this.gridHeight * 0.5
+        );
     }
 
     getGridCount(){
         return this.grids.length;
     }
+    getDataCount(){}
 
     getGrid(pos = null){
-        //这里要将pos变为相对坐标
-        let rPos = ToLocatePos(pos, GetGridMapStartPos(this));
-        let column = GetInt(rPos.x / this.gridWidth);
-        let row = GetInt(rPos.y / this.gridHeight);
+        //这里要将pos变为相对坐标，todo 已经取消了gridmap的pos机制了
+        //let rPos = ToLocatePos(pos, GetGridMapStartPos(this));
+        let column = GetInt(pos.x / this.gridWidth);
+        let row = GetInt(pos.y / this.gridHeight);
         return this.grids[row * this.columns + column];
     }
 
@@ -71,10 +97,10 @@ class TileMap extends AbstractGridMap {
     }
 
     adjacentCompare(currGrid = null, callback = null){
-        otherCheck(currGrid, -1, 0, callback);
-        otherCheck(currGrid, -1, -1, callback);
-        otherCheck(currGrid, 0, -1, callback);
-        otherCheck(currGrid, 1, -1, callback);
+        otherCheck(this, currGrid, -1, 0, callback);
+        otherCheck(this, currGrid, -1, -1, callback);
+        otherCheck(this, currGrid, 0, -1, callback);
+        otherCheck(this, currGrid, 1, -1, callback);
     }
 }
 
@@ -86,8 +112,8 @@ function getTileGridPos(tilemap = null, grid = null, offset = 0){
     );
 }
 
-function otherCheck(grid = null, xOffset = 0, yOffset = 0, callback = null){
-    let sideGrid = grid._gridmap.getOffsetGrid(grid, xOffset, yOffset);
+function otherCheck(gridmap = null, grid = null, xOffset = 0, yOffset = 0, callback = null){
+    let sideGrid = gridmap.getOffsetGrid(grid, xOffset, yOffset);
     if(!sideGrid){
         return;
     }
@@ -99,15 +125,13 @@ function otherCheck(grid = null, xOffset = 0, yOffset = 0, callback = null){
  * @param {*} rows 
  * @param {*} columns 
  * @param {*} gridWidth 
- * @param {*} gridHeight 
- * @param {*} pos 
+ * @param {*} gridHeight
  */
-function NewTileMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0, pos = null){
-    pos = pos ? pos : NewPos();
-    let tilemap = new TileMap(pos, rows, columns, gridWidth, gridHeight);
+function NewTileMap(rows = 0, columns = 0, gridWidth = 0, gridHeight = 0){
+    let tilemap = new TileMap(rows, columns, gridWidth, gridHeight);
     for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
         for (let colIndex = 0; colIndex < columns; colIndex++) {
-            tilemap.grids.push(NewTileGrid(gridWidth, gridHeight, tilemap, rowIndex, colIndex));
+            tilemap.grids.push(new TileGrid(gridWidth, gridHeight, rowIndex, colIndex));
         }
     }
     return tilemap;

@@ -1,0 +1,71 @@
+{
+	"system" : {
+		"debug" : true,
+		"collide" : {
+			"group" : {
+				"pairs" : [[1,1],[1,2]]
+			}
+		}
+	},
+	"scene" : {
+		"width" : 800, "height" : 800,
+		"blocks" : 3,
+		"block-width" : 30,
+		"bodies" : 2,
+		"body-width" : 20,
+		"body-speed-seed" : 5
+	},
+	"res" : {
+		"imgs" : [
+			"res/plane.png"
+		],
+		"frames" : [
+			{
+				"name" : "plane1",
+				"res" : "res/plane.png",
+				"area" : {
+					"width" : 187,
+					"height" : 132
+				}
+			},
+			{
+				"name" : "plane2",
+				"res" : "res/plane.png",
+				"area" : {
+					"x" : 188,
+					"width" : 187,
+					"height" : 132
+				}
+			},
+			{
+				"name" : "plane3",
+				"res" : "res/plane.png",
+				"area" : {
+					"x" : 375,
+					"width" : 187,
+					"height" : 132
+				}
+			},
+			{
+				"name" : "plane4",
+				"res" : "res/plane.png",
+				"area" : {
+					"x" : 375,
+					"y" : 132,
+					"width" : 187,
+					"height" : 132
+				}
+			},
+			{
+				"name" : "plane5",
+				"res" : "res/plane.png",
+				"area" : {
+					"x" : 456,
+					"y" : 345,
+					"width" : 187,
+					"height" : 132
+				}
+			}
+		]
+	}
+}

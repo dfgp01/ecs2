@@ -56,8 +56,3 @@ function IsHorizontalLine(line = null){
 function IsVerticalLine(line = null){
     return line.vec.x == 0;
 }
-
-export{
-    NewLine, GetOffset, GetUnitPos, GetVec, GetStartPos, GetEndPos,
-    IsHorizontalLine, IsVerticalLine
-}

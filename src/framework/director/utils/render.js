@@ -1,8 +1,6 @@
 import { GetEngine, GetDefaultCamera } from "../service/resource";
 import { ToCameraStartPos } from "../../lib/camera/utils";
-import { EngineDrawRect, EngineClear, EngineDrawCircle } from "../../foundation/component/engine";
-import { NewRectORCenter } from "../../foundation/utils/rect";
-import { GetRectOffsetRelationRect } from "../../foundation/unit/rect";
+import { EngineDrawRect, EngineClear, EngineDrawCircle, EngineDrawFrame, EngineDrawLine, EngineDrawText } from "../../foundation/component/engine";
 
 /**
  * 清除画布
@@ -24,26 +22,35 @@ function DrawFrameInCamera(camera = null, pos = null, spriteFrame = null){
     EngineDrawFrame(GetEngine(), cPos, spriteFrame);
 }
 
-function DrawRect(unit = null, rectOR = null, style = 0){
+function DrawRect(rectCenterPos = null, rect = null, style = 0){
     DrawRectInCamera(
-        GetDefaultCamera(), unit, rectOR, style);
+        GetDefaultCamera(), rectCenterPos, rect, style);
 }
 
-function DrawRectInCamera(camera = null, unit = null, rectOR = null, style = 0){
-    let cPos = ToCameraStartPos(camera,
-        NewRectORCenter(unit, rectOR));
-    EngineDrawRect(GetEngine(), cPos, GetRectOffsetRelationRect(rectOR), style);
+function DrawRectInCamera(camera = null, rectCenterPos = null, rect = null, style = 0){
+    let cPos = ToCameraStartPos(camera, rectCenterPos);
+    EngineDrawRect(GetEngine(), cPos, rect, style);
 }
 
-function DrawLine(posStart = null, posEnd = null){
+function DrawLine(posStart = null, posEnd = null, style = 0){
     DrawLineInCamera(
-        GetDefaultCamera(), posStart, posEnd);
+        GetDefaultCamera(), posStart, posEnd, style);
 }
 
-function DrawLineInCamera(camera = null, posStart = null, posEnd = null){
+function DrawLineInCamera(camera = null, posStart = null, posEnd = null, style = 0){
     let cPos1 = ToCameraStartPos(camera, posStart);
     let cPos2 = ToCameraStartPos(camera, posEnd);
-    EngineDrawLine(GetEngine(), cPos1, cPos2);
+    EngineDrawLine(GetEngine(), cPos1, cPos2, style);
+}
+
+function DrawText(textCenterPos = null, content = "", style = 0){
+    DrawTextInCamera(
+        GetDefaultCamera(), textCenterPos, content, style);
+}
+
+function DrawTextInCamera(camera = null, textCenterPos = null, content = "", style = 0){
+    let cPos = ToCameraStartPos(camera, textCenterPos);
+    EngineDrawText(GetEngine(), cPos, content, style);
 }
 
 function DrawCircle(pos = null, radius = 0){
@@ -60,5 +67,6 @@ export{
     Clear, DrawFrame, DrawFrameInCamera,
     DrawRect, DrawRectInCamera, 
     DrawLine, DrawLineInCamera,
+    DrawText, DrawTextInCamera,
     DrawCircle, DrawCircleInCamera
 }

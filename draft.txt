@@ -77,3 +77,12 @@
 
 2020.06.27 todo
     碰撞需要获取信息：两者位置关系：左右上下，双方vec，交汇点
+
+2020.11.02 todo
+    重新定义基础结构，分层
+    元素层element，所有基础原子：ecs, event, collection, frame, pos, rect, engine
+    组件层component，复合element：
+        rectOffset, gridmap, action
+        entity所属：unit, collider, renderTuple
+    导演层：资源调度，抽象调用，比如使用抽象engine画出frame
+    扩展层lib：collider的多种实现

@@ -1,6 +1,6 @@
 import { GetInt } from "../../foundation/structure/math";
 import { NewTileMap, GetTileGridCount, GetTileGridWithIndex } from "./tilemap/base";
-import { GetGridMapGridCount } from "../../foundation/container/gridmap";
+import { GetGridMapGridCount } from "./base";
 
 /**
  * tilemap = gridmap + pos

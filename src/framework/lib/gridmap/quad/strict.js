@@ -1,7 +1,5 @@
-import { NewPos } from "../../../foundation/structure/geometric";
 import { BaseQuadTreeMap } from "./base";
-import { createRootNode, getNodeByFlag } from "./calc";
-import { IsLeaFNode } from "./node";
+import { createRootNode, IsLeaFNode } from "./node";
 
 /**
  * 默认的四叉树
@@ -89,8 +87,8 @@ function otherCheck(currNode = null, xOffset = 0, yOffset = 0, callback = null){
 }
 
 function NewStrictQuadTree(width = 0, height = 0, deep = 0){
-    let tree = new StrictQuadTree(NewPos(), deep);
-    tree.root = createRootNode(width, height, deep, tree);
+    let tree = new StrictQuadTree(deep);
+    tree.root = createRootNode(width, height, deep);
     return tree;
 }
 

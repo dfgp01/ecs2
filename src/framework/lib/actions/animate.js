@@ -1,10 +1,9 @@
+import { NewVec } from "../../foundation/structure/geometric";
+import { GetGameUnitById } from "../unit/utils";
+import { AddNewDisplayer, RemoveDisplayer } from "../view/utils";
 import { Action } from "./base";
-import { GetSpriteFrameWidth, GetSpriteFrameHeight } from "../../foundation/structure/frame";
-import { NewRect } from "../../foundation/geometric/rect";
-import { CreateTimeoutAction } from "./ext/time";
-import { CreateSeqAction } from "./ext/list";
-import { CreateRepeatForeverAction } from "./ext/repeat";
-import { AddDisplay } from "../../component/view/component";
+import { NewDurationAction } from "./time";
+import { NewListAction, NewRepeatForeverAction } from "./wrap";
 
 export const ANIMATE_TYPE_NORMAL = 0;
 export const ANIMATE_TYPE_REPEAT = 1;
@@ -14,72 +13,56 @@ export const ANIMATE_TYPE_GOTO_FIRST = 3;
 
 
 /**
- * 动画帧、或者叫显示帧DisplayFrame
+ * 动画帧VO而已、叫AnimateFrame或DisplayFrame
  */
-class AnimateFrame {
-    constructor(spriteFrame = null, duration = 0, xOffset = 0, yOffset = 0) {
+class DisplayFrame {
+    constructor(spriteFrame = null, offset = null, duration = 0) {
         this.spriteFrame = spriteFrame;
+        this.offset = offset;
         this.duration = duration;
-        this.displayArea = displayArea;
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
     }
 }
 
-function CreateAnimateFrame(spriteFrame = null, duration = 0, xOffset = 0, yOffset = 0){
-    let displayArea = NewRect(xOffset, yOffset,
-        GetSpriteFrameWidth(spriteFrame), GetSpriteFrameHeight(spriteFrame));
-    return new AnimateFrame(spriteFrame, duration, xOffset, yOffset);
+function NewDisplayFrame(spriteFrame = null, xOffset = 0, yOffset = 0, duration = 0){
+    return new DisplayFrame(
+        spriteFrame, NewVec(xOffset, yOffset), duration);
 }
 
 /**
- * 只切换帧，还有移除帧元件
+ * 只是显示帧而已
  */
 class SetFrameAction extends Action {
-    constructor(entityId = 0, spriteFrame = null, xOffset = 0, yOffset = 0){
+    constructor(entityId = 0, spriteFrame = null, offset = null){
         super(entityId);
         this.spriteFrame = spriteFrame;
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
+        this.offset = offset;
     }
     onStart(){
-        AddDisplay(this.entityId, this.spriteFrame, this.xOffset, this.yOffset);
+        this._ds = AddNewDisplayer(this.entityId, this.spriteFrame, this.offset);
     }
     onEnd(){
-        //Hide(this.entityId);
+        RemoveDisplayer(this._ds);
+    }
+    onCancel(){
+        RemoveDisplayer(this._ds);
     }
 }
 
-
-/**
- * TODO
- * 0.播放完后结束，移出view-tuple-list
- * 1.停在最后一帧
- * 2.返回到第一帧
- */
-function CreateAnimateAction(type = 0, entityId = 0, animateFrames = null){
-    switch(type){
-        case ANIMATE_TYPE_NORMAL:
-        return createAnimate(entityId, animateFrames);
-        case ANIMATE_TYPE_REPEAT:
-        return createRepeatAnimate(entityId, animateFrames);
-    }
-    return null;
-}
-
-function createAnimate(entityId = 0, animateFrames = null){
+function CreateNormalAnimate(entityId = 0, animateFrames = null){
     let actions = [];
-    animateFrames.forEach(animateFrame => {
+    animateFrames.forEach(displayFrame => {
         actions.push(
-            CreateTimeoutAction(entityId, animateFrame.duration, 
-                new SetFrameAction(entityId, animateFrame.spriteFrame, animateFrame.displayArea)));
+            NewDurationAction(entityId, displayFrame.duration,
+                new SetFrameAction(entityId, displayFrame.spriteFrame, displayFrame.offset)))
     });
-    return CreateSeqAction(entityId, actions);
+    return NewListAction(entityId, actions);
 }
 
-function createRepeatAnimate(entityId = 0, animateFrames = null){
-    return CreateRepeatForeverAction(entityId, 
-        createAnimate(entityId, animateFrames));
+function CreateRepeatAnimate(entityId = 0, animateFrames = null){
+    return NewRepeatForeverAction(entityId, 
+        CreateNormalAnimate(entityId, animateFrames));
 }
 
-export{CreateAnimateFrame, CreateAnimateAction}
+export{
+    NewDisplayFrame, CreateNormalAnimate, CreateRepeatAnimate
+}

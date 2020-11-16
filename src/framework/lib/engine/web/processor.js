@@ -1,6 +1,5 @@
-import { DispatchEvent } from "../../../director/utils/boot";
-import { EventKeydown, NewEvent, EventKeyup, EventTouchOn, EventTouchOver } from "../../../foundation/component/event";
 import { NewPos } from "../../../foundation/structure/geometric";
+import { AddNewEvent, EventKeydown, EventKeyup, EventTouchOn, EventTouchOver } from "../../events/base";
 
 var _callback;
 var _frameNo = 0;
@@ -49,16 +48,12 @@ function canvasOnKeyCallback(){
             return;
         }
         _keyDownMap.set(code, 1);
-        DispatchEvent(
-            NewEvent(
-                EventKeydown, code));
+        AddNewEvent(EventKeydown, code);
     });
     window.addEventListener("keyup", e => {
         let code = e.keyCode;
         _keyDownMap.delete(code);
-        DispatchEvent(
-            NewEvent(
-                EventKeyup, code));
+        AddNewEvent(EventKeyup, code);
     });
 }
 
@@ -70,17 +65,13 @@ function canvasOnMouseCallback(canvas = null){
         let rect = canvas.getBoundingClientRect();
         let x = event.clientX - rect.left * (canvas.width / rect.width);
         let y = event.clientY - rect.top * (canvas.height / rect.height);
-        DispatchEvent(
-            NewEvent(
-                EventTouchOn, NewPos(x, y)));
+        AddNewEvent(EventTouchOn, NewPos(x, y));
     });
     canvas.addEventListener("mouseup", event => {
         let rect = canvas.getBoundingClientRect();
         let x = event.clientX - rect.left * (canvas.width / rect.width);
         let y = event.clientY - rect.top * (canvas.height / rect.height);
-        DispatchEvent(
-            NewEvent(
-                EventTouchOver, NewPos(x, y)));
+        AddNewEvent(EventTouchOver, NewPos(x, y));
     });
     // engine.canvas.addEventListener("click", event => {
     //     console.log(event.x, event.y);

@@ -1,0 +1,15 @@
+{
+	"system" : {
+		"debug" : true,
+		"collide" : {
+		}
+	},
+	"scene" : {
+		"width" : 800, "height" : 800,
+		"blocks" : 10,
+		"block-width" : 30,
+		"bodies" : 5,
+		"body-width" : 20,
+		"body-speed-seed" : 5
+	}
+}

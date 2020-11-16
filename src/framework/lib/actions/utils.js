@@ -1,5 +1,6 @@
-import { NewDurationAction } from "./time/duration";
-import { NewTimeoutAction } from "./time/timeout";
+import { GetSpriteFrame } from "../../director/utils/view";
+import { ANIMATE_TYPE_NORMAL, ANIMATE_TYPE_REPEAT, CreateNormalAnimate, CreateRepeatAnimate, NewDisplayFrame } from "./animate";
+import { NewDurationAction, NewTimeoutAction } from "./time";
 
 /**
  * 创建序列帧动画
@@ -7,14 +8,15 @@ import { NewTimeoutAction } from "./time/timeout";
  *  type : 0,
  *  frames : [
  *      {
+ *          name : "hero_run_1",
  *          duration : 0,
- *          xOffset : 0,
- *          yOffset : 0
+ *          offset-x : 0,
+ *          offset-y : 0
  *      }
  *  ]
  * }
  */
-function CreateAnimateWithData(animateData = null){
+function CreateAnimateWithData(entityId = 0, animateData = null){
     if(!animateData){
         return null;
     }
@@ -27,11 +29,23 @@ function CreateAnimateWithData(animateData = null){
     let animateFrames = [];
     framesData.forEach(frameData => {
         animateFrames.push(
-            CreateAnimateFrame(getSpriteFrameByName(spriteFrameName),
-                frameData['duration'], frameData['xOffset'], frameData['yOffset']));
+            NewDisplayFrame(
+                GetSpriteFrame(frameData['name']), 
+                frameData['offset-x'], frameData['offset-y'], frameData['duration'])
+        );
     });
-    return CreateAnimateAction(animateData['type'], entityId, animateFrames);
+
+    let type = animateData['type'];
+    switch(type){
+        case ANIMATE_TYPE_NORMAL:
+            return CreateNormalAnimate(entityId, animateFrames);
+        case ANIMATE_TYPE_REPEAT:
+            return CreateRepeatAnimate(entityId, animateFrames);
+        default:
+            return CreateNormalAnimate(entityId, animateFrames);
+    }
 }
+
 
 /**
  * 创建timeout动作

@@ -24,6 +24,30 @@ function GetInt(num = 0){
     return Math.trunc(num);
 }
 
+/**
+ * 随机混排，打乱数组 
+ */
+function ArrayRandomSort(arr = null){
+    let results = [];
+    while(arr.length > 0){
+        let index = Math.floor(Math.random() * arr.length);
+        let v = arr.splice(index, 1);
+        results.push(v[0]);
+    }
+    return results;
+}
+
+/**
+ * 随机取一个 [min, max] 的数
+ * @param {*} min 
+ * @param {*} max 
+ */
+function NewRandomBeteen(min = 0, max = 0){
+    //Math.random()可返回介于 0（包含） ~ 1（不包含） 之间的一个随机数。
+    return min + Math.floor(Math.random() * (max - min + 1));
+}
+
 export{
-    GetMaxInt, Abs, Max, Min, GetInt
+    GetMaxInt, Abs, Max, Min, GetInt,
+    ArrayRandomSort, NewRandomBeteen
 }
